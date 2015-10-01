@@ -4,6 +4,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Talent;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use ZipArchive;
+use DB;
+
 class TalentController extends Controller
 {
     
@@ -14,10 +17,13 @@ class TalentController extends Controller
         return view('admin.talent.list', $data);
     }
     
-    public function search(Request $request)
+    
+    public function queryBulider(Request $request)
     {
-        $q = $request['q'];
-        $field = $request['field'];
+        
+        $q1 = $request['q1'];
+        $op = $request['op'];
+        $field1 = $request['field1'];
         
         $q2_start = $request['q2_start'];
         $q2_end = $request['q2_end'];
@@ -26,12 +32,31 @@ class TalentController extends Controller
         $q3_start = $request['q3_start'];
         $q3_end = $request['q3_end'];
         $field3 = $request['field3'];
+
+        $search_scope = $request['search_scope'];
+
         
-         
-        $query = Talent::query();
+        if( $search_scope == 0 ) { //全库
+            $query = Talent::query();
+        }elseif ($search_scope == 1) { //搜索结果
+            $query_where = json_decode( $request['query_where'], true );
+            $query_bindings = json_decode( $request['query_bindings'], true );
+            $query = Talent::query();
+            if($query_where){
+                $query->getQuery()->wheres = $query_where;
+                $query->getQuery()->setBindings($query_bindings);
+            }
+        }elseif ($search_scope == 2) { //选中项
+            $ids = $request['ids'];
+            $query = Talent::query()->whereIn('id', explode(",", $ids));            
+        }
         
-        if($q){
-            $query = $query->where($field, 'like', '%'.$q.'%');
+        if($q1){
+            if($op == "like"){
+                $query = $query->where($field1, $op, '%'.$q1.'%');
+            }else{
+                $query = $query->where($field1, $op, $q1);
+            }
         }
         
         if($q2_start && $q2_end){
@@ -49,23 +74,39 @@ class TalentController extends Controller
             $query = $query->where($field3, '>=' , date('Y-m-d', strtotime($q3_start)));
         }elseif($q3_end){
             $query = $query->where($field3, '<=' , date('Y-m-d', strtotime($q3_end)));
-        }
-            
+        }        
+                
+//         dump($query->getQuery()->wheres);
+//         dump($query->getQuery()->getBindings());
+        return $query;           
+    }
+    
+    public function search(Request $request)
+    {
+        $query = $this->queryBulider($request);            
                  
         $talent = $query -> orderBy('id', 'desc')-> paginate(20) ;
-        $talent ->appends(['q' => $request['q']]);
-        $talent ->appends(['field' => $field]);
+        $talent ->appends(['q1' => $request['q1']]);
+        $talent ->appends(['op' => $request['op']]);
+        $talent ->appends(['field1' => $request['field1']]);
         $talent ->appends(['q2_start' => $request['q2_start']]);
         $talent ->appends(['q2_end' => $request['q2_end']]);
-        $talent ->appends(['field2' => $field2]);
+        $talent ->appends(['field2' => $request['field2']]);
         $talent ->appends(['q3_start' => $request['q3_start']]);
         $talent ->appends(['q3_end' => $request['q3_end']]);
-        $talent ->appends(['field3' => $field3]);
+        $talent ->appends(['field3' => $request['field3']]);
+        $talent ->appends(['search_scope' => $request['search_scope']]);
     
-        $data = ['talent' => $talent, 'q' => $request['q'], 'field' => $field,  
-            'q2_start' => $q2_start, 'q2_end' => $q2_end, 'field2' => $field2,  
-            'q3_start' => $q3_start, 'q3_end' => $q3_end, 'field3' => $field3 ];
-        return view('admin.talent.list', $data);
+        $param = ['q1' => $request['q1'], 'op' => $request['op'], 'field1' => $request['field1'],  
+            'q2_start' =>$request['q2_start'] , 'q2_end' =>$request['q2_end'] , 'field2' => $request['field2'],  
+            'q3_start' =>$request['q3_start'] , 'q3_end' =>$request['q3_end'] , 'field3' => $request['field3'],
+            'search_scope' => $request['search_scope']
+        ];
+        $wheres = $query->getQuery()->wheres;
+        $bindings = $query->getQuery()->getBindings();
+
+        $data = ['talent' => $talent,  'query_where'=> json_encode($wheres? $wheres : ""), 'query_bindings' => json_encode($bindings? $bindings : "")];
+        return view('admin.talent.list', array_merge($data, $param));
     }
     
     public function add(Request $request)
@@ -143,23 +184,41 @@ class TalentController extends Controller
                $talent->save();
                $count = 1;
            }else{
-               $zip = zip_open($path);
-               $array = [];
-               if ($zip)      {
-                   while ($zip_entry = zip_read($zip))  {                   
-                       if (zip_entry_open($zip, $zip_entry)) {                          
-                           $content = zip_entry_read($zip_entry); 
-                           if($content){ //文件内容不为空判断，可以去除文件夹和空文件
-                               $content = iconv("GBK","UTF-8", $content );
-                               zip_entry_close($zip_entry);
-                               $data = ['resume'=> $content];
-                               $talent = Talent::create($data);
-                               $array []= $talent;
-                           }
-                       }
-                  }               
-                  zip_close($zip);               
+//                $zip = zip_open($path);
+//                $array = [];
+//                if ($zip)      {
+//                    while ($zip_entry = zip_read($zip))  {                   
+//                        if (zip_entry_open($zip, $zip_entry)) {                          
+//                            $content = zip_entry_read($zip_entry); 
+//                            if($content){ //文件内容不为空判断，可以去除文件夹和空文件
+//                                $content = iconv("GBK","UTF-8", $content );
+//                                zip_entry_close($zip_entry);
+//                                $data = ['resume'=> $content];
+//                                $talent = Talent::create($data);
+//                                $array []= $talent;
+//                            }
+//                        }
+//                   }               
+//                   zip_close($zip);               
+//                }
+//                $array = [];
+               $zip = new ZipArchive();  
+             
+               if ($zip->open($path) == TRUE) {
+                   for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $filename = $zip->getNameIndex($i);
+                        $stream = $zip->getStream($filename); 
+                        $content = stream_get_contents($stream); //这里注意获取到的文本编码
+                        if($content){
+                           $content = iconv("GBK","UTF-8", $content );
+                           $data = ['resume'=> $content];
+                           $talent = Talent::create($data);
+                           $array []= $talent;
+                        }
+                   }
                }
+               $zip->close();
+               
                foreach($array as $a){
                    $a->save();
                }
@@ -168,17 +227,58 @@ class TalentController extends Controller
           return new JsonResponse(['success'=>true, 'message' => '上传成功，共导入'.$count.'份简历']);
         }
               
-            return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试']);
+        return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试']);
 //           return redirect('/admin/talent');
     }
     
+    
     public function batchUpdate(Request $request)
     {
-        if ($request->isMethod('post')) {
-            echo "暂未实现  TODO";
-        }else{
-            return view('admin.talent.batch_update');
+        $query = $this->queryBulider($request);
+        
+        $update_value1 = $request['update_value1'];
+        $update_replace = $request['update_replace'];
+        $update_field1 = $request['update_field1'];        
+        $update_method = $request['update_method'];        
+        
+        $update_value2 = $request['update_value2'];
+        $update_field2 = $request['update_field2'];
+      
+        $update_value3 = $request['update_value3'];
+        $update_field3 = $request['update_field3'];
+        
+        $count = 0;
+        $update = [];
+        
+        if($update_value1){
+            if($update_method == 0) { //替换            
+               $update[$update_field1]=  DB::raw("REPLACE(".$update_field1 .",'".$update_value1."','".$update_replace."')") ;              
+            }else if($update_method == 1){ //插入            
+               $update[$update_field1]=  DB::raw("IFNULL( CONCAT(".$update_field1 .",'".$update_value1."'), '".$update_value1."')") ;
+            }else {
+                $update[$update_field1]=  $update_value1 ;
+            }
         }
+        
+        if($update_value2){
+            $update[$update_field2]= $update_value2;
+        }
+        
+        if($update_value3){
+            $update[$update_field3]= $update_value3;
+        }
+        
+        $count = $query->update( $update );
+        
+        return new JsonResponse(['success'=>true, 'message' => '批量修改成功，共修改了'.$count.'份简历']);
     }
     
+    public function batchDelete(Request $request)
+    {
+        $query = $this->queryBulider($request);
+        
+        $count = $query->delete();
+        
+        return new JsonResponse(['success'=>true, 'message' => '批量删除成功，共删除了'.$count.'份简历']);
+   }
 }

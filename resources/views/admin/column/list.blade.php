@@ -24,6 +24,7 @@
                   <option value="en" {{ $field==='en' ? 'selected' : '' }}>英文名</option>
                   <option value="desc" {{ $field==='desc' ? 'selected' : '' }}>描述</option>     
                   <option value="id" {{ $field==='id' ? 'selected' : '' }}>ID</option>
+                  <option value="table" {{ $field==='table' ? 'selected' : '' }}>表</option>
                  </select>
             
                  <input class=" col-xs-10 col-sm-5 pull-left" style="width:300px" type="text" placeholder="" name ="q" value="{{ isset($q) ? $q : "" }}" tabindex="2"/>  
@@ -41,7 +42,8 @@
     							<th>字段类型</th>									
                                 <th>长度</th>	
                                 <th>取值范围</th>	
-                                <th>默认取值</th>		
+                                <th>默认取值</th>
+                                <th>表</th>		
     							<th>
     								<i class="icon-time bigger-110 hidden-480"></i>
     								创建时间
@@ -66,7 +68,7 @@
     							<td>{{ $v->length }}</td>
     							<td>{{ $v->value_range }}</td>
     							<td>{{ $v->default }}</td>
-    							
+    							<td>{{ $v->table->cn }}</td>
     							<td>{{ $v->created_at }}</td>
     
     							<td class="hidden-480">
@@ -94,7 +96,7 @@
             @endforeach
     					</tbody>												
     				</table> 
-    				<div> {!! $column->render() !!} </div>
+    				<div> {!! $column->render() !!} <ul class="pagination pull-left"><li><span> <strong>{{$column->total()==0?0:$column->toArray()['from']}} - {{$column->toArray()['to']}} /{{$column->total()}} </strong></span></li> </ul></div>
     			</div>
     		</div>
     	</div><!-- /.row -->

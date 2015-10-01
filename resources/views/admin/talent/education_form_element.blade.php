@@ -1,3 +1,5 @@
+
+
 <div class="form-group">
 	<label class="col-sm-3 control-label no-padding-right" for="work_year">
 		工作年限 </label>
@@ -14,8 +16,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_work_time" name="start_work_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_work_time', $talent ? $talent-> start_work_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -136,8 +139,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="college_start_time" name="college_start_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('college_start_time', $talent ? $talent-> college_start_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -148,8 +152,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="college_over_time" name="college_over_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('college_over_time', $talent ? $talent-> college_over_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -180,8 +185,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="master_start_time" name="master_start_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('master_start_time', $talent ? $talent-> master_start_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -192,8 +198,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="master_over_time" name="master_over_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('master_over_time', $talent ? $talent-> master_over_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -224,8 +231,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="doctor_start_time" name="doctor_start_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('doctor_start_time', $talent ? $talent-> doctor_start_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -236,8 +244,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="doctor_over_time" name="doctor_over_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('doctor_over_time', $talent ? $talent-> doctor_over_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -258,8 +267,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="mba_start_time" name="mba_start_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('mba_start_time', $talent ? $talent-> mba_start_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -270,8 +280,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="mba_over_time" name="mba_over_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('mba_over_time', $talent ? $talent-> mba_over_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -304,8 +315,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="additional_start_time" name="additional_start_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('additional_start_time', $talent ? $talent-> additional_start_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -316,8 +328,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="additional_over_time" name="additional_over_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('additional_over_time', $talent ? $talent-> additional_over_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -353,5 +366,3 @@
 			value="{{ old('education_parameter_2', $talent ? $talent-> education_parameter_2 : '') }}" />
 	</div>
 </div>
-
-

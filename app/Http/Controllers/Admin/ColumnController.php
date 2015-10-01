@@ -5,6 +5,7 @@ use App\Models\Column;
 use Illuminate\Http\Request;
 use App\Models\Table;
 use Illuminate\Http\JsonResponse;
+use DB;
 
 class ColumnController extends Controller
 {
@@ -20,8 +21,14 @@ class ColumnController extends Controller
     {
         $q = $request['q'];
         $field = $request['field'];
-                 
-        $column = Column::where($field, 'like', '%'.$q.'%')-> paginate(20) ;
+         
+        if($field == "table"){
+           $table = Table::where('cn', 'like', '%'.$q.'%')->first();
+           $column = Column::where('table_id', $table->id)-> paginate(20) ;
+        }else{
+            $column = Column::where($field, 'like', '%'.$q.'%')-> paginate(20) ;
+        }
+        
         $column ->appends(['q' => $request['q']]);
         $column ->appends(['field' => $field]);
     

@@ -1,3 +1,5 @@
+
+
 <div class="form-group">
 	<label class="col-sm-3 control-label no-padding-right"
 		for="occupation_label_1"> 行业标签1 </label>
@@ -487,8 +489,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_1" name="start_time_1" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_1', $talent ? $talent-> start_time_1 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -499,8 +502,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_2" name="start_time_2" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_2', $talent ? $talent-> start_time_2 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -511,8 +515,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_3" name="start_time_3" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_3', $talent ? $talent-> start_time_3 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -523,8 +528,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_4" name="start_time_4" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_4', $talent ? $talent-> start_time_4 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -535,8 +541,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_5" name="start_time_5" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_5', $talent ? $talent-> start_time_5 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -547,8 +554,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_6" name="start_time_6" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_6', $talent ? $talent-> start_time_6 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -559,8 +567,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_7" name="start_time_7" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_7', $talent ? $talent-> start_time_7 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -571,8 +580,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_8" name="start_time_8" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_8', $talent ? $talent-> start_time_8 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -583,8 +593,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_9" name="start_time_9" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_9', $talent ? $talent-> start_time_9 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -595,8 +606,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="start_time_10" name="start_time_10" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('start_time_10', $talent ? $talent-> start_time_10 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -607,8 +619,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_1" name="over_time_1" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_1', $talent ? $talent-> over_time_1 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -619,8 +632,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_2" name="over_time_2" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_2', $talent ? $talent-> over_time_2 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -631,8 +645,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_3" name="over_time_3" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_3', $talent ? $talent-> over_time_3 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -643,8 +658,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_4" name="over_time_4" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_4', $talent ? $talent-> over_time_4 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -655,8 +671,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_5" name="over_time_5" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_5', $talent ? $talent-> over_time_5 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -667,8 +684,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_6" name="over_time_6" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_6', $talent ? $talent-> over_time_6 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -679,8 +697,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_7" name="over_time_7" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_7', $talent ? $talent-> over_time_7 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -691,8 +710,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_8" name="over_time_8" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_8', $talent ? $talent-> over_time_8 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -703,8 +723,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_9" name="over_time_9" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_9', $talent ? $talent-> over_time_9 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -715,8 +736,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="over_time_10" name="over_time_10" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('over_time_10', $talent ? $talent-> over_time_10 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -951,9 +973,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="unemployment_time" name="unemployment_time" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('unemployment_time', $talent ? $talent-> unemployment_time : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
-

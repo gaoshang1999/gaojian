@@ -63,5 +63,5 @@ $app->post('/admin/talent/edit/{id}',  'Admin\TalentController@edit');
 $app->post('/admin/talent/delete/{id}',  'Admin\TalentController@delete');
 $app->get('/admin/talent/search', 'Admin\TalentController@search');
 $app->post('/admin/talent/upload',  'Admin\TalentController@upload');
-$app->get('/admin/talent/batchUpdate', 'Admin\TalentController@batchUpdate');
 $app->post('/admin/talent/batchUpdate', 'Admin\TalentController@batchUpdate');
+$app->post('/admin/talent/batchDelete', 'Admin\TalentController@batchDelete');

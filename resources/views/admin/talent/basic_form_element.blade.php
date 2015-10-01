@@ -56,8 +56,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="birth_date" name="birth_date" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('birth_date', $talent ? $talent-> birth_date : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -133,8 +134,9 @@
 	<div class="input-group col-sm-4">
 		<input class="form-control date-picker col-xs-10 col-sm-5"
 			id="basic_extension_info_5" name="basic_extension_info_5" type="text"
-			data-date-format="yyyy-mm-dd" value="" /> <span
-			class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
+			data-date-format="yyyy-mm-dd"
+			value="{{ old('basic_extension_info_5', $talent ? $talent-> basic_extension_info_5 : '') }}" />
+		<span class="input-group-addon"> <i class="icon-calendar bigger-100"></i>
 		</span>
 	</div>
 </div>
@@ -223,5 +225,3 @@
 			value="{{ old('expect_label_3', $talent ? $talent-> expect_label_3 : '') }}" />
 	</div>
 </div>
-
-

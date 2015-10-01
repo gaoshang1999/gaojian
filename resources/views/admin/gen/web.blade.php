@@ -1,4 +1,4 @@
-
+<meta charset="utf-8" />
  
 <!--         @foreach($table->columns as $v)             -->
 <!--                 &lt;th>{{ $v->cn}}&lt;/th>  <br/> -->
@@ -6,13 +6,13 @@
 <!--         @endforeach -->
  
          
-        @foreach($table->columns as $v) 
-            @if($v->type == "enum")
-                &lt;td> @{{ array_get($constant, '{!! $v->en!!}.'.$v-> {!! $v->en!!}, '') }} &lt;/td> <br/>            
-            @else
-                &lt;td> @{{$v->  {!! $v->en!!}  }} &lt;/td> <br/>     
-            @endif         
-        @endforeach
+<!--         @foreach($table->columns as $v)  -->
+<!--             @if($v->type == "enum") -->
+<!--                 &lt;td> @{{ array_get($constant, '{!! $v->en!!}.'.$v-> {!! $v->en!!}, '') }} &lt;/td> <br/>             -->
+<!--             @else -->
+<!--                 &lt;td> @{{$v->  {!! $v->en!!}  }} &lt;/td> <br/>      -->
+<!--             @endif          -->
+<!--         @endforeach -->
  
          @foreach($table->columns as $v)    @if($v->en != "id")          
         &lt;div class="form-group"> <br/> 
@@ -21,7 +21,7 @@
              
 			 @if($v->type == "date")
 				 &lt;div class="input-group col-sm-4"> <br/> 
-					&lt;input class="form-control date-picker col-xs-10 col-sm-5" id="{{$v->en }}" name="{{$v->en }}" type="text" data-date-format="yyyy-mm-dd" value=""/> <br/> 
+					&lt;input class="form-control date-picker col-xs-10 col-sm-5" id="{{$v->en }}" name="{{$v->en }}" type="text" data-date-format="yyyy-mm-dd" value="@{{ old('{!! $v->en!!}', $talent  ? $talent-> {!! $v->en!!} : '') }}"/> <br/> 
 					&lt;span class="input-group-addon"> <br/> 
 						&lt;i class="icon-calendar bigger-100">&lt;/i> <br/> 
 					&lt;/span> <br/> 
