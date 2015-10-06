@@ -80,5 +80,22 @@ class ColumnController extends Controller
     {
         Column::where('id', $id)->delete();
         return redirect($request->header('referer'));
+    }
+    
+    public function translate(Request $request, $id)
+    {
+        $column = Column::where('id', $id)->first();
+    
+        $translateService = app('TranslateService');
+        $result = $translateService->translate($column->cn);
+    
+        if($result['cn_segment']){
+            $column->fill($result);
+            $column->save();
+        }else{
+            return new JsonResponse(['success'=>false, 'message' => "Column ". $column->cn. ' 翻译失败,请检查词根']);
+        }
+    
+        return new JsonResponse(['success'=>true, 'message' => '翻译成功']);    
     }    
 }

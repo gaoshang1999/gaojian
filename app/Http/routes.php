@@ -50,7 +50,7 @@ $app->get('/admin/column/edit/{id}',  'Admin\ColumnController@edit');
 $app->post('/admin/column/edit/{id}',  'Admin\ColumnController@edit');
 $app->post('/admin/column/delete/{id}',  'Admin\ColumnController@delete');
 $app->get('/admin/column/search', 'Admin\ColumnController@search');
-
+$app->post('/admin/column/translate/{id}',  'Admin\ColumnController@translate');
 
 $app->get('/admin/gen/db/{id}',  'Admin\GenController@db');
 $app->get('/admin/gen/web/{id}',  'Admin\GenController@web');
@@ -65,3 +65,11 @@ $app->get('/admin/talent/search', 'Admin\TalentController@search');
 $app->post('/admin/talent/upload',  'Admin\TalentController@upload');
 $app->post('/admin/talent/batchUpdate', 'Admin\TalentController@batchUpdate');
 $app->post('/admin/talent/batchDelete', 'Admin\TalentController@batchDelete');
+
+$app->get('/admin/demand',  'Admin\DemandController@lists');
+$app->get('/admin/demand/add',  'Admin\DemandController@add');
+$app->post('/admin/demand/add',  'Admin\DemandController@add');
+$app->get('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
+$app->post('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
+$app->post('/admin/demand/delete/{id}',  'Admin\DemandController@delete');
+$app->get('/admin/demand/search', 'Admin\DemandController@search');

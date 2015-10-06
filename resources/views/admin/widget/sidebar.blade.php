@@ -47,34 +47,41 @@
 								<span class="menu-text"> 人才管理 </span>
 							</a>
 						</li>
-				 	
-<!-- 						<li> -->
-<!-- 							<a href="{{ url('/admin/constant') }}"> -->
-<!-- 								<i class="icon-flag"></i> -->
-<!-- 								<span class="menu-text"> 常量管理 </span> -->
-<!-- 							</a> -->
-<!-- 						</li> -->
+
+						<li>
+							<a href="{{ url('/admin/demand') }}">
+								<i class="icon-user"></i>
+								<span class="menu-text"> 需求管理 </span>
+							</a>
+						</li>
 						
-<!-- 						<li> -->
-<!-- 							<a href="{{ url('/admin/dict') }}"> -->
-<!-- 								<i class="icon-cog"></i> -->
-<!-- 								<span class="menu-text"> 词根管理 </span> -->
-<!-- 							</a> -->
-<!-- 						</li> -->
+						<li>
+							<a href="{{ url('/admin/constant') }}">
+								<i class="icon-flag"></i>
+								<span class="menu-text"> 常量管理 </span>
+							</a>
+						</li>
 						
-<!-- 						<li> -->
-<!-- 							<a href="{{ url('/admin/table') }}"> -->
-<!-- 								<i class="icon-list"></i> -->
-<!-- 								<span class="menu-text"> Table管理 </span> -->
-<!-- 							</a> -->
-<!-- 						</li> -->
+						<li>
+							<a href="{{ url('/admin/dict') }}">
+								<i class="icon-cog"></i>
+								<span class="menu-text"> 词根管理 </span>
+							</a>
+						</li>
 						
-<!-- 						<li> -->
-<!-- 							<a href="{{ url('/admin/column') }}"> -->
-<!-- 								<i class="icon-list-alt"></i> -->
-<!-- 								<span class="menu-text"> Column管理 </span> -->
-<!-- 							</a> -->
-<!-- 						</li> -->
+						<li>
+							<a href="{{ url('/admin/table') }}">
+								<i class="icon-list"></i>
+								<span class="menu-text"> Table管理 </span>
+							</a>
+						</li>
+						
+						<li>
+							<a href="{{ url('/admin/column') }}">
+								<i class="icon-list-alt"></i>
+								<span class="menu-text"> Column管理 </span>
+							</a>
+						</li>
 					
 					  	
 						<!--  
