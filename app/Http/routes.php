@@ -73,3 +73,11 @@ $app->get('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
 $app->post('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
 $app->post('/admin/demand/delete/{id}',  'Admin\DemandController@delete');
 $app->get('/admin/demand/search', 'Admin\DemandController@search');
+
+$app->get('/admin/recommend',  'Admin\RecommendController@lists');
+$app->get('/admin/recommend/add',  'Admin\RecommendController@add');
+$app->post('/admin/recommend/add',  'Admin\RecommendController@add');
+$app->get('/admin/recommend/edit/{id}',  'Admin\RecommendController@edit');
+$app->post('/admin/recommend/edit/{id}',  'Admin\RecommendController@edit');
+$app->post('/admin/recommend/delete/{id}',  'Admin\RecommendController@delete');
+$app->get('/admin/recommend/search', 'Admin\RecommendController@search');

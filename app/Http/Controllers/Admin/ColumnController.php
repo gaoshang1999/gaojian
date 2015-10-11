@@ -39,9 +39,9 @@ class ColumnController extends Controller
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [
-                'cn' => 'required|max:255|unique:column',                         
-            ]);
+//             $this->validate($request, [
+//                 'cn' => 'required|max:255|unique:column',                         
+//             ]);
 
             $input = $request->all();
             $column = Column::create($input);
@@ -59,9 +59,9 @@ class ColumnController extends Controller
     {
         $column = Column::where('id', $id)->first();
         if ($request->isMethod('post')) {
-            $this->validate($request, [
-                'cn' => 'required|max:255|unique:column,cn,'.$column->id,               
-            ]);
+//             $this->validate($request, [
+//                 'cn' => 'required|max:255|unique:column,cn,'.$column->id,               
+//             ]);
     
             $input = $request->all();
             $column->fill($input);

@@ -12,8 +12,9 @@
 
 	<form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
 	  <label class=" pull-left" for=""> 文本项目 </label>      
-		
-      <?php $column = App\Models\Column::whereIn('type', ['string', 'text'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
+	  <?php   $table = App\Models\Table::where('cn', '人才')->first(); ?>
+
+      <?php  $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['string', 'text'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
       <select class=" col-xs-1 col-sm-5 pull-left" id="field1" name="field1" style="width: 150px" tabindex="1"> 
             <?php $field = isset($field1) ? $field1 : ""; ?>
                @foreach($column as $c)
@@ -28,7 +29,7 @@
 	  <input class=" col-xs-10 col-sm-5 pull-left" style="width: 150px" type="text" placeholder="" name="q1" value="{{ isset($q1) ? $q1 : "" }}" tabindex="2" /> 
 	  
 	  <label class=" pull-left" for=""> 量化项目 </label>  
-      <?php $column = App\Models\Column::whereIn('type', ['integer', 'float'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>       
+      <?php $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['integer', 'float'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>       
       <select class=" col-xs-1 col-sm-5 pull-left" id="field2" name="field2" style="width: 150px" tabindex="1">
       <?php $field = isset($field2) ? $field2 : ""; ?>      
                @foreach($column as $c)
@@ -39,7 +40,7 @@
 		<input class=" col-xs-10 col-sm-5 pull-left" style="width: 100px" type="number" placeholder="" name="q2_end" 	step="1" value="{{ isset($q2_end) ? $q2_end : "" }}" tabindex="2" />
 
 	  <label class=" pull-left" for=""> 日期项目 </label>      
-      <?php $column = App\Models\Column::whereIn('type', ['date'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
+      <?php $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['date'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
       <select class=" col-xs-1 col-sm-5 pull-left" id="field3" name="field3" style="width: 150px" tabindex="1"> 
       <?php $field = isset($field3) ? $field3 : ""; ?>
                @foreach($column as $c)

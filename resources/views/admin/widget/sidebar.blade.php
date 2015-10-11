@@ -50,8 +50,15 @@
 
 						<li>
 							<a href="{{ url('/admin/demand') }}">
-								<i class="icon-user"></i>
+								<i class="icon-money"></i>
 								<span class="menu-text"> 需求管理 </span>
+							</a>
+						</li>
+						
+						<li>
+							<a href="{{ url('/admin/recommend') }}">
+								<i class="icon-envelope"></i>
+								<span class="menu-text"> 推荐管理 </span>
 							</a>
 						</li>
 						

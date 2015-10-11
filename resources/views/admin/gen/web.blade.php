@@ -1,18 +1,18 @@
 <meta charset="utf-8" />
  
-<!--         @foreach($table->columns as $v)             -->
-<!--                 &lt;th>{{ $v->cn}}&lt;/th>  <br/> -->
+        @foreach($table->columns as $v)            
+                &lt;th>{{ $v->cn}}&lt;/th>  <br/>
              
-<!--         @endforeach -->
+        @endforeach
  
          
-<!--         @foreach($table->columns as $v)  -->
-<!--             @if($v->type == "enum") -->
-<!--                 &lt;td> @{{ array_get($constant, '{!! $v->en!!}.'.$v-> {!! $v->en!!}, '') }} &lt;/td> <br/>             -->
-<!--             @else -->
-<!--                 &lt;td> @{{$v->  {!! $v->en!!}  }} &lt;/td> <br/>      -->
-<!--             @endif          -->
-<!--         @endforeach -->
+        @foreach($table->columns as $v) 
+            @if($v->type == "enum")
+                &lt;td> @{{ array_get($constant, '{!! $v->en!!}.'.$v-> {!! $v->en!!}, '') }} &lt;/td> <br/>            
+            @else
+                &lt;td> @{{$v->  {!! $v->en!!}  }} &lt;/td> <br/>     
+            @endif         
+        @endforeach
  
          @foreach($table->columns as $v)    @if($v->en != "id")          
         &lt;div class="form-group"> <br/> 
