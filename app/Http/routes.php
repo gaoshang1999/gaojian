@@ -65,6 +65,9 @@ $app->get('/admin/talent/search', 'Admin\TalentController@search');
 $app->post('/admin/talent/upload',  'Admin\TalentController@upload');
 $app->post('/admin/talent/batchUpdate', 'Admin\TalentController@batchUpdate');
 $app->post('/admin/talent/batchDelete', 'Admin\TalentController@batchDelete');
+$app->post('/admin/talent/parse', 'Admin\TalentController@parse');
+$app->get('/admin/talent/testApi', 'Admin\TalentController@testApi');
+$app->post('/admin/talent/testApi', 'Admin\TalentController@testApi');
 
 $app->get('/admin/demand',  'Admin\DemandController@lists');
 $app->get('/admin/demand/add',  'Admin\DemandController@add');

@@ -96,7 +96,7 @@
 
 		
 		   <a href="#parse-modal-form" data-toggle="modal" class="btn btn-xs btn-pink pull-right" 
-				tabindex="4"> <i class="icon-beaker bigger-160">&nbsp;简历解析</i>
+				tabindex="4"> <i class="icon-beaker bigger-160">&nbsp;量化模型解析</i>
 			</a>
 
 			<a href="#upload-modal-form" data-toggle="modal" class="btn btn-xs btn-purple pull-right" style="margin: 0px 5px;"
@@ -364,7 +364,7 @@
 		<div id="parse-modal-form" class="modal" tabindex="-1">
 		<form id="parse-form" role="form" method="post"
 			enctype="multipart/form-data"
-			action="">
+			action="{{ url('/admin/talent/parse') }}">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -381,19 +381,18 @@
 						<div class="col-sm-9">
 		                  <select class="col-xs-10 col-sm-5" id="parser" name="parser" style="width: 150px" tabindex="1">  
                           
-                              <option value=" "  >API-1</option>
-                              <option value=" "  >API-2</option>
-                              <option value=" "  >API-3</option>                            
+                              <option value=" "  selected>API-1</option>
+                                               
 					      </select>
 	                   </div>
 						</div>		 
                     </div>
-								 
+	 
 					 <div class="row">
 					 <div class="form-group">
-                		<label class="radio-inline"><input type="radio" name="parse_scope" value="0" checked> 全库</label>
-                        <label class="radio-inline"><input type="radio" name="parse_scope" value="1" > 搜索结果</label>
-                        <label class="radio-inline"><input type="radio" name="parse_scope" value="2" > 选中项</label>
+                        <label class="radio-inline"><input type="radio" name="search_scope" value="2" checked> 选中项</label>
+                        <label class="radio-inline"><input type="radio" name="search_scope" value="1" > 搜索结果</label>
+                		<label class="radio-inline"><input type="radio" name="search_scope" value="0" > 全库</label>                                                
                       </div>		 
 					</div>
 					</div>
@@ -612,27 +611,26 @@
 
 
 				$('#parse-form').submit(function (ev) { 		
-                         alert("暂未实现");
-								
-// 					   $.ajax({
-// 				           type: $(this).attr('method'),
-// 				           url: $(this).attr('action'),
-// 				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
-// 				           dataType: "json",
-// 				           success: function (data) {
+							
+					   $.ajax({
+				           type: $(this).attr('method'),
+				           url: $(this).attr('action'),
+				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
+				           dataType: "json",
+				           success: function (data) {
 
-// 				           	var ret = eval(data);            	
-// 				               if(ret.success ){
-// 				                    alert(ret.message);
-// 				                   	location.reload();
-// 				               }else{
-// 				            	   alert(ret.message);
-// 				               }
-// 				           },
-// 				           error: function(){
-// 				        	   alert("批量修改失败，请重试");
-// 				           }
-// 				       });
+				           	var ret = eval(data);            	
+				               if(ret.success ){
+				                    alert(ret.message);
+				                   	location.reload();
+				               }else{
+				            	   alert(ret.message);
+				               }
+				           },
+				           error: function(){
+				        	   alert("量化模型解析失败，请重试!");
+				           }
+				       });
 
 					   ev.preventDefault();
 				   });

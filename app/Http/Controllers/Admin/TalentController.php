@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use ZipArchive;
 use DB;
+use Log;
 
 class TalentController extends Controller
 {
@@ -281,4 +282,75 @@ class TalentController extends Controller
         
         return new JsonResponse(['success'=>true, 'message' => '批量删除成功，共删除了'.$count.'份简历']);
    }
+   
+   public function parse(Request $request)
+   {
+       $query = $this->queryBulider($request);
+   
+       $talents = $query->get();
+       
+       foreach($talents as $t){
+           $data = $this->callParseApi($t);
+           if($data){
+              unset($data['resume']);
+               $t->fill($data);
+               $t->save();
+           }else{
+               return new JsonResponse(['success'=>false, 'message' => '量化模型解析失败，调用解析服务出错']);
+           }
+       }
+   
+       return new JsonResponse(['success'=>true, 'message' => '量化模型解析成功，共解析了'.count($talents).'份简历']);
+   }
+   
+   public $url = "http://101.200.236.68:8080/222/hello";
+   
+   public function callParseApi($talent){
+       
+       
+       $resume = ['resume'=> $talent -> resume];
+       
+       $data = ["data" => json_encode($resume)];
+       
+       $ch = curl_init();
+       curl_setopt($ch, CURLOPT_URL, $this->url);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+       // post数据
+       curl_setopt($ch, CURLOPT_POST, 1);
+       // post的变量
+       Log::info  ('TalentController-callParseApi: '. json_encode($data));
+       Log::info  ('TalentController-callParseApi: '. http_build_query($data));
+       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+       $json = curl_exec($ch);
+       curl_close($ch);
+//        dump($json);
+       Log::info  ('TalentController-callParseApi-return: '. $json);
+       return json_decode($json, true);
+   }
+   
+   
+    public function testApi(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $resume = ['resume'=> $request['resume']];
+            $data = ["data" => json_encode($resume)];
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $this->url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            // post数据
+            curl_setopt($ch, CURLOPT_POST, 1);
+            // post的变量
+            Log::info  ('TalentController-callParseApi: '. json_encode($data));
+            Log::info  ('TalentController-callParseApi: '. http_build_query($data));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            $json = curl_exec($ch);
+            
+            echo $json;
+            
+        }else {
+            return view('admin.talent.test');
+        }
+    }
 }
