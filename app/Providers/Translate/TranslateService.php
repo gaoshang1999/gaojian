@@ -42,7 +42,7 @@ class TranslateService
             }else{
                 $index = $this->binarySearch($nv);
                 $dict =  $this->dict[$index];
-                $en_segment[]= strtolower($dict->en);
+                $en_segment[]= strtolower(trim($dict->en));
             }
         }
         

@@ -20,7 +20,7 @@ class CreateTalentTable extends Migration
   $table->integer('sex') ->nullable(); 
   $table->string('id_card', 30) ->nullable(); 
   $table->date('birth_date') ->nullable(); 
-  $table->string(' permanent_residence', 30) ->nullable(); 
+  $table->string('permanent_residence', 30) ->nullable(); 
   $table->string('location') ->nullable(); 
   $table->string('basic_extension_info_1', 30) ->nullable(); 
   $table->string('basic_extension_info_2', 30) ->nullable(); 

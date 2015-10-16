@@ -31,7 +31,7 @@
               </form>
 
     			<div class="table-responsive">
-    				<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+    				<table id="main-table" class="table table-striped table-bordered table-hover">
     					<thead>
     						<tr>
                                 <th>#</th>

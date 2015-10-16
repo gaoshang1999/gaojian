@@ -22,7 +22,8 @@
                  
                   <option value="cn" {{ $field==='cn' ? 'selected' : '' }}>中文名</option>
                   <option value="en" {{ $field==='en' ? 'selected' : '' }}>英文名</option>
-                  <option value="desc" {{ $field==='desc' ? 'selected' : '' }}>描述</option>     
+                  <option value="desc" {{ $field==='desc' ? 'selected' : '' }}>描述</option>  
+                  <option value="type" {{ $field==='type' ? 'selected' : '' }}>类型</option>     
                   <option value="id" {{ $field==='id' ? 'selected' : '' }}>ID</option>
                   <option value="table" {{ $field==='table' ? 'selected' : '' }}>表</option>
                  </select>

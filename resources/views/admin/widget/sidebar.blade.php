@@ -35,7 +35,7 @@
 
 					<ul class="nav nav-list">
 						<li class="">
-							<a href="{{ url('/') }}">
+							<a href="{{ url('/admin') }}">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 控制台 </span>
 							</a>
@@ -59,6 +59,13 @@
 							<a href="{{ url('/admin/recommend') }}">
 								<i class="icon-envelope"></i>
 								<span class="menu-text"> 推荐管理 </span>
+							</a>
+						</li>
+						
+						<li>
+							<a href="{{ url('/admin/user') }}">
+								<i class="icon-user"></i>
+								<span class="menu-text"> 用户管理 </span>
 							</a>
 						</li>
 						

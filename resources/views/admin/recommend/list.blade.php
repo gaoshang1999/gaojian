@@ -7,34 +7,34 @@
 
 
 
-    <div class="page-content">
+<div class="page-content">
+
+			<h3 class="header smaller lighter blue">推荐列表 </h3>
+		
+					
+    <form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/recommend/search') }}">
+ 
+	  <?php   $table = App\Models\Table::where('cn', '推荐')->first(); ?>
+	@include('admin.common.search_form_element')	  
+
+	</form>
+              
+              
+              
      <div class="row">
 		<div class="col-xs-12">
-			<h3 class="header smaller lighter blue">推荐列表 </h3>
 		
 			<a href="{{ url('/admin/recommend/add') }}" class="btn btn-xs btn-info pull-right"  tabindex="4">
 				<i class="icon-plus bigger-160">&nbsp;新增</i>
 			</a>
-					
-             <form class="form-group   form-inline" role="form" method="get" action="{{ url('/admin/recommend/search') }}" >    
-                
-               	  <select class=" col-xs-1 col-sm-5 pull-left" id="field" name="field" style="width:100px" tabindex="1"> <?php $field = isset($field) ? $field : ""; ?>
               
-                  <option value="user_id" {{ $field==='user_id' ? 'selected' : '' }}>用户编号</option>
-                  <option value="talent_id" {{ $field==='talent_id' ? 'selected' : '' }}>人才编号</option>
-                  <option value="demand_id" {{ $field==='demand_id' ? 'selected' : '' }}>需求编号</option>
-                  <option value="id" {{ $field==='id' ? 'selected' : '' }}>ID</option>
-                 </select>
-            
-                 <input class=" col-xs-10 col-sm-5 pull-left" style="width:300px" type="text" placeholder="" name ="q" value="{{ isset($q) ? $q : "" }}" tabindex="2"/>  
-                 <button class="btn btn-xs btn-success  pull-left" type="submit" tabindex="3"><i class="icon-search icon-on-right bigger-160">搜索&nbsp;</i></button>																	
-              </form>
-
     			<div class="table-responsive">
-    				<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+    				<table id="main-table" class="table table-striped table-bordered table-hover">
     					<thead>
     						<tr>
-
+							<th class="center"><label> <input type="checkbox"  class="ace" />
+									<span class="lbl"></span>
+							</label></th>
     							<th>推荐编号</th> 
 <th>用户编号</th> 
 <th>人才编号</th> 
@@ -68,6 +68,12 @@
     					<tbody>
     		@foreach ($recommend->all() as $v)
     						<tr>
+    						<td class="center">
+    							<label> 
+    							        <input type="checkbox" name="id_checkbox[]" class="ace" value="{{ $v->id }}"/>
+    									<span class="lbl"></span>
+    							</label>
+							</td>    						
     	                        <td><a href='{{ url("/admin/recommend/edit/{$v->id}") }}'>{{ $v->id }}  </a></td>
 
 <td> {{$v-> user_id }} </td> 
@@ -106,9 +112,75 @@
             @endforeach
     					</tbody>												
     				</table> 
-    				<div> {!! $recommend->render() !!} </div>
+    				<div> {!! $recommend->render() !!}  <ul class="pagination pull-left"><li><span> <strong>{{$recommend->total()==0?0:$recommend->toArray()['from']}} - {{$recommend->toArray()['to']}} /{{$recommend->total()}} </strong></span></li> </ul></div>
     			</div>
     		</div>
     	</div><!-- /.row -->
     </div><!-- /.page-content -->
-@endsection								
+@endsection		
+
+
+
+@section('scripts')
+
+<script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/assets/js/chosen.jquery.min.js"></script>
+<script src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+<script src="/assets/js/date-time/moment.min.js"></script>
+<script src="/assets/js/date-time/daterangepicker.min.js"></script>
+<script src="/assets/js/bootstrap-colorpicker.min.js"></script>
+<script src="/assets/js/jquery.knob.min.js"></script>
+<script src="/assets/js/jquery.autosize.min.js"></script>
+<script src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+<script src="/assets/js/jquery.maskedinput.min.js"></script>
+<script src="/assets/js/bootstrap-tag.min.js"></script>
+<script src="/assets/js/jquery.form.js"></script>
+
+
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+			jQuery(function($) {
+
+				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+					$(this).prev().focus();
+				});
+				$('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function(){
+					$(this).next().focus();
+				});
+				/////////
+				$('#upload-modal-form input[type=file]').ace_file_input({
+					style:'well',
+					btn_choose: '拖拽文件到这里或者点击选择文件', //'Drop files here or click to choose',
+					btn_change:null,
+					no_icon:'icon-cloud-upload',
+					droppable:true,
+					thumbnail:'large'
+				});
+				
+
+				$("#main-table").find('tr > td:first-child input:checkbox').change(function(){
+					var ids = $("input[name='id_checkbox[]']:checked").map(function(){return this.value; }).get().join(",");
+					$("#ids").val(ids);
+				});
+
+				$('#main-table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).change();
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+
+
+
+				
+			});
+</script>
+@endsection

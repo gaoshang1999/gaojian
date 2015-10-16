@@ -10,77 +10,106 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+$app->get('/', 'Auth\AuthController@getLogin');
 
-$app->get('/', function () use ($app) {
-    return view('admin.dashboard.home');
-});
+// Authentication routes...
+$app->get('auth/login', 'Auth\AuthController@getLogin');
+$app->post('auth/login', 'Auth\AuthController@postLogin');
+$app->get('auth/logout', 'Auth\AuthController@getLogout');
 
+// Registration routes...
+$app->get('auth/register', 'Auth\AuthController@getRegister');
+$app->post('auth/register', 'Auth\AuthController@postRegister');
+
+
+// $app->get('/', function () use ($app) {
+//     return view('admin.dashboard.home');
+// });
+
+
+// 管理员后台
+$app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth.login', 'auth.admin']], function($app){
+    $app->get('/',  function () use ($app) {
+        return view('admin.dashboard.home');
+    });
+
+    $app->get('dict',  'DictController@lists');
+    $app->get('dict/add',  'DictController@add');
+    $app->post('dict/add',  'DictController@add');
+    $app->get('dict/edit/{id}',  'DictController@edit');
+    $app->post('dict/edit/{id}',  'DictController@edit');
+    $app->post('dict/delete/{id}',  'DictController@delete');
+    $app->get('dict/search', 'DictController@search');
     
+    $app->get('constant',  'ConstantController@lists');
+    $app->get('constant/add',  'ConstantController@add');
+    $app->post('constant/add',  'ConstantController@add');
+    $app->get('constant/edit/{id}',  'ConstantController@edit');
+    $app->post('constant/edit/{id}',  'ConstantController@edit');
+    $app->post('constant/delete/{id}',  'ConstantController@delete');
+    $app->get('constant/search', 'ConstantController@search');
+    
+    $app->get('table',  'TableController@lists');
+    $app->get('table/add',  'TableController@add');
+    $app->post('table/add',  'TableController@add');
+    $app->get('table/edit/{id}',  'TableController@edit');
+    $app->post('table/edit/{id}',  'TableController@edit');
+    $app->post('table/delete/{id}',  'TableController@delete');
+    $app->get('table/search', 'TableController@search');
+    $app->post('table/translate/{id}',  'TableController@translate');
+    
+    
+    $app->get('column',  'ColumnController@lists');
+    $app->get('column/add',  'ColumnController@add');
+    $app->post('column/add',  'ColumnController@add');
+    $app->get('column/edit/{id}',  'ColumnController@edit');
+    $app->post('column/edit/{id}',  'ColumnController@edit');
+    $app->post('column/delete/{id}',  'ColumnController@delete');
+    $app->get('column/search', 'ColumnController@search');
+    $app->post('column/translate/{id}',  'ColumnController@translate');
+    
+    $app->get('gen/db/{id}',  'GenController@db');
+    $app->get('gen/web/{id}',  'GenController@web');
+    $app->get('gen/{method}/{id}',  'GenController@gen');
+    // $app->get('gen/controller/{id}',  'GenController@controller');
+    // $app->get('gen/model/{id}',  'GenController@model');
+    
+    $app->get('talent',  'TalentController@lists');
+    $app->get('talent/add',  'TalentController@add');
+    $app->post('talent/add',  'TalentController@add');
+    $app->get('talent/edit/{id}',  'TalentController@edit');
+    $app->post('talent/edit/{id}',  'TalentController@edit');
+    $app->post('talent/delete/{id}',  'TalentController@delete');
+    $app->get('talent/search', 'TalentController@search');
+    $app->post('talent/upload',  'TalentController@upload');
+    $app->post('talent/batchUpdate', 'TalentController@batchUpdate');
+    $app->post('talent/batchDelete', 'TalentController@batchDelete');
+    $app->post('talent/parse', 'TalentController@parse');
+    $app->get('talent/testApi', 'TalentController@testApi');
+    $app->post('talent/testApi', 'TalentController@testApi');
+    
+    $app->get('demand',  'DemandController@lists');
+    $app->get('demand/add',  'DemandController@add');
+    $app->post('demand/add',  'DemandController@add');
+    $app->get('demand/edit/{id}',  'DemandController@edit');
+    $app->post('demand/edit/{id}',  'DemandController@edit');
+    $app->post('demand/delete/{id}',  'DemandController@delete');
+    $app->get('demand/search', 'DemandController@search');
+    
+    $app->get('recommend',  'RecommendController@lists');
+    $app->get('recommend/add',  'RecommendController@add');
+    $app->post('recommend/add',  'RecommendController@add');
+    $app->get('recommend/edit/{id}',  'RecommendController@edit');
+    $app->post('recommend/edit/{id}',  'RecommendController@edit');
+    $app->post('recommend/delete/{id}',  'RecommendController@delete');
+    $app->get('recommend/search', 'RecommendController@search');
+    
+    $app->get('user',  'UserController@lists');
+    $app->get('user/add',  'UserController@add');
+    $app->post('user/add',  'UserController@add');
+    $app->get('user/edit/{id}',  'UserController@edit');
+    $app->post('user/edit/{id}',  'UserController@edit');
+    $app->post('user/delete/{id}',  'UserController@delete');
+    $app->get('user/search', 'UserController@search');
 
-$app->get('/admin/dict',  'Admin\DictController@lists');
-$app->get('/admin/dict/add',  'Admin\DictController@add');
-$app->post('/admin/dict/add',  'Admin\DictController@add');
-$app->get('/admin/dict/edit/{id}',  'Admin\DictController@edit');
-$app->post('/admin/dict/edit/{id}',  'Admin\DictController@edit');
-$app->post('/admin/dict/delete/{id}',  'Admin\DictController@delete');
-$app->get('/admin/dict/search', 'Admin\DictController@search');
-
-$app->get('/admin/constant',  'Admin\ConstantController@lists');
-$app->get('/admin/constant/add',  'Admin\ConstantController@add');
-$app->post('/admin/constant/add',  'Admin\ConstantController@add');
-$app->get('/admin/constant/edit/{id}',  'Admin\ConstantController@edit');
-$app->post('/admin/constant/edit/{id}',  'Admin\ConstantController@edit');
-$app->post('/admin/constant/delete/{id}',  'Admin\ConstantController@delete');
-$app->get('/admin/constant/search', 'Admin\ConstantController@search');
-
-$app->get('/admin/table',  'Admin\TableController@lists');
-$app->get('/admin/table/add',  'Admin\TableController@add');
-$app->post('/admin/table/add',  'Admin\TableController@add');
-$app->get('/admin/table/edit/{id}',  'Admin\TableController@edit');
-$app->post('/admin/table/edit/{id}',  'Admin\TableController@edit');
-$app->post('/admin/table/delete/{id}',  'Admin\TableController@delete');
-$app->get('/admin/table/search', 'Admin\TableController@search');
-$app->post('/admin/table/translate/{id}',  'Admin\TableController@translate');
-
-
-$app->get('/admin/column',  'Admin\ColumnController@lists');
-$app->get('/admin/column/add',  'Admin\ColumnController@add');
-$app->post('/admin/column/add',  'Admin\ColumnController@add');
-$app->get('/admin/column/edit/{id}',  'Admin\ColumnController@edit');
-$app->post('/admin/column/edit/{id}',  'Admin\ColumnController@edit');
-$app->post('/admin/column/delete/{id}',  'Admin\ColumnController@delete');
-$app->get('/admin/column/search', 'Admin\ColumnController@search');
-$app->post('/admin/column/translate/{id}',  'Admin\ColumnController@translate');
-
-$app->get('/admin/gen/db/{id}',  'Admin\GenController@db');
-$app->get('/admin/gen/web/{id}',  'Admin\GenController@web');
-
-$app->get('/admin/talent',  'Admin\TalentController@lists');
-$app->get('/admin/talent/add',  'Admin\TalentController@add');
-$app->post('/admin/talent/add',  'Admin\TalentController@add');
-$app->get('/admin/talent/edit/{id}',  'Admin\TalentController@edit');
-$app->post('/admin/talent/edit/{id}',  'Admin\TalentController@edit');
-$app->post('/admin/talent/delete/{id}',  'Admin\TalentController@delete');
-$app->get('/admin/talent/search', 'Admin\TalentController@search');
-$app->post('/admin/talent/upload',  'Admin\TalentController@upload');
-$app->post('/admin/talent/batchUpdate', 'Admin\TalentController@batchUpdate');
-$app->post('/admin/talent/batchDelete', 'Admin\TalentController@batchDelete');
-$app->post('/admin/talent/parse', 'Admin\TalentController@parse');
-$app->get('/admin/talent/testApi', 'Admin\TalentController@testApi');
-$app->post('/admin/talent/testApi', 'Admin\TalentController@testApi');
-
-$app->get('/admin/demand',  'Admin\DemandController@lists');
-$app->get('/admin/demand/add',  'Admin\DemandController@add');
-$app->post('/admin/demand/add',  'Admin\DemandController@add');
-$app->get('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
-$app->post('/admin/demand/edit/{id}',  'Admin\DemandController@edit');
-$app->post('/admin/demand/delete/{id}',  'Admin\DemandController@delete');
-$app->get('/admin/demand/search', 'Admin\DemandController@search');
-
-$app->get('/admin/recommend',  'Admin\RecommendController@lists');
-$app->get('/admin/recommend/add',  'Admin\RecommendController@add');
-$app->post('/admin/recommend/add',  'Admin\RecommendController@add');
-$app->get('/admin/recommend/edit/{id}',  'Admin\RecommendController@edit');
-$app->post('/admin/recommend/edit/{id}',  'Admin\RecommendController@edit');
-$app->post('/admin/recommend/delete/{id}',  'Admin\RecommendController@delete');
-$app->get('/admin/recommend/search', 'Admin\RecommendController@search');
+});

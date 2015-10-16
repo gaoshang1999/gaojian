@@ -17,6 +17,8 @@ return [
 
     'title' => '高荐招聘',
     
+    'desc' => '高荐招聘后台管理系统',
+    
     'cipher' => 'AES-256-CBC',
 
     /*

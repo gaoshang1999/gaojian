@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 class GenController extends Controller
 {
     
+   
     public function db(Request $request, $id)
-    {        
-         
+    {   
         $table = Table::where('id', $id)->first();        
         $data = ['table' => $table];
 
@@ -17,11 +17,19 @@ class GenController extends Controller
     }    
 
     public function web(Request $request, $id)
-    {
-         
+    {         
         $table = Table::where('id', $id)->first();
         $data = ['table' => $table];
     
         return view('admin.gen.web', $data);
+    }
+    
+    
+    public function gen(Request $request, $method, $id)
+    {
+        $table = Table::where('id', $id)->first();
+        $data = ['table' => $table];
+    
+        return view('admin.gen.'.$method, $data);
     }
 }

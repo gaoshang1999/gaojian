@@ -65,12 +65,12 @@
 
 <div class="form-group">
 	<label class="col-sm-3 control-label no-padding-right"
-		for=" permanent_residence"> 户口所在地点 </label>
+		for="permanent_residence"> 户口所在地点 </label>
 	<div class="col-sm-9">
-		<input type="text" id=" permanent_residence"
-			name=" permanent_residence" placeholder="户口所在地点"
+		<input type="text" id="permanent_residence"
+			name="permanent_residence" placeholder="户口所在地点"
 			class="col-xs-10 col-sm-5"
-			value="{{ old(' permanent_residence', $talent ? $talent-> permanent_residence : '') }}" />
+			value="{{ old('permanent_residence', $talent ? $talent-> permanent_residence : '') }}" />
 	</div>
 </div>
 

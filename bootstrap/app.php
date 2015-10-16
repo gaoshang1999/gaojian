@@ -65,9 +65,10 @@ $app->middleware([
     Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
 ]);
 
-// $app->routeMiddleware([
-
-// ]);
+$app->routeMiddleware([
+    'auth.login' => 'App\Http\Middleware\Authenticate',
+    'auth.admin' => 'App\Http\Middleware\AdminMiddleware'
+]);
 
 /*
 |--------------------------------------------------------------------------

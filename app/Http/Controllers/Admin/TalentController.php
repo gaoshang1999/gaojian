@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use ZipArchive;
 use DB;
 use Log;
+use Exception;
 
 class TalentController extends Controller
 {
@@ -77,8 +78,6 @@ class TalentController extends Controller
             $query = $query->where($field3, '<=' , date('Y-m-d', strtotime($q3_end)));
         }        
                 
-//         dump($query->getQuery()->wheres);
-//         dump($query->getQuery()->getBindings());
         return $query;           
     }
     
@@ -161,75 +160,63 @@ class TalentController extends Controller
     
     public function upload(Request $request)
     {
-        $input = $request->all();
-         
+
+        $input = $request->all();             
         $file = array_get($input, 'file');
-        if ($file) {
-            $destinationPath = 'upload/';
-            $public = 'public/';
-            if (!is_dir(base_path($public . $destinationPath))) {
-                mkdir(base_path($public . $destinationPath));
-            }
-            $extension = $file->getClientOriginalExtension();
-            $fileName = uniqid()  . '.' . $extension;
-            $upload_success = $file->move($destinationPath, $fileName);
-        
-            $path = base_path($public .$destinationPath . $fileName);
-           
-           if(strtolower($extension) == "txt"){
-               $content = file_get_contents($path);
-               $content = iconv("GBK","UTF-8",  $content);
-               $data = ['resume'=> $content];
+        try{
+            if ($file) {
+                $destinationPath = 'upload/';
+                $public = 'public/';
+                if (!is_dir(base_path($public . $destinationPath))) {
+                    mkdir(base_path($public . $destinationPath));
+                }
+                $extension = $file->getClientOriginalExtension();
+                $fileName = uniqid()  . '.' . $extension;
+                $upload_success = $file->move($destinationPath, $fileName);
+            
+                $path = base_path($public .$destinationPath . $fileName);
                
-               $talent = Talent::create($data);
-               $talent->save();
-               $count = 1;
-           }else{
-//                $zip = zip_open($path);
-//                $array = [];
-//                if ($zip)      {
-//                    while ($zip_entry = zip_read($zip))  {                   
-//                        if (zip_entry_open($zip, $zip_entry)) {                          
-//                            $content = zip_entry_read($zip_entry); 
-//                            if($content){ //文件内容不为空判断，可以去除文件夹和空文件
-//                                $content = iconv("GBK","UTF-8", $content );
-//                                zip_entry_close($zip_entry);
-//                                $data = ['resume'=> $content];
-//                                $talent = Talent::create($data);
-//                                $array []= $talent;
-//                            }
-//                        }
-//                   }               
-//                   zip_close($zip);               
-//                }
-//                $array = [];
-               $zip = new ZipArchive();  
-             
-               if ($zip->open($path) == TRUE) {
-                   for ($i = 0; $i < $zip->numFiles; $i++) {
-                        $filename = $zip->getNameIndex($i);
-                        $stream = $zip->getStream($filename); 
-                        $content = stream_get_contents($stream); //这里注意获取到的文本编码
-                        if($content){
-                           $content = iconv("GBK","UTF-8", $content );
-                           $data = ['resume'=> $content];
-                           $talent = Talent::create($data);
-                           $array []= $talent;
-                        }
-                   }
-               }
-               $zip->close();
-               
-               foreach($array as $a){
-                   $a->save();
-               }
-               $count = count($array);
-          }
-          return new JsonResponse(['success'=>true, 'message' => '上传成功，共导入'.$count.'份简历']);
+               if(strtolower($extension) == "txt"){
+                   $content = file_get_contents($path);
+                   $content = iconv("GBK","UTF-8",  $content);
+                   $data = ['resume'=> $content];
+                   
+                   $talent = Talent::create($data);
+                   $talent->save();
+                   $count = 1;
+               }elseif(strtolower($extension) == "zip"){                    
+                       $zip = new ZipArchive();                       
+                       if ($zip->open($path) == TRUE) {
+                           for ($i = 0; $i < $zip->numFiles; $i++) {
+                                $filename = $zip->getNameIndex($i);
+                                $stream = $zip->getStream($filename); 
+                                $content = stream_get_contents($stream); //这里注意获取到的文本编码
+                                if($content){
+                                   $content = iconv("GBK","UTF-8", $content );
+                                   $data = ['resume'=> $content];
+                                   $talent = Talent::create($data);
+                                   $array []= $talent;
+                                }
+                           }
+                       }
+                       $zip->close();
+                       
+                       foreach($array as $a){
+                           $a->save();
+                       }
+                       $count = count($array);
+      
+              } //end if  
+                 
+              
+              return new JsonResponse(['success'=>true, 'message' => '上传成功，共导入'.$count.'份简历']);
+            } //end if        
+        }catch(Exception $e)
+        {
+            return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试.'.$e->getMessage()]);
         }
               
         return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试']);
-//           return redirect('/admin/talent');
     }
     
     
@@ -285,35 +272,40 @@ class TalentController extends Controller
    
    public function parse(Request $request)
    {
-       $query = $this->queryBulider($request);
-   
-       $talents = $query->get();
+       try{
+           $query = $this->queryBulider($request);
        
-       foreach($talents as $t){
-           $data = $this->callParseApi($t);
-           if($data){
-              unset($data['resume']);
-               $t->fill($data);
-               $t->save();
-           }else{
-               return new JsonResponse(['success'=>false, 'message' => '量化模型解析失败，调用解析服务出错']);
-           }
+           $talents = $query->get();
+           
+           foreach($talents as $t){
+               $data = $this->callParseApi($t, $request['parser']);
+               if($data){
+                  unset($data['resume']);
+                   $t->fill($data);
+                   $t->save();
+               }else{
+                   return new JsonResponse(['success'=>false, 'message' => '量化模型解析失败，调用解析服务出错']);
+               }
+           }       
+       }catch(Exception $e)
+       {
+           return new JsonResponse(['success'=>false, 'message' => '量化模型解析失败.'.$e->getMessage()]);
        }
    
        return new JsonResponse(['success'=>true, 'message' => '量化模型解析成功，共解析了'.count($talents).'份简历']);
    }
    
-   public $url = "http://101.200.236.68:8080/222/hello";
+   public $url = "http://101.200.236.68:8080/222/";
    
-   public function callParseApi($talent){
-       
+   public function callParseApi($talent, $parser){
+       $api_url = $this->url . $parser;
        
        $resume = ['resume'=> $talent -> resume];
        
        $data = ["data" => json_encode($resume)];
        
        $ch = curl_init();
-       curl_setopt($ch, CURLOPT_URL, $this->url);
+       curl_setopt($ch, CURLOPT_URL, $api_url);
        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
        // post数据
        curl_setopt($ch, CURLOPT_POST, 1);
@@ -331,12 +323,14 @@ class TalentController extends Controller
    
     public function testApi(Request $request)
     {
+        $url = "http://101.200.236.68:8080/222/hello";
+        
         if ($request->isMethod('post')) {
             $resume = ['resume'=> $request['resume']];
             $data = ["data" => json_encode($resume)];
             
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->url);
+            curl_setopt($ch, CURLOPT_URL, url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             // post数据
