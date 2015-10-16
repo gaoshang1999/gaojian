@@ -61,9 +61,11 @@
 							
 
 							<div class="position-relative">
+							    
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
+										@include('errors.list')
 											<h4 class="header blue lighter bigger">
 												<i class="icon-coffee green"></i>
 												请输入用户名和密码
