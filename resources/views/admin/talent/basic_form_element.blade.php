@@ -112,7 +112,7 @@
 	<div class="col-sm-9">
 		<input type="number" id="user_id" name="user_id" placeholder="所属用户编号"
 			min="0" step="1" class="col-xs-10 col-sm-5"
-			value="{{ old('user_id', $talent  ? $talent-> user_id : '') }}" />
+			value="{{ old('user_id', $talent  ? $talent-> user_id : '') }}" disabled/>
 	</div>
 
 

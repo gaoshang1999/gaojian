@@ -8,6 +8,7 @@ use ZipArchive;
 use DB;
 use Log;
 use Exception;
+use Auth;
 
 class TalentController extends Controller
 {
@@ -111,6 +112,7 @@ class TalentController extends Controller
     
     public function add(Request $request)
     {
+        $user = Auth::user();
         if ($request->isMethod('post')) {
 //             $this->validate($request, [
 //                 'name' => 'required|max:255',
@@ -119,7 +121,8 @@ class TalentController extends Controller
 
             $input = $request->all();
             $talent = Talent::create($input);
-                        
+            
+            $talent ->user_id = $user->id;
             $talent->save(); 
        
             return redirect('/admin/talent');
@@ -160,7 +163,7 @@ class TalentController extends Controller
     
     public function upload(Request $request)
     {
-
+        $user = Auth::user();
         $input = $request->all();             
         $file = array_get($input, 'file');
         try{
@@ -179,8 +182,8 @@ class TalentController extends Controller
                if(strtolower($extension) == "txt"){
                    $content = file_get_contents($path);
                    $content = iconv("GBK","UTF-8",  $content);
-                   $data = ['resume'=> $content];
-                   
+                   $data = ['resume'=> $content, 'user_id' => $user->id];
+                                      
                    $talent = Talent::create($data);
                    $talent->save();
                    $count = 1;
@@ -193,7 +196,7 @@ class TalentController extends Controller
                                 $content = stream_get_contents($stream); //这里注意获取到的文本编码
                                 if($content){
                                    $content = iconv("GBK","UTF-8", $content );
-                                   $data = ['resume'=> $content];
+                                   $data = ['resume'=> $content, 'user_id' => $user->id];
                                    $talent = Talent::create($data);
                                    $array []= $talent;
                                 }
@@ -206,8 +209,7 @@ class TalentController extends Controller
                        }
                        $count = count($array);
       
-              } //end if  
-                 
+              } //end if                   
               
               return new JsonResponse(['success'=>true, 'message' => '上传成功，共导入'.$count.'份简历']);
             } //end if        
@@ -300,9 +302,9 @@ class TalentController extends Controller
    public function callParseApi($talent, $parser){
        $api_url = $this->url . $parser;
        
-       $resume = ['resume'=> $talent -> resume];
-       
-       $data = ["data" => json_encode($resume)];
+//        $resume = ['resume'=> $talent -> resume];       
+//        $data = ["data" => json_encode($resume)];
+       $data = ["data" => json_encode($talent)];
        
        $ch = curl_init();
        curl_setopt($ch, CURLOPT_URL, $api_url);
