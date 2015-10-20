@@ -7,7 +7,7 @@
 
 <div class="page-content"> 	<div class="row">
 		<div class="col-xs-12">
-		<h3 class="header smaller lighter blue"> {{ $user ? '编辑' : '新建' }} 用户 </h3>
+		<h3 class="header smaller lighter blue"> {{ $user ? '编辑' : '新建' }}用户 </h3>
 			<form class="form-horizontal" role="form" method="post"  action="{{ url('/admin/user/' . ($user ? 'edit/'.$user->id : 'add')) }}">
 			    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 				
@@ -390,11 +390,11 @@
 			   <div class="form-group"> 
 					<label class="col-sm-3 control-label no-padding-right" for="search_privilege_parameter_4"> 搜索权限参数4 </label> 
              
-				<div class="col-sm-9"> 
-						<input type="text" id="search_privilege_parameter_4" name="search_privilege_parameter_4" placeholder="搜索权限参数4" 
-							class="col-xs-10 col-sm-5" value="{{ old('search_privilege_parameter_4', $user  ? $user-> search_privilege_parameter_4 : '') }}"/>  
-				</div> 
-						
+					<div class="col-sm-9"> 
+						<textarea type="text/plain" id="search_privilege_parameter_4"  name="search_privilege_parameter_4" rows="5" class="col-xs-10 col-sm-5 autosize-transition">
+						{{ old('search_privilege_parameter_4', $user  ? $user-> search_privilege_parameter_4 : '') }}</textarea> 
+					</div> 	
+					
 				
 			   </div> 	
 	
@@ -402,11 +402,11 @@
 			   <div class="form-group"> 
 					<label class="col-sm-3 control-label no-padding-right" for="search_privilege_parameter_5"> 搜索权限参数5 </label> 
              
-				<div class="col-sm-9"> 
-						<input type="text" id="search_privilege_parameter_5" name="search_privilege_parameter_5" placeholder="搜索权限参数5" 
-							class="col-xs-10 col-sm-5" value="{{ old('search_privilege_parameter_5', $user  ? $user-> search_privilege_parameter_5 : '') }}"/>  
-				</div> 
-						
+					<div class="col-sm-9"> 
+						<textarea type="text/plain" id="search_privilege_parameter_5"  name="search_privilege_parameter_5" rows="5" class="col-xs-10 col-sm-5 autosize-transition">
+						{{ old('search_privilege_parameter_5', $user  ? $user-> search_privilege_parameter_5 : '') }}</textarea> 
+					</div> 	
+					
 				
 			   </div> 	
 	
@@ -714,11 +714,11 @@
 			   <div class="form-group"> 
 					<label class="col-sm-3 control-label no-padding-right" for="display_privilege_parameter_4"> 显示权限参数4 </label> 
              
-				<div class="col-sm-9"> 
-						<input type="text" id="display_privilege_parameter_4" name="display_privilege_parameter_4" placeholder="显示权限参数4" 
-							class="col-xs-10 col-sm-5" value="{{ old('display_privilege_parameter_4', $user  ? $user-> display_privilege_parameter_4 : '') }}"/>  
-				</div> 
-						
+					<div class="col-sm-9"> 
+						<textarea type="text/plain" id="display_privilege_parameter_4"  name="display_privilege_parameter_4" rows="5" class="col-xs-10 col-sm-5 autosize-transition">
+						{{ old('display_privilege_parameter_4', $user  ? $user-> display_privilege_parameter_4 : '') }}</textarea> 
+					</div> 	
+					
 				
 			   </div> 	
 	
@@ -726,11 +726,11 @@
 			   <div class="form-group"> 
 					<label class="col-sm-3 control-label no-padding-right" for="display_privilege_parameter_5"> 显示权限参数5 </label> 
              
-				<div class="col-sm-9"> 
-						<input type="text" id="display_privilege_parameter_5" name="display_privilege_parameter_5" placeholder="显示权限参数5" 
-							class="col-xs-10 col-sm-5" value="{{ old('display_privilege_parameter_5', $user  ? $user-> display_privilege_parameter_5 : '') }}"/>  
-				</div> 
-						
+					<div class="col-sm-9"> 
+						<textarea type="text/plain" id="display_privilege_parameter_5"  name="display_privilege_parameter_5" rows="5" class="col-xs-10 col-sm-5 autosize-transition">
+						{{ old('display_privilege_parameter_5', $user  ? $user-> display_privilege_parameter_5 : '') }}</textarea> 
+					</div> 	
+					
 				
 			   </div> 	
 	

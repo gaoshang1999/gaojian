@@ -17,6 +17,8 @@
     
      <li> <a href="{{ url("/admin/gen/create_edit/{$table->id}") }} " target="_blank">create_edit.blade.php</a>  </li>
   
+  
+     <li> <a href="{{ url("/admin/gen/migrate_change/{$table->id}") }} " target="_blank">migrate_change.php</a>  </li>
  </ol>       
         
  </h1>

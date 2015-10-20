@@ -16,7 +16,7 @@
 &lt;div class="page-content"> @include('errors.list')
 	&lt;div class="row">
 		&lt;div class="col-xs-12">
-		&lt;h3 class="header smaller lighter blue"> @{{ ${!!$table->en!!} ? '编辑' : '新建' }} {{$table->cn}} &lt;/h3>
+		&lt;h3 class="header smaller lighter blue"> @{{ ${!!$table->en!!} ? '编辑' : '新建' }}{{$table->cn}} &lt;/h3>
 			&lt;form class="form-horizontal" role="form" method="post"  action="@{{ url('/admin/{!!$table->en!!}/' . (${!!$table->en!!} ? 'edit/'.${!!$table->en!!}->id : 'add')) }}">
 			    &lt;input type="hidden" name="_token" value="@{{ csrf_token() }}">
 				
@@ -40,8 +40,7 @@
 						
 @elseif($v->type == "text")
 					&lt;div class="col-sm-9"> 
-						&lt;textarea type="text/plain" id="{{$v->en }}"  name="{{$v->en }}" rows="5" class="col-xs-10 col-sm-5 autosize-transition">
-						@{{ old('{!! $v->en!!}', ${!! $table->en!!}  ? ${!! $table->en!!}-> {!! $v->en!!} : '') }}&lt;/textarea> 
+						&lt;textarea type="text/plain" id="{{$v->en }}"  name="{{$v->en }}" rows="5" class="col-xs-10 col-sm-5 autosize-transition">@{{ old('{!! $v->en!!}', ${!! $table->en!!}  ? ${!! $table->en!!}-> {!! $v->en!!} : '') }}&lt;/textarea> 
 					&lt;/div> 	
 					
 @elseif($v->type == "integer")

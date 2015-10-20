@@ -6,23 +6,22 @@ use Illuminate\Http\Request;
 
 class GenController extends Controller
 {
-    
    
-    public function db(Request $request, $id)
-    {   
-        $table = Table::where('id', $id)->first();        
-        $data = ['table' => $table];
+//     public function db(Request $request, $id)
+//     {   
+//         $table = Table::where('id', $id)->first();        
+//         $data = ['table' => $table];
 
-        return view('admin.gen.db', $data);
-    }    
+//         return view('admin.gen.db', $data);
+//     }    
 
-    public function web(Request $request, $id)
-    {         
-        $table = Table::where('id', $id)->first();
-        $data = ['table' => $table];
+//     public function web(Request $request, $id)
+//     {         
+//         $table = Table::where('id', $id)->first();
+//         $data = ['table' => $table];
     
-        return view('admin.gen.web', $data);
-    }
+//         return view('admin.gen.web', $data);
+//     }
     
     
     public function gen(Request $request, $method, $id)
@@ -31,5 +30,6 @@ class GenController extends Controller
         $data = ['table' => $table];
     
         return view('admin.gen.'.$method, $data);
-    }
+    }    
+ 
 }
