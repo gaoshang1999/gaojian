@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Demand;
 use App\Models\Talent;
+use App\Models\Recommend;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use ZipArchive;
@@ -349,4 +351,30 @@ class TalentController extends Controller
             return view('admin.talent.test');
         }
     }
+    
+    public function recommend(Request $request)
+    {
+      try{
+            $query = $this->queryBulider($request);             
+            $talents = $query->get();
+            $user = Auth::user();
+            
+            $demand_id = $request['demand_id'];
+            $demand = Demand::where('id', $demand_id)->first();
+            if(! $demand){
+                return new JsonResponse(['success'=>false, 'message' => '需求编号不存在，请重新输入.']);
+            }             
+            foreach($talents as $t){                
+                $data = ['talent_id'=> $t ->id, 'demand_id' => $demand_id, 'user_id'=> $user->id, 'recommend_time'=> date("Y-m-d H:i:s"),'recommend_type'=> $request['recommend_type']];
+                
+                $recommend = Recommend::create($data);
+            }
+        }catch(Exception $e)
+        {
+            return new JsonResponse(['success'=>false, 'message' => '推荐失败.'.$e->getMessage()]);
+        }
+        
+        return new JsonResponse(['success'=>true, 'message' => '推荐成功，共推荐了'.count($talents).'份简历']);
+    }
+    
 }

@@ -42,6 +42,11 @@
 			<a href="#upload-modal-form" data-toggle="modal" class="btn btn-xs btn-purple pull-right" style="margin: 0px 5px;"
 				tabindex="4"> <i class="icon-cloud-upload bigger-160">&nbsp;简历上传</i>
 			</a>
+			
+			<a href="#recommend-modal-form" data-toggle="modal" class="btn btn-xs btn-default pull-right" style="margin: 0px 5px;"
+				tabindex="4"> <i class="icon-envelope bigger-160">&nbsp;推荐</i>
+<!-- 			</a> -->
+			
 <!-- 			 <a href="{{ url('/admin/talent/batchUpdate') }}" -->
 <!-- 				style="margin: 0px 5px;" class="btn btn-xs btn-success pull-right" -->
 <!-- 				tabindex="4"> <i class="icon-edit bigger-160">&nbsp;批量修改</i> -->
@@ -104,7 +109,6 @@
 							<td>{{$v-> corporation_label_1 }}</td>					
 							<td>{{ $v->created_at }}</td>
 							<td class="hidden-480">{{ $v->updated_at }}</td>
-
 							<td>
 								<form action='{{ url("/admin/talent/delete/{$v->id}") }}'
 									method="post">
@@ -115,7 +119,8 @@
 										<i class="icon-trash bigger-120">&nbsp;刪除</i>
 									</button>
 								</form>
-							</td>
+							</td>	
+
 						</tr>
 						@endforeach
 					</tbody>
@@ -148,9 +153,16 @@
 							</div>
 
 						</div>
+						
+						 <div id="upload-progress-bar" class="progress progress-striped" data-percent="" hidden>
+							 <div  class="progress-bar progress-bar-success" style="width: 5%;"></div>
+						</div>
+						
 					</div>
-
+					
 					<div class="modal-footer">
+					                   
+					
 						<button class="btn btn-sm" data-dismiss="modal">
 							<i class="icon-remove"></i> 取消
 						</button>
@@ -355,6 +367,10 @@
                 		<label class="radio-inline"><input type="radio" name="search_scope" value="0" > 全库</label>                                                
                       </div>		 
 					</div>
+					
+						<div id="parse-progress-bar" class="progress progress-striped" data-percent="" hidden>
+							 <div  class="progress-bar progress-bar-success" style="width: 5%;"></div>
+						</div>
 					</div>
 
 					<div class="modal-footer">
@@ -373,6 +389,62 @@
 	</div>
 	<!-- parse-modal-form -->
 
+	
+		<div id="recommend-modal-form" class="modal" tabindex="-1">
+		<form id="recommend-form" role="form" method="post"
+			action="{{ url('/admin/talent/recommend') }}">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="blue bigger">推荐设置</h4>
+					</div>
+
+					<div class="modal-body overflow-visible">						 
+								 
+					 <div class="row">
+					  <div class="form-group">
+					      <label class="col-sm-3 control-label no-padding-right" > 需求编号</label>
+    					   <div class="col-sm-9">
+    					   <input type="text" id="demand_id" name="demand_id" placeholder="需求编号" 	class="col-xs-10 col-sm-5"	value="" />
+    					 </div>
+					 </div>
+					 </div>
+					 
+					 <div class="row">
+					 <div class="form-group">
+					   <label class="col-sm-3 control-label no-padding-right" > 推荐类型</label>
+                        <label class="radio-inline"><input type="radio" name="recommend_type" value="1" checked> 正式推荐</label>
+                        <label class="radio-inline"><input type="radio" name="recommend_type" value="2" > 预推荐</label>                                           
+                      </div>		 
+					</div>
+					 
+					 <div class="row">
+					 <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="search_scope" value="2" checked> 选中项</label>
+                        <label class="radio-inline"><input type="radio" name="search_scope" value="1" > 搜索结果</label>
+                		<label class="radio-inline"><input type="radio" name="search_scope" value="0" > 全库</label>                                                
+                      </div>		 
+					</div>
+					 
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-sm" data-dismiss="modal">
+							<i class="icon-remove"></i> 取消
+						</button>
+
+						<button class="btn btn-sm btn-primary" type="submit"
+							id="submit-batch-delete-form">
+							<i class="icon-ok"></i> 推荐
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- recommend-modal-form -->
 	
 </div>
 <!-- /.page-content -->
@@ -479,36 +551,44 @@
 				    return dumped_text;
 				}
 
-							
+
+				function changeProgressbar(elem, percent){
+                    var width = percent+"%"; 
+
+					elem.data('percent', width);
+					elem.children().first().animate({'width': width});
+				}
+				
+				function timer(elem, seconds){
+			        if(seconds >= 0){
+// 				        alert(seconds);
+			            setTimeout(function(){
+			                //显示倒计时
+			                changeProgressbar(elem, 100-seconds) ;
+			                //递归
+			                seconds -= 1;
+			                timer(elem, seconds);
+			            }, 1000);
+			        }
+			    }
+						
 				$("#submit-upload-form").click(function(){  
 					if ($("#file").val() == "") {
 	                     alert("请选择一个文件，再点击上传。");
 	                     return false;
 	                 }
-				   $(this).html("<i class=\"icon-ok\"></i>上传中...");
-				   $(this).prop('disabled', true);
+	               var $progressbar = $("#upload-progress-bar");
+	               $progressbar.toggle();
+	               timer($progressbar, 50);
+	               
+				   $(this).prop('disabled', false);
                    $("#upload-form").ajaxSubmit({		   
 			           success: function (data) {
-
-// 			        	   if(data.indexOf("html") > -1) {
-// 		   			             alert("后台服务错误，请重试");
-// 		   			             return;
-// 			   			   }
-		        	   
-	   			           var ret = eval(data);
-	   			           	            	
-   			               if(ret.success ){
-   			            	    $(this).html("<i class=\"icon-ok\"></i>上传");
-   						        $(this).prop('disabled', false);
-
-   			                    alert(ret.message);
-   			                   	location.reload();
-   			               }else{
-   			            	   alert(ret.message);
-   			            	   $(this).html("<i class=\"icon-ok\"></i>上传");
-   						       $(this).prop('disabled', false);
-   			               }
-	   			           }
+			        	   $("#upload-modal-form").hide();		        	 
+	   			           var ret = eval(data);	   			           	            	
+	   			           alert(ret.message);  
+   			               location.reload();
+	   			       }
 	   			   } );  
 
                 });       
@@ -572,8 +652,34 @@
 				   });
 
 
-				$('#parse-form').submit(function (ev) { 		
-							
+				$('#parse-form').submit(function (ev) { 							
+		               var $progressbar = $("#parse-progress-bar");
+		               $progressbar.toggle();
+		               timer($progressbar, 50);	
+					   $.ajax({
+				           type: $(this).attr('method'),
+				           url: $(this).attr('action'),
+				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
+				           dataType: "json",
+				           success: function (data) {
+					           
+				           	$("#parse-form").hide(); 
+				           	var ret = eval(data); 
+				            alert(ret.message);	
+				            location.reload();
+				           },
+				           error: function(){
+				        	   $("#parse-form").hide();		  
+// 				        	   location.reload();
+				        	   alert("量化模型解析失败，请重试!");
+				           }
+				       });
+
+					   ev.preventDefault();
+				   });
+
+				$('#recommend-form').submit(function (ev) { 		
+					
 					   $.ajax({
 				           type: $(this).attr('method'),
 				           url: $(this).attr('action'),
@@ -590,7 +696,7 @@
 				               }
 				           },
 				           error: function(){
-				        	   alert("量化模型解析失败，请重试!");
+				        	   alert("推荐失败，请重试!");
 				           }
 				       });
 

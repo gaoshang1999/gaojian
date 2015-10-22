@@ -85,6 +85,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->post('talent/batchUpdate', 'TalentController@batchUpdate');
     $app->post('talent/batchDelete', 'TalentController@batchDelete');
     $app->post('talent/parse', 'TalentController@parse');
+    $app->post('talent/recommend', 'TalentController@recommend');
     $app->get('talent/testApi', 'TalentController@testApi');
     $app->post('talent/testApi', 'TalentController@testApi');
     
