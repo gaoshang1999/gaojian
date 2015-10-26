@@ -278,9 +278,8 @@ class TalentController extends Controller
    {
        try{
            $query = $this->queryBulider($request);
-       
            $talents = $query->get();
-           
+
            foreach($talents as $t){
                $data = $this->callParseApi($t, $request['parser']);
                if($data){
@@ -293,6 +292,7 @@ class TalentController extends Controller
            }       
        }catch(Exception $e)
        {
+           Log::error  ( $e->getMessage());
            return new JsonResponse(['success'=>false, 'message' => '量化模型解析失败.'.$e->getMessage()]);
        }
    
@@ -308,19 +308,22 @@ class TalentController extends Controller
 //        $data = ["data" => json_encode($resume)];
        $data = ["data" => json_encode($talent)];
        
+//        ini_set('max_execution_time', 0);
        $ch = curl_init();
        curl_setopt($ch, CURLOPT_URL, $api_url);
        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+       curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); //timeout on connect
+       curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout on response
        // post数据
        curl_setopt($ch, CURLOPT_POST, 1);
        // post的变量
-       Log::info  ('TalentController-callParseApi: '. json_encode($data));
-       Log::info  ('TalentController-callParseApi: '. http_build_query($data));
+//        Log::info  ('TalentController-callParseApi: '. json_encode($data));
+//        Log::info  ('TalentController-callParseApi: '. http_build_query($data));
        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
        $json = curl_exec($ch);
        curl_close($ch);
 //        dump($json);
-       Log::info  ('TalentController-callParseApi-return: '. $json);
+//        Log::info  ('TalentController-callParseApi-return: '. $json);
        return json_decode($json, true);
    }
    

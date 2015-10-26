@@ -154,22 +154,25 @@
 
 						</div>
 						
-						 <div id="upload-progress-bar" class="progress progress-striped" data-percent="" hidden>
-							 <div  class="progress-bar progress-bar-success" style="width: 5%;"></div>
-						</div>
+<!-- 						 <div id="upload-progress-bar" class="progress progress-striped" data-percent="" hidden> -->
+							 <div  class="progress-bar progress-bar-success" style="width: 0%;"></div>
+<!-- 						</div> -->
 						
 					</div>
 					
 					<div class="modal-footer">
-					                   
+					    <div id="upload-hint"></div>               
 					
 						<button class="btn btn-sm" data-dismiss="modal">
-							<i class="icon-remove"></i> 取消
+							<i class="icon-remove"></i> 取消							
 						</button>
 
 						<button class="btn btn-sm btn-primary" type="button"
 							id="submit-upload-form">
 							<i class="icon-ok"></i> 上传
+							<span id="upload-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
 						</button>
 					</div>
 				</div>
@@ -253,10 +256,13 @@
             
             					</div>
             				</div>							 
-            
+            当前搜索到的&nbsp;&nbsp;<strong>{{$talent->total()}}</strong>&nbsp;&nbsp;条记录将会被修改
+
             			</div>						
 						
-当前搜索到的&nbsp;&nbsp;<strong>{{$talent->total()}}</strong>&nbsp;&nbsp;条记录将会被修改
+<!--             			<div id="batch-update-progress-bar" class="progress progress-striped" data-percent="" hidden> -->
+							 <div  class="progress-bar progress-bar-success" style="width: 0%;"></div>
+<!-- 						</div> -->
 						
 					</div>
                     <input type="hidden" name="search_scope" value="1" > <!-- 搜索结果 -->
@@ -268,6 +274,9 @@
 						<button class="btn btn-sm btn-primary" type="submit"
 							id="submit-batch-update-form">
 							<i class="icon-ok"></i> 批量修改
+							<span id="batch-update-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
 						</button>
 					</div>
 				</div>
@@ -291,7 +300,13 @@
 								 
 					 <div class="row">
 					   <label class="col-sm-10 control-label no-padding-right" > 是否将当前搜索到的&nbsp;&nbsp;<strong>{{$talent->total()}}</strong>&nbsp;&nbsp;条记录删除？</label>
+					 
+
 					 </div>
+					 
+<!-- 					 	 <div id="batch-delete-progress-bar" class="progress progress-striped" data-percent="" hidden> -->
+							 <div  class="progress-bar progress-bar-success" style="width: 0%;"></div>
+<!-- 						</div> -->
 					</div>
                          <input type="hidden" name="search_scope" value="1" > <!-- 搜索结果 -->
 					<div class="modal-footer">
@@ -302,6 +317,9 @@
 						<button class="btn btn-sm btn-primary" type="submit"
 							id="submit-batch-delete-form">
 							<i class="icon-ok"></i> 批量删除
+							<span id="batch-delete-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
 						</button>
 					</div>
 				</div>
@@ -368,9 +386,9 @@
                       </div>		 
 					</div>
 					
-						<div id="parse-progress-bar" class="progress progress-striped" data-percent="" hidden>
-							 <div  class="progress-bar progress-bar-success" style="width: 5%;"></div>
-						</div>
+<!-- 						<div id="parse-progress-bar" class="progress progress-striped" data-percent="" hidden> -->
+							 <div  class="progress-bar progress-bar-success" style="width: 0%;"></div>
+<!-- 						</div> -->
 					</div>
 
 					<div class="modal-footer">
@@ -381,6 +399,9 @@
 						<button class="btn btn-sm btn-primary" type="submit"
 							id="submit-parse-form">
 							<i class="icon-ok"></i> 解析
+							<span id="parse-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
 						</button>
 					</div>
 				</div>
@@ -436,8 +457,11 @@
 						</button>
 
 						<button class="btn btn-sm btn-primary" type="submit"
-							id="submit-batch-delete-form">
+							id="submit-recommend-form">
 							<i class="icon-ok"></i> 推荐
+							<span id="recommend-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
 						</button>
 					</div>
 				</div>
@@ -559,17 +583,17 @@
 					elem.children().first().animate({'width': width});
 				}
 				
-				function timer(elem, seconds){
-			        if(seconds >= 0){
-// 				        alert(seconds);
-			            setTimeout(function(){
-			                //显示倒计时
-			                changeProgressbar(elem, 100-seconds) ;
-			                //递归
-			                seconds -= 1;
-			                timer(elem, seconds);
-			            }, 1000);
-			        }
+				function timer(elem, seconds){			       
+			       return setInterval(function(){
+			    	        seconds += 1;
+			                changeProgressbar(elem, seconds);	
+			                if(	seconds == 100 ) {seconds=0};	                  
+			            }, 1000);			      
+			    }
+
+			    function finishTimer(timmerId, elem){
+			    	changeProgressbar(elem, 100) ;
+			    	clearInterval( timmerId );			    	
 			    }
 						
 				$("#submit-upload-form").click(function(){  
@@ -579,15 +603,16 @@
 	                 }
 	               var $progressbar = $("#upload-progress-bar");
 	               $progressbar.toggle();
-	               timer($progressbar, 50);
+// 	               var timmerId = timer($progressbar, 0);
 	               
-				   $(this).prop('disabled', false);
+				   $(this).prop('disabled', true);
                    $("#upload-form").ajaxSubmit({		   
 			           success: function (data) {
-			        	   $("#upload-modal-form").hide();		        	 
+// 			        	   finishTimer(timmerId, $progressbar);                           
+                           $progressbar.toggle();
 	   			           var ret = eval(data);	   			           	            	
-	   			           alert(ret.message);  
-   			               location.reload();
+	   			           alert(ret.message);  	   			           
+   			               location.reload();   			            
 	   			       }
 	   			   } );  
 
@@ -603,23 +628,23 @@
                          
 				
 				$('#batch-update-form').submit(function (ev) { 					
-// 					alert($("#search-form").serialize() + "&"+$(this).serialize());
+	               var $progressbar = $("#batch-update-progress-bar");
+                   $progressbar.toggle();
+	
+	               $('#submit-batch-update-form').prop('disabled', true);	
 				   $.ajax({
 			           type: $(this).attr('method'),
 			           url: $(this).attr('action'),
 			           data: $("#search-form").serialize() + "&"+$(this).serialize(),
 			           dataType: "json",
 			           success: function (data) {
-
-			           	var ret = eval(data);            	
-			               if(ret.success ){
-			                    alert(ret.message);
-			                   	location.reload();
-			               }else{
-			            	   alert(ret.message);
-			               }
+			        	    $progressbar.toggle();
+				           	var ret = eval(data); 
+				            alert(ret.message);	
+				            location.reload();
 			           },
 			           error: function(){
+			        	   $progressbar.toggle();
 			        	   alert("批量修改失败，请重试");
 			           }
 			       });
@@ -627,23 +652,24 @@
 				   ev.preventDefault();
 			   });
 
-				$('#batch-delete-form').submit(function (ev) { 	
+				$('#batch-delete-form').submit(function (ev) { 
+		               var $progressbar = $("#batch-delete-progress-bar");
+		               $progressbar.toggle();
+
+		               $('#submit-batch-delete-form').prop('disabled', true);	
 					   $.ajax({
 				           type: $(this).attr('method'),
 				           url: $(this).attr('action'),
 				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
 				           dataType: "json",
 				           success: function (data) {
-
-				           	var ret = eval(data);            	
-				               if(ret.success ){
-				                    alert(ret.message);
-				                   	location.reload();
-				               }else{
-				            	   alert(ret.message);
-				               }
+				        	   $progressbar.toggle(); 
+    				           	var ret = eval(data); 
+    				            alert(ret.message);	
+    				            location.reload();
 				           },
 				           error: function(){
+				        	   $progressbar.toggle();
 				        	   alert("批量删除失败，请重试");
 				           }
 				       });
@@ -655,23 +681,24 @@
 				$('#parse-form').submit(function (ev) { 							
 		               var $progressbar = $("#parse-progress-bar");
 		               $progressbar.toggle();
-		               timer($progressbar, 50);	
+// 		               var timmerId = timer($progressbar, 1);	
+		               $('#submit-parse-form').prop('disabled', true);
 					   $.ajax({
 				           type: $(this).attr('method'),
 				           url: $(this).attr('action'),
 				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
 				           dataType: "json",
 				           success: function (data) {
-					           
-				           	$("#parse-form").hide(); 
-				           	var ret = eval(data); 
-				            alert(ret.message);	
-				            location.reload();
+//     				        	finishTimer(timmerId, $progressbar); 
+                                $progressbar.toggle();
+    				           	var ret = eval(data); 
+    				            alert(ret.message);	
+    				            location.reload();
 				           },
 				           error: function(){
-				        	   $("#parse-form").hide();		  
-// 				        	   location.reload();
-				        	   alert("量化模型解析失败，请重试!");
+// 				        	   finishTimer(timmerId, $progressbar);  
+				        	   $progressbar.toggle();
+				        	   alert("量化模型解析失败，请重试!");				        	   
 				           }
 				       });
 
@@ -679,23 +706,21 @@
 				   });
 
 				$('#recommend-form').submit(function (ev) { 		
-					
+		               var $progressbar = $("#recommend-progress-bar");
+		               $progressbar.toggle();					
 					   $.ajax({
 				           type: $(this).attr('method'),
 				           url: $(this).attr('action'),
 				           data: $("#search-form").serialize() + "&"+$(this).serialize(),
 				           dataType: "json",
 				           success: function (data) {
-
+				        	$progressbar.toggle();
 				           	var ret = eval(data);            	
-				               if(ret.success ){
-				                    alert(ret.message);
-				                   	location.reload();
-				               }else{
-				            	   alert(ret.message);
-				               }
+				            alert(ret.message);	
+				            location.reload();
 				           },
 				           error: function(){
+				        	   $progressbar.toggle();
 				        	   alert("推荐失败，请重试!");
 				           }
 				       });
