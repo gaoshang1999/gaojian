@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set('Asia/Shanghai');
-
 require_once __DIR__.'/../vendor/autoload.php';
 
 // Dotenv::load(__DIR__.'/../');
@@ -20,6 +18,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
+
+date_default_timezone_set('Asia/Shanghai');
 
 $app->withFacades();
 
