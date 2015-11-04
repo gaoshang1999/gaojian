@@ -11,14 +11,14 @@
 
 			<h3 class="header smaller lighter blue">推荐列表 </h3>
 		
-					
+	<div class="col-xs-12">				
     <form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/recommend/search') }}">
  
 	  <?php   $table = App\Models\Table::where('cn', '推荐')->first(); ?>
 	@include('admin.common.search_form_element')	  
 
 	</form>
-              
+   </div>       
               
               
      <div class="row">

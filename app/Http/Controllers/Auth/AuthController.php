@@ -67,11 +67,11 @@ class AuthController extends Controller
     }
     protected function authenticated($request, $user)
     {
-        if ($user->role === 0) {
+        if ($user->role === 0 || $user->role === 1) { //管理员、顾问
             return redirect('/admin');
         }
         else {
-            return redirect('/my');
+            return redirect('/web');
         }
     }
     public function postRegister(Request $request)

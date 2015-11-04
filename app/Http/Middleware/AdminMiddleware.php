@@ -34,7 +34,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->user() || $request->user()->role != 0 ) {
+        if (!$request->user() || !($request->user()->role == 0 || $request->user()->role == 1) ) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {

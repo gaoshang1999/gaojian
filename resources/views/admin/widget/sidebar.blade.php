@@ -70,6 +70,13 @@
 						</li>
 						
 						<li>
+							<a href="{{ url('/admin/job') }}">
+								<i class="icon-eye-open"></i>
+								<span class="menu-text"> 作业监控 </span>
+							</a>
+						</li>
+						
+						<li>
 							<a href="{{ url('/admin/constant') }}">
 								<i class="icon-flag"></i>
 								<span class="menu-text"> 常量管理 </span>

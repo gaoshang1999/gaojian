@@ -11,13 +11,15 @@
 	<h3 class="header smaller lighter blue">人才列表</h3>
 
 	
-	
-	<form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
-	<?php   $table = App\Models\Table::where('cn', '人才')->first(); ?>
-	  
-	@include('admin.common.search_form_element')	  
 
-	</form>
+    <div class="col-xs-12">
+    	<form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
+    	<?php   $table = App\Models\Table::where('cn', '人才')->first(); ?>
+    	  
+    	@include('admin.common.search_form_element')	  
+    
+    	</form>
+    </div>
 
 
 	<div class="row">
@@ -328,6 +330,7 @@
 	</div>
 	<!-- batch-delete-modal-form -->
 	
+ 
  
 	<!-- batch-update-modal-form -->
 	
@@ -676,6 +679,8 @@
 
 					   ev.preventDefault();
 				   });
+
+
 
 
 				$('#parse-form').submit(function (ev) { 							

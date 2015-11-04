@@ -380,4 +380,25 @@ class TalentController extends Controller
         return new JsonResponse(['success'=>true, 'message' => '推荐成功，共推荐了'.count($talents).'份简历']);
     }
     
+    
+    public function test(Request $request)
+    {
+        try{           
+            $talents = Talent::orderBy('id', 'desc')->paginate(20);
+                
+            $ids = [];
+            foreach($talents as $t){
+                $ids []= $t->id;
+            }
+            echo  "data=".json_encode(['ids'=>$ids]);
+            echo "<p>";
+ 
+        }catch(Exception $e)
+        {
+            Log::error  ( $e->getMessage());
+            echo json_encode(['ids'=>[]]);
+        }
+         
+        
+    }
 }

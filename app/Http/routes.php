@@ -88,7 +88,8 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->post('talent/recommend', 'TalentController@recommend');
     $app->get('talent/testApi', 'TalentController@testApi');
     $app->post('talent/testApi', 'TalentController@testApi');
-    
+    $app->get('talent/test', 'TalentController@test');
+        
     $app->get('demand',  'DemandController@lists');
     $app->get('demand/add',  'DemandController@add');
     $app->post('demand/add',  'DemandController@add');
@@ -113,4 +114,17 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->post('user/delete/{id}',  'UserController@delete');
     $app->get('user/search', 'UserController@search');
 
+
+    $app->get('job',  'JobController@lists');
+    $app->get('job/add',  'JobController@add');
+    $app->post('job/add',  'JobController@add');
+    $app->get('job/edit/{id}',  'JobController@edit');
+    $app->post('job/edit/{id}',  'JobController@edit');
+    $app->post('job/delete/{id}',  'JobController@delete');
+    $app->get('job/search', 'JobController@search');    
+});
+
+$app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'web', 'middleware' => ['auth.login']], function($app){
+   
+    $app->get('/',  'DemandController@lists');
 });

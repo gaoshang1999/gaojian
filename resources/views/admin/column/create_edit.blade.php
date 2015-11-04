@@ -47,6 +47,7 @@
     					   <option value="integer" @if($column && $column->type =="integer") selected @endif>integer</option>
     					   <option value="float" @if($column && $column->type =="float") selected @endif>float</option>
     					   <option value="date" @if($column && $column->type =="date") selected @endif>date</option>
+    					   <option value="datetime" @if($column && $column->type =="datetime") selected @endif>datetime</option>
     					   <option value="enum" @if($column && $column->type =="enum") selected @endif>enum</option>
     					   <option value="boolean" @if($column && $column->type =="boolean") selected @endif>boolean</option>
     					</select>	

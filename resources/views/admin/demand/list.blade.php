@@ -10,13 +10,15 @@
 <div class="page-content">
 	<h3 class="header smaller lighter blue">需求列表 </h3>
 
+	<div class="col-xs-12">
     <form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/demand/search') }}">
 	  <?php   $table = App\Models\Table::where('cn', '需求')->first(); ?>
 
       @include('admin.common.search_form_element')	  
 
 	</form>
-
+    </div>
+    
 	<div class="row">
 		<div class="col-xs-12">
 		
