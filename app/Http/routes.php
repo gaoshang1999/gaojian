@@ -124,7 +124,15 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->get('job/search', 'JobController@search');    
 });
 
-$app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'web', 'middleware' => ['auth.login']], function($app){
+$app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', 'middleware' => ['auth.login']], function($app){
    
     $app->get('/',  'DemandController@lists');
+    
+    $app->get('demand',  'DemandController@lists');
+    $app->get('demand/add',  'DemandController@add');
+    $app->post('demand/add',  'DemandController@add');
+    $app->get('demand/edit/{id}',  'DemandController@edit');
+    $app->post('demand/edit/{id}',  'DemandController@edit');
+    $app->post('demand/delete/{id}',  'DemandController@delete');
+    $app->get('demand/search', 'DemandController@search');
 });

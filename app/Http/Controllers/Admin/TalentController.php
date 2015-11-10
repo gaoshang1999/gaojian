@@ -241,8 +241,8 @@ class TalentController extends Controller
         
         $count = 0;
         $update = [];
-        
-        if($update_value1){
+
+        if(strlen($update_value1)){
             if($update_method == 0) { //替换            
                $update[$update_field1]=  DB::raw("REPLACE(".$update_field1 .",'".$update_value1."','".$update_replace."')") ;              
             }else if($update_method == 1){ //插入            
@@ -252,11 +252,11 @@ class TalentController extends Controller
             }
         }
         
-        if($update_value2){
+        if(strlen($update_value2)){
             $update[$update_field2]= $update_value2;
         }
         
-        if($update_value3){
+        if(strlen($update_value3)){
             $update[$update_field3]= $update_value3;
         }
         

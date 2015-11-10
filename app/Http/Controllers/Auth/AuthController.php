@@ -71,7 +71,7 @@ class AuthController extends Controller
             return redirect('/admin');
         }
         else {
-            return redirect('/web');
+            return redirect('/front/demand');
         }
     }
     public function postRegister(Request $request)

@@ -4,14 +4,14 @@
   					<!-- sidebar menu start-->
   					<ul class="sidebar-menu">                
   						<li class="active">
-  							<a class="" href="index.html">
+  							<a class="" href="{{ url('/front/demand/') }}">
   								<i class="icon_house_alt"></i>
   								<span>职位管理</span>
   							</a>
   						</li>
 
                 <li>
-                <a class="" href="index-tuijian.html">
+                <a class="" href="{{ url('/front/demand/') }}">
                   <i class="icon_genius"></i>
                   <span>招聘管理</span>
                 </a>

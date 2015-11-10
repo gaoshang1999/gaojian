@@ -3,6 +3,50 @@
 {{-- Content --}}
 @section('content')
 
+  			<!--main content start-->
+  			<section id="main-content">
+  				<section class="wrapper">            
+  					<!--overview start-->
+
+<!-- 			  <div class="row">
+				<div class="col-lg-12">
+					<h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+					<ol class="breadcrumb">
+						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+						<li><i class="fa fa-laptop"></i>Dashboard</li>						  	
+					</ol>
+				</div>
+			</div> -->
+
+
+
+			
+
+
+
+			<!-- Today status end -->
+			
+			<!-- 状态面板 -->
+
+@include('front.widget.profile')
+
+
+<!-- I空行-->
+
+                  <div class="row">
+                                        <div class="col-md-12">
+                                        <hr>
+
+
+                                                      </div>
+
+
+              </div>
+
+
+
+
+
 <!-- Inline搜索 form-->
                   <div class="row">
 
@@ -149,7 +193,7 @@
                            <div class="col-md-2" col-sm-offset-3>
                         
 
-                               <a class="btn btn-warning" href="addzhiwei.html" role="button">新增岗位</a><br><br>
+                               <a class="btn btn-warning" href="{{ url('/front/demand/add') }}" role="button">新增岗位</a><br><br>
 
                       </div>
 
@@ -178,24 +222,30 @@
                      <th><i class="icon_pin_alt"></i> 已面试人数</th>
 
                      <th><i class="icon_mobile"></i> 优先级</th>
-                     <th><i class="icon_cogs"></i> 操作（增加-编辑-删除）</th>
+                     <th><i class="icon_cogs"></i> 操作（编辑-删除）</th>
                  </tr>
+                 @foreach ($demand->all() as $v)
                  <tr>
-                     <td>算法开发工程师</td>
-                     <td>2004-07-06</td>
-                     <td>默认</td>
+                     <td>{{$v-> post_name }} </td>
+                     <td>{{ $v->created_at }}</td>
+                     <td>{{$v-> attach_department }} </td>
                      <td>3</td>
                      <td>10</td>
                      <td>默认</td>
                      <td>
                       <div class="btn-group">
-                           <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a>
-                      <a class="btn btn-warning" href="#"><i class="icon_check_alt2"></i></a>
-                      <a class="btn btn-warning" href="#"><i class="icon_close_alt2"></i></a>
+<!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->
+                      <a class="btn btn-warning" href="{{ url("/front/demand/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
+                      <form action='{{ url("/front/demand/delete/{$v->id}") }}' method="post" class="pull-right">
+    							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
+    									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
+    										<i class="icon_close_alt2"></i>
+    									</button>
+    							</form>
                       </div>
                   </td>
               </tr>
-              
+              @endforeach
     </tbody>
     </table>
     </section>
@@ -207,18 +257,19 @@
         <div class="col-sm-12">
 
          <div>
+         
+         
                                   <ul class="pagination pagination-sm pull-right">
-                                      <li><a href="#">«</a></li>
-                                      <li><a href="#">1</a></li>
-                                      <li><a href="#">2</a></li>
-                                      <li><a href="#">3</a></li>
-                                      <li><a href="#">4</a></li>
-                                      <li><a href="#">5</a></li>
-                                      <li><a href="#">»</a></li>
+                                     {!! $demand->render() !!} 
                                   </ul>
-                              </div>
+         </div>
 
-                               </div>
+       </div>
     </div>
 
+			<!-- project team & activity end -->
+
+		</section>
+	</section>
+<!--main content end-->    
 @endsection

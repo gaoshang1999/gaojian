@@ -19,10 +19,10 @@
 	<link href="/front/css/elegant-icons-style.css" rel="stylesheet" />
 	<link href="/front/css/font-awesome.min.css" rel="stylesheet" />    
 	<!-- full calendar css-->
-	<link href="assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-	<link href="assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
+	<link href="/frontassets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+	<link href="/frontassets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
 	<!-- easy pie chart-->
-	<link href="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="/frontassets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
 	<!-- owl carousel -->
 	<link rel="stylesheet" href="/front/css/owl.carousel.css" type="text/css">
 	<link href="/front/css/jquery-jvectormap-1.2.2.css" rel="stylesheet">
@@ -51,54 +51,8 @@
 
         @include('front.widget.sidebar')
 
-  			<!--main content start-->
-  			<section id="main-content">
-  				<section class="wrapper">            
-  					<!--overview start-->
-
-<!-- 			  <div class="row">
-				<div class="col-lg-12">
-					<h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
-					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-laptop"></i>Dashboard</li>						  	
-					</ol>
-				</div>
-			</div> -->
-
-
-
-			
-
-
-
-			<!-- Today status end -->
-			
-			<!-- 状态面板 -->
-
-@include('front.widget.profile')
-
-
-<!-- I空行-->
-
-                  <div class="row">
-                                        <div class="col-md-12">
-                                        <hr>
-
-
-                                                      </div>
-
-
-              </div>
-
-
 @yield('content')
-
-			<!-- project team & activity end -->
-
-		</section>
-	</section>
-	<!--main content end-->
+	
 </section>
 <!-- container section start -->
 
@@ -191,6 +145,18 @@
 
 
   </script>
+   <script type="text/javascript">
+    function deleleConfirm() {  
+        if(window.confirm('你确定要删除该记录吗？')){
+            //alert("确定");
+            return true;
+         }else{
+            //alert("取消");
+            return false;
+        }
+     }//del end
+
+   </script>	
    @yield('scripts')	
 </body>
 </html>

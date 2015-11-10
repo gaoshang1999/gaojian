@@ -3,76 +3,20 @@
 use App\Http\Controllers\Controller;
 use App\Models\Demand;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class DemandController extends Controller
 {
     
     public function lists(Request $request)
     {
-        $data = ['demand' => Demand::orderBy('id', 'desc')->paginate(20) ];
+        $data = ['demand' => Demand::where('recruit_user', Auth::user()->id)->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.demand.list', $data);
     }
     
     public function queryBulider(Request $request)
     {
-    
-        $q1 = $request['q1'];
-        $op = $request['op'];
-        $field1 = $request['field1'];
-    
-        $q2_start = $request['q2_start'];
-        $q2_end = $request['q2_end'];
-        $field2 = $request['field2'];
-    
-        $q3_start = $request['q3_start'];
-        $q3_end = $request['q3_end'];
-        $field3 = $request['field3'];
-    
-        $search_scope = $request['search_scope'];
-    
-    
-        if( $search_scope == 0 ) { //全库
-            $query = Demand::query();
-        }elseif ($search_scope == 1) { //搜索结果
-            $query_where = json_decode( $request['query_where'], true );
-            $query_bindings = json_decode( $request['query_bindings'], true );
-            $query = Demand::query();
-            if($query_where){
-                $query->getQuery()->wheres = $query_where;
-                $query->getQuery()->setBindings($query_bindings);
-            }
-        }elseif ($search_scope == 2) { //选中项
-            $ids = $request['ids'];
-            $query = Demand::query()->whereIn('id', explode(",", $ids));
-        }
-    
-        if($q1){
-            if($op == "like"){
-                $query = $query->where($field1, $op, '%'.$q1.'%');
-            }else{
-                $query = $query->where($field1, $op, $q1);
-            }
-        }
-    
-        if($q2_start && $q2_end){
-            $query = $query->whereBetween($field2, [$q2_start, $q2_end]);
-        }elseif($q2_start){
-            $query = $query->where($field2, '>=' , $q2_start);
-        }elseif($q2_end){
-            $query = $query->where($field2, '<=' , $q2_end);
-        }
-    
-    
-        if($q3_start && $q3_end){
-            $query = $query->whereBetween($field3, [date('Y-m-d', strtotime($q3_start)),  date('Y-m-d', strtotime($q3_end)) ]);
-        }elseif($q3_start){
-            $query = $query->where($field3, '>=' , date('Y-m-d', strtotime($q3_start)));
-        }elseif($q3_end){
-            $query = $query->where($field3, '<=' , date('Y-m-d', strtotime($q3_end)));
-        }
-    
-        return $query;
+           
     }
     
     public function search(Request $request)
@@ -100,7 +44,7 @@ class DemandController extends Controller
         $bindings = $query->getQuery()->getBindings();
         
         $data = ['demand' => $demand,  'query_where'=> json_encode($wheres? $wheres : ""), 'query_bindings' => json_encode($bindings? $bindings : "")];
-        return view('admin.demand.list', array_merge($data, $param));
+        return view('front.demand.list', array_merge($data, $param));
     }
     
     public function add(Request $request)
@@ -112,14 +56,15 @@ class DemandController extends Controller
             ]);
 
             $input = $request->all();
+            $input['recruit_user'] = Auth::user()->id;
             $demand = Demand::create($input);
                         
             $demand->save(); 
        
-            return redirect('/admin/demand');
+            return redirect('/front/demand');
         }
         else {            
-            return view('admin.demand.create_edit', ['demand' => null] );
+            return view('front.demand.create_edit', ['demand' => null] );
         }
     }
     
@@ -138,10 +83,10 @@ class DemandController extends Controller
             $demand->save();
             
             $referer = $input['referer'];
-            return redirect(empty($referer)?'/admin/demand':$referer);
+            return redirect(empty($referer)?'/front/demand':$referer);
         }
         else {
-            return view('admin.demand.create_edit', ['demand' => $demand] );
+            return view('front.demand.create_edit', ['demand' => $demand] );
         }
     }
     
