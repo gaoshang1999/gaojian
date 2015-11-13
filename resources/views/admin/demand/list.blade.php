@@ -10,8 +10,8 @@
 <div class="page-content">
 	<h3 class="header smaller lighter blue">需求列表 </h3>
 
-	<div class="col-xs-12">
-    <form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/demand/search') }}">
+	<div class="col-sm-12">
+    <form class="form-horizontal" role="form" method="get" id="search-form" action="{{ url('/admin/demand/search') }}">
 	  <?php   $table = App\Models\Table::where('cn', '需求')->first(); ?>
 
       @include('admin.common.search_form_element')	  
@@ -116,7 +116,7 @@
             @endforeach
     					</tbody>												
     				</table> 
-    				<div> {!! $demand->render() !!} <ul class="pagination pull-left"><li><span> <strong>{{$demand->total()==0?0:$demand->toArray()['from']}} - {{$demand->toArray()['to']}} /{{$demand->total()}} </strong></span></li> </ul></div>
+    				<div> {!! $demand->render() !!} <ul class="pagination"><li><span> <strong>{{$demand->total()==0?0:$demand->toArray()['from']}} - {{$demand->toArray()['to']}} /{{$demand->total()}} </strong></span></li> </ul></div>
     			</div>
     		</div>
     	</div><!-- /.row -->

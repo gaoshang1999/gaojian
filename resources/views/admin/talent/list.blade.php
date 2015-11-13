@@ -10,20 +10,19 @@
 <div class="page-content">
 	<h3 class="header smaller lighter blue">人才列表</h3>
 
-	
-
-    <div class="col-xs-12">
-    	<form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
+ 
+    <div class="col-sm-12">
+    	<form class="form-horizontal" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
     	<?php   $table = App\Models\Table::where('cn', '人才')->first(); ?>
     	  
     	@include('admin.common.search_form_element')	  
     
     	</form>
     </div>
-
+ 
 
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-sm-12">
 		
 		<a href="#batch-delete-modal-form" data-toggle="modal" style="margin: 0px 5px;"  
 			class="btn btn-xs btn-danger pull-right" tabindex="4"> <i
@@ -127,7 +126,7 @@
 						@endforeach
 					</tbody>
 				</table>
-				<div>{!! $talent->render() !!}  <ul class="pagination pull-left"><li><span> <strong>{{$talent->total()==0?0:$talent->toArray()['from']}} - {{$talent->toArray()['to']}} /{{$talent->total()}} </strong></span></li> </ul></div>
+				<div>{!! $talent->render() !!}  <ul class="pagination"><li><span> <strong>{{$talent->total()==0?0:$talent->toArray()['from']}} - {{$talent->toArray()['to']}} /{{$talent->total()}} </strong></span></li> </ul></div>
 			</div>
 		</div>
 	</div>

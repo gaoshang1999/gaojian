@@ -8,8 +8,7 @@
 
 
     <div class="page-content">
-     <div class="row">
-		<div class="col-xs-12">
+
 			<h3 class="header smaller lighter blue">Table列表 </h3>
 		
 			<a href="{{ url('/admin/table/add') }}" class="btn btn-xs btn-info pull-right"  tabindex="4">
@@ -29,7 +28,8 @@
                  <input class=" col-xs-10 col-sm-5 pull-left" style="width:300px" type="text" placeholder="" name ="q" value="{{ isset($q) ? $q : "" }}" tabindex="2"/>  
                  <button class="btn btn-xs btn-success  pull-left" type="submit" tabindex="3"><i class="icon-search icon-on-right bigger-160">搜索&nbsp;</i></button>																	
               </form>
-
+     <div class="row">
+		<div class="col-xs-12">
     			<div class="table-responsive">
     				<table id="sample-table-2" class="table table-striped table-bordered table-hover">
     					<thead>

@@ -46,18 +46,19 @@
 
 
 
-
+ <form class="" role="form" method="get" id="search-form" action="{{ url('/front/demand/search') }}">
 <!-- Inline搜索 form-->
                   <div class="row">
 
                   <div class="col-md-2">
                   </div>
 
+
                       <div class="col-md-2">
                         
-                                      <div class="form-group">
-                                          <label class="sr-only" for="exampleInputEmail2">岗位名称关键字</label>
-                                          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="岗位名称关键字">
+                                      <div class="form-group"> <?php $post_name = isset($post_name) ? $post_name : ""; ?>
+                                          <label class="sr-only" for="exampleInputEmail2">职位名称关键字</label>
+                                          <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{$post_name}}">
                                       </div>
                                       
 
@@ -67,9 +68,9 @@
                                      <div class="col-md-2">
                         
                                       
-                                      <div class="form-group">
-                                          <label class="sr-only" for="exampleInputPassword2">关键字</label>
-                                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="关键字">
+                                      <div class="form-group"> <?php $position_description = isset($position_description) ? $position_description : ""; ?>
+                                          <label class="sr-only" for="exampleInputPassword2">职位描述关键字</label>
+                                          <input type="text" class="form-control"  name="position_description" placeholder="关键字" value="{{$position_description}}">
                                       </div>
                                       
 
@@ -104,13 +105,6 @@
 
 
 
-
-
-
-
-
-
-
                   </div>
 
 
@@ -127,33 +121,36 @@
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15">
-                                                  <option>所有岗位</option>
-                                                  <option>算法开发工程师</option>
-                                                  <option>开发经理</option>
+           	<?php  $d1= App\Models\Demand::select('post_name')->whereNotNull('post_name')->where('recruit_user', Auth::user()->id)->distinct() ->get();?>                            
+                                        <select class="form-control m-bot15" name="post_name_2" >
+                                                      <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
+                                           @foreach ($d1->all() as $v)
+                                                  <option value="{{ $v->post_name }}" {{ $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                             @endforeach
                                               </select>
                                            
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15">
-                                                  <option>所有职级</option>
-                                                  <option>开发工程师</option>
-                                                  <option>开发经理</option>
+           <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->distinct() ->get();?>
+                                           
+                                              <select class="form-control m-bot15" name="demand_type_label_1">
+                                                  <option value=0>所有职级</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
+                                           @foreach ($d2->all() as $v)
+                                                  <option value="{{ $v->demand_type_label_1}}" {{ $demand_type_label_1== $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
+                                             @endforeach
                                               </select>
                                            
                                           </div>
              <div class="col-md-2" col-sm-offset-3>
                                        
-                                              <select class="form-control m-bot15">
-                                                  <option>所有状态</option>
-                                                  <option>offer进度中</option>
-                                                  <option>面试进度中</option>
-                                                  <option>面试前评审进度中</option>
-                                                  <option>无推荐流程候选人</option>
-                                                  <option>其他</option>
+                                              <select class="form-control m-bot15"  name="recommend_flow_status_label_3">  <?php $recommend_flow_status_label_3 = isset($recommend_flow_status_label_3) ? $recommend_flow_status_label_3 : ""; ?>
+                                                  <option value="0">所有状态</option>
+                                                  <option value="offer进度中">offer进度中</option>
+                                                  <option value="面试进度中">面试进度中</option>
+                                                  <option value="面试前评审进度中">面试前评审进度中</option>
+                                                  <option value="无推荐流程候选人">无推荐流程候选人</option>
+                                                  <option value="其他">其他</option>
 
                                               </select>
                                            
@@ -161,12 +158,12 @@
 
               <div class="col-md-2" col-sm-offset-3>
                                        
-                                              <select class="form-control m-bot15">
-                                                  <option>全部发布时间</option>
-                                                  <option>3天内</option>
-                                                  <option>1周内</option>
-                                                  <option>2周内</option>
-                                                  <option>1月内</option>
+                                              <select class="form-control m-bot15" name="updated_at">  <?php $updated_at = isset($updated_at) ? $updated_at : ""; ?>
+                                                  <option value="0" >全部发布时间</option>
+                                                  <option value="-3 day"  {{ $updated_at== "-3 day" ?	'selected' : '' }}>3天内</option>
+                                                  <option value="-7 day"  {{ $updated_at== "-7 day" ?	'selected' : '' }}>1周内</option>
+                                                  <option value="-14 day"  {{ $updated_at== "-14 day" ?	'selected' : '' }}>2周内</option>
+                                                  <option value="-1 month" {{ $updated_at== "-1 month" ?	'selected' : '' }}>1月内</option>
                                               </select>
                                            
                                           </div>
@@ -181,8 +178,8 @@
 
 
 
-                                          </div>
-
+   </div>
+</form>
 
 
 

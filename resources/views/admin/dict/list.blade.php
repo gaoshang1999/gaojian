@@ -8,8 +8,7 @@
 
 
     <div class="page-content">
-     <div class="row">
-		<div class="col-xs-12">
+
 			<h3 class="header smaller lighter blue">词根列表 </h3>
 		
 			<a href="{{ url('/admin/dict/add') }}" class="btn btn-xs btn-info pull-right"  tabindex="4">
@@ -30,6 +29,8 @@
                  <button class="btn btn-xs btn-success  pull-left" type="submit" tabindex="3"><i class="icon-search icon-on-right bigger-160">搜索&nbsp;</i></button>																	
               </form>
 
+      <div class="row">
+		<div class="col-xs-12">
     			<div class="table-responsive">
     				<table id="main-table" class="table table-striped table-bordered table-hover">
     					<thead>

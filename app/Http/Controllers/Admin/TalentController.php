@@ -182,7 +182,8 @@ class TalentController extends Controller
                 $path = base_path($public .$destinationPath . $fileName);
                
                if(strtolower($extension) == "txt"){
-                   $content = file_get_contents($path);
+                   $filename = $path;
+                   $content = file_get_contents($filename);
                    $content = iconv("GBK","UTF-8",  $content);
                    $data = ['resume'=> $content, 'user_id' => $user->id];
                                       
@@ -217,7 +218,7 @@ class TalentController extends Controller
             } //end if        
         }catch(Exception $e)
         {
-            return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试.'.$e->getMessage()]);
+            return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试. 文件名:'.$filename.",错误原因:".$e->getMessage()]);
         }
               
         return new JsonResponse(['success'=>false, 'message' => '上传失败,请重试']);

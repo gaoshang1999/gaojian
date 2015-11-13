@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                       <label class="col-sm-2 control-label">工作时间下限</label>
                                       <div class="col-sm-8">
-                                          <input type="number" id="work_year_requirement"
+                                          <input type="text" id="work_year_requirement"
 			name="work_year_requirement" placeholder="工作年限要求" min="0" step="0.01"
 			class="form-control"
 			value="{{ old('work_year_requirement', $demand  ? $demand-> work_year_requirement : '') }}" />
@@ -73,7 +73,7 @@
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">工作时间上限</label>
                                       <div class="col-sm-8">
-                                          <input type="number" id="demand_type_parameter_1"
+                                          <input type="text" id="demand_type_parameter_1"
 			name="demand_type_parameter_1" placeholder="需求类型参数1" min="0"
 			step="0.01" class="form-control"
 			value="{{ old('demand_type_parameter_1', $demand  ? $demand-> demand_type_parameter_1 : '') }}" />
@@ -93,7 +93,7 @@
 
                                           <div class="form-group">
                                       <label class="col-sm-2 control-label">管理人数</label>
-                                        <div class="col-md-4" col-sm-offset-3>
+                                        <div class="col-md-8" col-sm-offset-3>
                                        
 <!--                                               <select class="form-control m-bot15"> -->
 <!--                                                   <option>未知</option> -->
@@ -102,7 +102,7 @@
 <!--                                                   <option>5-10</option> -->
 <!--                                                   <option>大于10</option> -->
 <!--                                               </select> -->
-                                           		<input type="number" id="subordinate_person_numbers"
+                                           		<input type="text" id="subordinate_person_numbers"
 			name="subordinate_person_numbers" placeholder="下属人数" min="0"
 			step="0.01" class="form-control"
 			value="{{ old('subordinate_person_numbers', $demand  ? $demand-> subordinate_person_numbers : '') }}" />
@@ -114,7 +114,7 @@
                                 <div class="form-group">
                                       <label class="col-sm-2 control-label">税前年薪下限（万元RMB)</label>
                                       <div class="col-sm-8">
-                                          <input type="number" id="pretax_annual_salary"
+                                          <input type="text" id="pretax_annual_salary"
 			name="pretax_annual_salary" placeholder="税前年薪" min="0" step="0.01"
 			class="form-control"
 			value="{{ old('pretax_annual_salary', $demand  ? $demand-> pretax_annual_salary : '') }}" />
@@ -124,7 +124,7 @@
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">税前年薪上限（万元RMB)</label>
                                       <div class="col-sm-8">
-                                    <input type="number" id="demand_type_parameter_2"
+                                    <input type="text" id="demand_type_parameter_2"
 			name="demand_type_parameter_2" placeholder="需求类型参数2" min="0"
 			step="0.01" class="form-control"
 			value="{{ old('demand_type_parameter_2', $demand  ? $demand-> demand_type_parameter_2 : '') }}" />
@@ -134,7 +134,7 @@
 
                                     <div class="form-group">
                                       <label class="col-sm-2 control-label">福利待遇</label>
-                                        <div class="col-md-4" col-sm-offset-3>
+                                        <div class="col-md-8" col-sm-offset-3>
                                        
 <!--                                               <select class="form-control m-bot15"> -->
 <!--                                                   <option>未知</option> -->
@@ -152,7 +152,7 @@
 
                                          <div class="form-group">
                                       <label class="col-sm-2 control-label">招聘周期</label>
-                                        <div class="col-md-4" col-sm-offset-3>
+                                        <div class="col-md-8" col-sm-offset-3>
                                        
 <!--                                               <select class="form-control m-bot15"> -->
 <!--                                                   <option>未知</option> -->
@@ -163,7 +163,7 @@
 <!--                                                   <option>其他</option> -->
 <!--                                               </select> -->
                                            
-                                           <input type="number" id="recruit_period" name="recruit_period"
+                                           <input type="text" id="recruit_period" name="recruit_period"
 			placeholder="招聘周期" min="0" step="0.01" class="form-control"
 			value="{{ old('recruit_period', $demand  ? $demand-> recruit_period : '') }}" />
                                            
@@ -214,14 +214,16 @@
                                          <div class="form-group">
                                       <label class="col-sm-2 control-label">年龄下限</label>
                                       <div class="col-sm-8">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" name="age_requirement"
+			value="{{ old('age_requirement', $demand  ? $demand-> age_requirement : '') }}" />
                                       </div>
                                   </div>
 
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">年龄上限</label>
                                       <div class="col-sm-8">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" name="age_requirement"
+			value="{{ old('age_requirement', $demand  ? $demand-> age_requirement : '') }}" />
                                       </div>
                                   </div>
 
@@ -229,16 +231,16 @@
 
                                          <div class="form-group">
                                                   <label class="control-label col-sm-2">职位描述</label>
-                                                  <div class="col-sm-10">
-                                                      <textarea class="form-control ckeditor" name="position_description" rows="6"></textarea>
+                                                  <div class="col-sm-8">
+                                                      <textarea class="form-control ckeditor" name="position_description" rows="6">{{ old('position_description', $demand  ? $demand-> position_description : '') }}</textarea>
                                                   </div>
                                               </div>
 
 
                                               <div class="form-group">
                                                   <label class="control-label col-sm-2">补充信息</label>
-                                                  <div class="col-sm-10">
-                                                      <textarea class="form-control ckeditor" name="additional_specification" rows="10"></textarea>
+                                                  <div class="col-sm-8">
+                                                      <textarea class="form-control ckeditor" name="additional_specification" rows="10">{{ old('additional_specification', $demand  ? $demand-> additional_specification : '') }}</textarea>
                                                   </div>
                                               </div>
 
@@ -253,7 +255,8 @@
 
 
 
-
+							<input type="hidden" name="referer"
+								value="{{ Request::header('referer') }}" />
 
                      
                                   </div>

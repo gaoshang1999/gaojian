@@ -15,8 +15,7 @@ class DemandController extends Controller
     }
     
     public function queryBulider(Request $request)
-    {
-    
+    {    
         $q1 = $request['q1'];
         $op = $request['op'];
         $field1 = $request['field1'];

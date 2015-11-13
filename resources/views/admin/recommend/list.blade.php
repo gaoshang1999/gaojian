@@ -11,8 +11,8 @@
 
 			<h3 class="header smaller lighter blue">推荐列表 </h3>
 		
-	<div class="col-xs-12">				
-    <form class="form-group   form-inline" role="form" method="get" id="search-form" action="{{ url('/admin/recommend/search') }}">
+	<div class="col-sm-12">				
+    <form class="form-horizontal" role="form" method="get" id="search-form" action="{{ url('/admin/recommend/search') }}">
  
 	  <?php   $table = App\Models\Table::where('cn', '推荐')->first(); ?>
 	@include('admin.common.search_form_element')	  
@@ -112,7 +112,7 @@
             @endforeach
     					</tbody>												
     				</table> 
-    				<div> {!! $recommend->render() !!}  <ul class="pagination pull-left"><li><span> <strong>{{$recommend->total()==0?0:$recommend->toArray()['from']}} - {{$recommend->toArray()['to']}} /{{$recommend->total()}} </strong></span></li> </ul></div>
+    				<div> {!! $recommend->render() !!}  <ul class="pagination"><li><span> <strong>{{$recommend->total()==0?0:$recommend->toArray()['from']}} - {{$recommend->toArray()['to']}} /{{$recommend->total()}} </strong></span></li> </ul></div>
     			</div>
     		</div>
     	</div><!-- /.row -->

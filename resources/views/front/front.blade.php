@@ -19,20 +19,20 @@
 	<link href="/front/css/elegant-icons-style.css" rel="stylesheet" />
 	<link href="/front/css/font-awesome.min.css" rel="stylesheet" />    
 	<!-- full calendar css-->
-	<link href="/frontassets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-	<link href="/frontassets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<!-- 	<link href="/front/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" /> -->
+<!-- 	<link href="/front/assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" /> -->
 	<!-- easy pie chart-->
-	<link href="/frontassets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+<!-- 	<link href="/front/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/> -->
 	<!-- owl carousel -->
-	<link rel="stylesheet" href="/front/css/owl.carousel.css" type="text/css">
+<!-- 	<link rel="stylesheet" href="/front/css/owl.carousel.css" type="text/css"> -->
 	<link href="/front/css/jquery-jvectormap-1.2.2.css" rel="stylesheet">
 	<!-- Custom styles -->
-	<link rel="stylesheet" href="/front/css/fullcalendar.css">
+<!-- 	<link rel="stylesheet" href="/front/css/fullcalendar.css"> -->
 	<link href="/front/css/widgets.css" rel="stylesheet">
 	<link href="/front/css/style.css" rel="stylesheet">
 	<link href="/front/css/style-responsive.css" rel="stylesheet" />
-	<link href="/front/css/xcharts.min.css" rel=" stylesheet">	
-	<link href="/front/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+<!-- 	<link href="/front/css/xcharts.min.css" rel=" stylesheet">	 -->
+<!-- 	<link href="/front/css/jquery-ui-1.10.4.min.css" rel="stylesheet"> -->
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
       <script src="/front/js/html5shiv.js"></script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Demand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 class DemandController extends Controller
 {
     
@@ -16,34 +17,65 @@ class DemandController extends Controller
     
     public function queryBulider(Request $request)
     {
-           
+        //搜索
+        $post_name = $request['post_name'];
+        $position_description = $request['position_description'];
+
+        $query = Demand::query()->where('recruit_user',  Auth::user()->id); 
+        if(strlen($post_name)){
+            $query = $query->where('post_name', 'like', '%'.$post_name.'%');
+        }
+        
+        if(strlen($position_description)){
+            $query = $query->where('position_description', 'like', '%'.$position_description.'%');
+        }
+        //过滤
+        $post_name_2 = $request['post_name_2'];
+        $demand_type_label_1 = $request['demand_type_label_1'];
+        $recommend_flow_status_label_3 = $request['recommend_flow_status_label_3'];
+        $updated_at= $request['updated_at'];
+        
+        if($post_name_2){
+            $query = $query->where('post_name',  $post_name_2);
+        }
+        
+        if($demand_type_label_1){
+            $query = $query->where('demand_type_label_1',  $demand_type_label_1);
+        }
+        
+        if($recommend_flow_status_label_3){
+            $query =  $query ->whereExists(function ($query)  use ($recommend_flow_status_label_3){
+               $query->select(DB::raw(1))
+                ->from('recommend')
+                ->where('recommend.recommend_flow_status_label_3', $recommend_flow_status_label_3)
+                ->whereRaw('gj_recommend.demand_id = gj_demand.id')             ;
+            });
+        }
+        
+        if($updated_at){
+            $query = $query->where('updated_at', '>=',  date('Y-m-d H:i:s',strtotime($updated_at)));
+        }
+        
+        return $query;
     }
     
     public function search(Request $request)
     {     
-        $query = $this->queryBulider($request);
+        $query = $this->queryBulider($request); 
          
-        $demand = $query -> orderBy('id', 'desc')-> paginate(20) ;
-        $demand ->appends(['q1' => $request['q1']]);
-        $demand ->appends(['op' => $request['op']]);
-        $demand ->appends(['field1' => $request['field1']]);
-        $demand ->appends(['q2_start' => $request['q2_start']]);
-        $demand ->appends(['q2_end' => $request['q2_end']]);
-        $demand ->appends(['field2' => $request['field2']]);
-        $demand ->appends(['q3_start' => $request['q3_start']]);
-        $demand ->appends(['q3_end' => $request['q3_end']]);
-        $demand ->appends(['field3' => $request['field3']]);
-        $demand ->appends(['search_scope' => $request['search_scope']]);
+        $demand = $query -> orderBy('id', 'desc')-> paginate(10) ;
+        $demand ->appends(['post_name' => $request['post_name']]);
+        $demand ->appends(['position_description' => $request['position_description']]);
+        $demand ->appends(['post_name_2' => $request['post_name_2']]);
+        $demand ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
+        $demand ->appends(['updated_at' => $request['updated_at']]);
         
-        $param = ['q1' => $request['q1'], 'op' => $request['op'], 'field1' => $request['field1'],
-            'q2_start' =>$request['q2_start'] , 'q2_end' =>$request['q2_end'] , 'field2' => $request['field2'],
-            'q3_start' =>$request['q3_start'] , 'q3_end' =>$request['q3_end'] , 'field3' => $request['field3'],
-            'search_scope' => $request['search_scope']
-        ];
-        $wheres = $query->getQuery()->wheres;
-        $bindings = $query->getQuery()->getBindings();
+        $param = ['post_name' => $request['post_name'], 'position_description' => $request['position_description'] 
+            , 'post_name_2' => $request['post_name_2'], 'demand_type_label_1' => $request['demand_type_label_1']
+            , 'updated_at' => $request['updated_at'] 
+         ];
         
-        $data = ['demand' => $demand,  'query_where'=> json_encode($wheres? $wheres : ""), 'query_bindings' => json_encode($bindings? $bindings : "")];
+        $data = ['demand' => $demand];
         return view('front.demand.list', array_merge($data, $param));
     }
     
