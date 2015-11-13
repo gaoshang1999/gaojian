@@ -41,7 +41,7 @@ Schema::create('demand', function (Blueprint $table) {
   $table->string('demand_label_3', 30) ->nullable(); 
   $table->string('demand_label_4', 30) ->nullable(); 
   $table->string('demand_label_5') ->nullable(); 
-  $table->float('demand_parameter_1') ->nullable(); 
+  $table->float('demand_parameter_1') ->default(0);
   $table->float('demand_parameter_2') ->nullable(); 
   $table->float('demand_parameter_3') ->nullable(); 
   $table->float('demand_parameter_4') ->nullable(); 

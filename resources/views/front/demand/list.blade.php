@@ -70,7 +70,7 @@
                                       
                                       <div class="form-group"> <?php $position_description = isset($position_description) ? $position_description : ""; ?>
                                           <label class="sr-only" for="exampleInputPassword2">职位描述关键字</label>
-                                          <input type="text" class="form-control"  name="position_description" placeholder="关键字" value="{{$position_description}}">
+                                          <input type="text" class="form-control"  name="position_description" placeholder="职位描述关键字" value="{{$position_description}}">
                                       </div>
                                       
 
@@ -121,23 +121,23 @@
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           	<?php  $d1= App\Models\Demand::select('post_name')->whereNotNull('post_name')->where('recruit_user', Auth::user()->id)->distinct() ->get();?>                            
+           	<?php  $d1= App\Models\Demand::select('post_name')->whereNotNull('post_name')->where('recruit_user', Auth::user()->id) ->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>                            
                                         <select class="form-control m-bot15" name="post_name_2" >
                                                       <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
                                            @foreach ($d1->all() as $v)
-                                                  <option value="{{ $v->post_name }}" {{ $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->post_name }}" {{ !is_null($post_name_2) && $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
                                              @endforeach
                                               </select>
                                            
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->distinct() ->get();?>
+           <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>
                                            
                                               <select class="form-control m-bot15" name="demand_type_label_1">
-                                                  <option value=0>所有职级</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
+                                                  <option value=0>所有职能</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
                                            @foreach ($d2->all() as $v)
-                                                  <option value="{{ $v->demand_type_label_1}}" {{ $demand_type_label_1== $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
+                                                  <option value="{{ $v->demand_type_label_1}}" {{ !is_null($demand_type_label_1) &&$demand_type_label_1== $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
                                              @endforeach
                                               </select>
                                            

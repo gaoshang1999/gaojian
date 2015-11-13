@@ -10,7 +10,8 @@ class DemandController extends Controller
     
     public function lists(Request $request)
     {
-        $data = ['demand' => Demand::where('recruit_user', Auth::user()->id)->orderBy('id', 'desc')->paginate(10) ];
+        //查询当前用户的，未删除数据
+        $data = ['demand' => Demand::where('recruit_user', Auth::user()->id)->where('demand_parameter_1', '<>',  2)->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.demand.list', $data);
     }
@@ -20,8 +21,8 @@ class DemandController extends Controller
         //搜索
         $post_name = $request['post_name'];
         $position_description = $request['position_description'];
-
-        $query = Demand::query()->where('recruit_user',  Auth::user()->id); 
+        //查询当前用户的，未删除数据
+        $query = Demand::query()->where('recruit_user',  Auth::user()->id) ->where('demand_parameter_1', '<>',  2); 
         if(strlen($post_name)){
             $query = $query->where('post_name', 'like', '%'.$post_name.'%');
         }
@@ -79,13 +80,52 @@ class DemandController extends Controller
         return view('front.demand.list', array_merge($data, $param));
     }
     
+    public function rules()
+    {
+        return [
+            'post_name' => 'required|max:30',
+            'demand_type_label_1' => 'required|max:30',
+            
+            'work_location' => 'required|max:30',
+            'work_year_requirement' => 'required|numeric|min:0',
+            'demand_type_parameter_1' => 'required|numeric|min:0',
+            
+            'education_requirement' => 'required|numeric|min:0',
+            'position_description' => 'required', 
+
+            'subordinate_person_number' => 'numeric|min:0',
+            'pretax_annual_salary' => 'numeric|min:0',
+            'demand_type_parameter_2' => 'numeric|min:0',
+            'age_requirement' => 'numeric|min:0',
+            'occupation_parameter_1' => 'numeric|min:0',
+        ];
+    }
+    
+    public function customAttributes()
+    {
+        return [
+            'post_name' => '职位名称',
+            'demand_type_label_1' => '职能',
+    
+            'work_location' => '工作地点',
+            'work_year_requirement' => '工作时间下限',
+            'demand_type_parameter_1' => '工作时间上限',
+    
+            'education_requirement' => '最低学历要求',
+            'position_description' => '职位描述',
+    
+            'subordinate_person_number' => '管理人数',
+            'pretax_annual_salary' => '税前年薪',
+            'demand_type_parameter_2' => '税前年薪上限',
+            'age_requirement' => '年龄下限',
+            'occupation_parameter_1' => '年龄上限',
+        ];
+    }
+    
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [
-//                 'cn' => 'required|max:255|unique:demand',
-//                 'en' => 'required|max:255',                         
-            ]);
+            $this->validate($request,  $this->rules(), [],  $this->customAttributes());
 
             $input = $request->all();
             $input['recruit_user'] = Auth::user()->id;
@@ -104,10 +144,7 @@ class DemandController extends Controller
     {
         $demand = Demand::where('id', $id)->first();
         if ($request->isMethod('post')) {
-            $this->validate($request, [
-//                 'cn' => 'required|max:255|unique:demand,cn,'.$demand->id,
-//                 'en' => 'required|max:255',
-            ]);
+            $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
             $input = $request->all();
             $demand->fill($input);
@@ -124,7 +161,7 @@ class DemandController extends Controller
     
     public function delete(Request $request, $id)
     {
-        Demand::where('id', $id)->delete();
+        Demand::where('id', $id)->update(['demand_parameter_1'=> 2]);
         return redirect($request->header('referer'));
     }
 }

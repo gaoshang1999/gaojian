@@ -105,7 +105,7 @@
 
 					<div class="col-sm-9">
 						<input type="text" id="cn_segment" name="cn_segment" placeholder="中文分词"
-							class="col-xs-10 col-sm-5" value="{{ old('cn_segment', $column ? $column->cn_segment : '') }}"/>
+							class="col-xs-10 col-sm-5" value="{{ old('cn_segment', $column ? $column->cn_segment : '') }}" disabled/>
 					</div>
 				</div>
 				
@@ -115,7 +115,7 @@
 
 					<div class="col-sm-9">
 						<input type="text" id="en" name="en" placeholder="英文名称"
-							class="col-xs-10 col-sm-5" value="{{ old('en', $column ? $column->en : '') }}"/>
+							class="col-xs-10 col-sm-5" value="{{ old('en', $column ? $column->en : '') }}"  disabled/>
 					</div>
 				</div>	
 				
@@ -124,11 +124,10 @@
 				
 			   <div class="form-group">
 					<label class="col-sm-3 control-label no-padding-right"
-						for="abbr"> 描述  </label>
+						for="desc"> 描述  </label>
 
 					<div class="col-sm-9">
-						<input type="text" id="abbr" name="abbr" placeholder="描述"
-							class="col-xs-10 col-sm-5" value="{{ old('abbr', $column ? $column->abbr : '') }}"/>
+							<textarea class="col-xs-10 col-sm-5" name="desc" rows="6">{{ old('desc', $column ? $column->desc : '') }}</textarea>
 					</div>
 				</div>
 				

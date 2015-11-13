@@ -43,6 +43,7 @@
                                 <th>长度</th>	
                                 <th>取值范围</th>	
                                 <th>默认取值</th>
+                                <th>描述</th>
                                 <th>表</th>		
     							<th>
     								<i class="icon-time bigger-110 hidden-480"></i>
@@ -68,6 +69,7 @@
     							<td>{{ $v->length }}</td>
     							<td>{{ $v->value_range }}</td>
     							<td>{{ $v->default }}</td>
+    							<td>{{ $v->desc }}</td>
     							<td>{{ $v->table->cn }}</td>
     							<td>{{ $v->created_at }}</td>
     
