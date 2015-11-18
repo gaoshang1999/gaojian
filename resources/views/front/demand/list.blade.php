@@ -36,11 +36,7 @@
                   <div class="row">
                                         <div class="col-md-12">
                                         <hr>
-
-
-                                                      </div>
-
-
+                                          </div>
               </div>
 
 
@@ -129,7 +125,7 @@
                                              @endforeach
                                               </select>
                                            
-                                          </div>
+           </div>
 
            <div class="col-md-2" col-sm-offset-3>
            <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>
@@ -154,7 +150,7 @@
 
                                               </select>
                                            
-                                          </div>
+            </div>
 
               <div class="col-md-2" col-sm-offset-3>
                                        
@@ -166,7 +162,7 @@
                                                   <option value="-1 month" {{ $updated_at== "-1 month" ?	'selected' : '' }}>1月内</option>
                                               </select>
                                            
-                                          </div>
+          </div>
 
 
 
@@ -254,11 +250,9 @@
         <div class="col-sm-12">
 
          <div>
-         
-         
-                                  <ul class="pagination pagination-sm pull-right">
-                                     {!! $demand->render() !!} 
-                                  </ul>
+                  <ul class="pagination pagination-sm pull-right">
+                     {!! $demand->render() !!} 
+                  </ul>
          </div>
 
        </div>

@@ -82,8 +82,7 @@
 									</button>
 								</div>
 							</div>
-							<input type="hidden" name="referer"
-								value="{{ Request::header('referer') }}" />
+							<input type="hidden" name="referer"		value="{{ Request::header('referer') }}" />
 						</form>
 					</div>
 					

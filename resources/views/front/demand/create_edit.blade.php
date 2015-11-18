@@ -247,7 +247,8 @@
                                               <div class="form-group">
                                           <div class="col-lg-offset-4 col-lg-8">
                                               <button class="btn btn-primary" type="submit">保存</button>
-                                             <button class="btn btn-warning"  role="button" onclick="{{ url('/front/demand/' )}}">返回</button><br>
+                                             <a class="btn btn-warning" href="{{ url('/front/demand/' )}}">返回</a>
+                                             <br>
 
                                           </div>
                                           </div>
@@ -258,20 +259,13 @@
 							<input type="hidden" name="referer"
 								value="{{ Request::header('referer') }}" />
 
-                     
-                                  </div>
-                              </form>
-                          </div>
-                      </section>
-
-                      </div>  <!-- col end-->
-
-
+                     </form>
+                        </div>
+                       </section>       
+                      
+                    </div>  <!-- col end-->
             
                     </div>  <!-- row end-->
-
-
-
 
               <!-- page end-->
           </section>

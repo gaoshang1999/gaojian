@@ -31,6 +31,7 @@
 	<link href="/front/css/widgets.css" rel="stylesheet">
 	<link href="/front/css/style.css" rel="stylesheet">
 	<link href="/front/css/style-responsive.css" rel="stylesheet" />
+	
 <!-- 	<link href="/front/css/xcharts.min.css" rel=" stylesheet">	 -->
 <!-- 	<link href="/front/css/jquery-ui-1.10.4.min.css" rel="stylesheet"> -->
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
@@ -57,12 +58,12 @@
 <!-- container section start -->
 
 <!-- javascripts -->
-<!-- <script src="/front/js/jquery.js"></script> -->
+<script src="/front/js/jquery.js"></script>
 <!-- <script src="/front/js/jquery-ui-1.10.4.min.js"></script> -->
-<!-- <script src="/front/js/jquery-1.8.3.min.js"></script> -->
+<script src="/front/js/jquery-1.8.3.min.js"></script>
 <!-- <script type="text/javascript" src="/front/js/jquery-ui-1.9.2.custom.min.js"></script> -->
 <!-- <!-- bootstrap --> -->
-<!-- <script src="/front/js/bootstrap.min.js"></script> -->
+<script src="/front/js/bootstrap.min.js"></script>
 <!-- <!-- nice scroll --> -->
 <!-- <script src="/front/js/jquery.scrollTo.min.js"></script> -->
 <!-- <script src="/front/js/jquery.nicescroll.js" type="text/javascript"></script> -->
@@ -145,6 +146,21 @@
 
 
   </script>
+  <script type="text/javascript">
+    jQuery(function($) {
+
+	    $("#sidebar li a").each(function(){    
+
+	     var reg=new RegExp("^"+$(this).attr("href"));  
+		 if(reg.test(window.location) ) 	      
+         { 
+        	 $(this).parents("li").siblings().removeClass("active");
+        	 $(this).parents("li").addClass("active");
+         }
+        });
+        
+	 });
+</script>	
    <script type="text/javascript">
     function deleleConfirm() {  
         if(window.confirm('你确定要删除该记录吗？')){
@@ -158,5 +174,7 @@
 
    </script>	
    @yield('scripts')	
+   
+
 </body>
 </html>

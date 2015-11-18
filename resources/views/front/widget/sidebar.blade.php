@@ -11,7 +11,7 @@
   						</li>
 
                 <li>
-                <a class="" href="{{ url('/front/demand/') }}">
+                <a class="" href="{{ url('/front/recommend/') }}">
                   <i class="icon_genius"></i>
                   <span>招聘管理</span>
                 </a>

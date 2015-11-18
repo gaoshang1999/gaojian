@@ -135,4 +135,12 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('demand/edit/{id}',  'DemandController@edit');
     $app->post('demand/delete/{id}',  'DemandController@delete');
     $app->get('demand/search', 'DemandController@search');
+    
+    $app->get('recommend',  'RecommendController@lists');
+    $app->get('recommend/add',  'RecommendController@add');
+    $app->post('recommend/add',  'RecommendController@add');
+    $app->get('recommend/edit/{id}',  'RecommendController@edit');
+    $app->post('recommend/edit/{id}',  'RecommendController@edit');
+    $app->post('recommend/delete/{id}',  'RecommendController@delete');
+    $app->get('recommend/search', 'RecommendController@search');
 });
