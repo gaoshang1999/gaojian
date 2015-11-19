@@ -208,6 +208,7 @@
               <table class="table table-striped table-advance table-hover">
                <tbody>
                   <tr>
+                     <th><i class="icon_profile"></i> #</th>
                      <th><i class="icon_profile"></i> 岗位</th>
                      <th><i class="icon_calendar"></i> 发布时间</th>
                      <th><i class="icon_pin_alt"></i> 部门</th>
@@ -219,7 +220,8 @@
                  </tr>
                  @foreach ($demand->all() as $v)
                  <tr>
-                     <td>{{$v-> id }} - {{$v-> post_name }} </td>
+                    <td>{{$v-> id }} </td>
+                     <td>{{$v-> post_name }} </td>
                      <td>{{ $v->created_at }}</td>
                      <td>{{$v-> attach_department }} </td>
                      <td>{{ $v->recommends()->get()->count() }}</td>
