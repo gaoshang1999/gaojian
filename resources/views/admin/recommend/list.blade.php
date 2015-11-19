@@ -22,12 +22,11 @@
               
               
      <div class="row">
-		<div class="col-xs-12">
-		
+
 			<a href="{{ url('/admin/recommend/add') }}" class="btn btn-xs btn-info pull-right"  tabindex="4">
 				<i class="icon-plus bigger-160">&nbsp;新增</i>
 			</a>
-              
+ 		<div class="col-xs-12">             
     			<div class="table-responsive">
     				<table id="main-table" class="table table-striped table-bordered table-hover">
     					<thead>

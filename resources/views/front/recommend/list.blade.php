@@ -141,53 +141,35 @@
                                        
                                        
                                               <select class="form-control m-bot15"  name="recommend_flow_status_label_3">  <?php $recommend_flow_status_label_3 = isset($recommend_flow_status_label_3) ? $recommend_flow_status_label_3 : ""; ?>
-                                                  <option value="0">所有状态</option>
+                                                  <option value="不含流程外候选人">有效进度中所有</option>
                                                   <option value="offer进度中" {{ $recommend_flow_status_label_3== "offer进度中" ?	'selected' : '' }}>offer进度中</option>
                                                   <option value="面试进度中" {{ $recommend_flow_status_label_3== "面试进度中" ?	'selected' : '' }}>面试进度中</option>
                                                   <option value="面试前评审进度中" {{ $recommend_flow_status_label_3== "面试前评审进度中" ?	'selected' : '' }}>面试前评审进度中</option>
+                                                  <option value="流程外候选人" {{ $recommend_flow_status_label_3== "流程外候选人" ?	'selected' : '' }}>流程外候选人</option>                                                  
                                               </select>
                                            
            </div>
 
               <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15" name="remind_time">  <?php $remind_time = isset($remind_time) ? $remind_time : ""; ?>
+                                       <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
+                                              <select class="form-control m-bot15" name="$recommend_flow_parameter_2">  <?php $recommend_flow_parameter_2 = isset($recommend_flow_parameter_2) ? $recommend_flow_parameter_2 : ""; ?>
                                                   <option value="0" >所有提醒时间</option>
-                                                  <option value="-2 hour"  {{ $remind_time== "-2 hour" ?	'selected' : '' }}>2小时内</option>
-                                                  <option value="-1 day"  {{ $remind_time== "-1 day" ?	'selected' : '' }}>1天内</option>
-                                                  <option value="-2 day"  {{ $remind_time== "-2 day" ?	'selected' : '' }}>2天内</option>                                                  
-                                                  <option value="-7 day"  {{ $remind_time== "-7 day" ?	'selected' : '' }}>1周内</option>
-                                                  <option value="-14 day"  {{ $remind_time== "-14 day" ?	'selected' : '' }}>2周内</option>
-                                                  <option value="-15 day" {{ $remind_time== "-1 month" ?	'selected' : '' }}>大于2周</option>
+                                                   @foreach($constant as $c)
+			                                         <option value="{{ $c->k }}" @if($recommend_flow_parameter_2  ==$c->k ) selected @endif >{{ $c->v }}</option> 
+			                                        @endforeach
+
                                               </select>
                                            
             </div>
 
              <div class="col-md-2" col-sm-offset-3>
-                                       
+                                       <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_1')->orderBy('k')->get();?>
                                               <select class="form-control m-bot15" name="recommend_flow_parameter_1"> <?php $recommend_flow_parameter_1 = isset($recommend_flow_parameter_1) ? $recommend_flow_parameter_1 : ""; ?>
                                                  <option value="0">所有状态</option>
-                                                <option value='1' {{$recommend_flow_parameter_1== '1' ?	'selected' : ''}} >未联系</option>
-                                                <option value='2' {{$recommend_flow_parameter_1== '2' ?	'selected' : ''}} >占线关机信号不好</option>
-                                                <option value='3' {{$recommend_flow_parameter_1== '3' ?	'selected' : ''}} >空号错号</option>
-                                                <option value='4' {{$recommend_flow_parameter_1== '4' ?	'selected' : ''}} >联系上，需要发资料给对方</option>
-                                                <option value='5' {{$recommend_flow_parameter_1== '5' ?	'selected' : ''}} >已发资料，等对方考虑</option>
-                                                <option value='6' {{$recommend_flow_parameter_1== '6' ?	'selected' : ''}} >联系上，等待简历</option>
-                                                <option value='7' {{$recommend_flow_parameter_1== '7' ?	'selected' : ''}} >联系上，对方拒绝或不合适</option>
-                                                <option value='8' {{$recommend_flow_parameter_1== '8' ?	'selected' : ''}} >准备一面</option>
-                                                <option value='9' {{$recommend_flow_parameter_1== '9' ?	'selected' : ''}} >等待一面反馈</option>
-                                                <option value='10' {{$recommend_flow_parameter_1== '10' ?	'selected' : ''}} >准备二面</option>
-                                                <option value='11' {{$recommend_flow_parameter_1== '11' ?	'selected' : ''}} >等待二面反馈</option>
-                                                <option value='12' {{$recommend_flow_parameter_1== '12' ?	'selected' : ''}} >等待三面（及更多）面试</option>
-                                                <option value='13' {{$recommend_flow_parameter_1== '13' ?	'selected' : ''}} >等待三面（及更多）反馈</option>
-                                                <option value='14' {{$recommend_flow_parameter_1== '14' ?	'selected' : ''}} >面试未通过</option>
-                                                <option value='15' {{$recommend_flow_parameter_1== '15' ?	'selected' : ''}} >中途放弃</option>
-                                                <option value='16' {{$recommend_flow_parameter_1== '16' ?	'selected' : ''}} >offer谈判</option>
-                                                <option value='17' {{$recommend_flow_parameter_1== '17' ?	'selected' : ''}} >已经发送offer，等待对方确认</option>
-                                                <option value='18' {{$recommend_flow_parameter_1== '18' ?	'selected' : ''}} >offer已确认，待入职</option>
-                                                <option value='19' {{$recommend_flow_parameter_1== '19' ?	'selected' : ''}} >入职</option>
-                                                <option value='20' {{$recommend_flow_parameter_1== '20' ?	'selected' : ''}} >谈判失败未来上班，放弃</option>
-                                                                                                                                                                                    
+                                                  @foreach($constant as $c)
+                                        			<option value="{{ $c->k }}" @if($recommend_flow_parameter_1 ==$c->k ) selected @endif >{{ $c->v }}</option>
+                                        		  @endforeach
+                                                                                                                                                                           
                                               </select>
                                            
              </div>
@@ -226,7 +208,7 @@
                     <th><i class="icon_mobile"></i> 提醒时间</th>
                     <th><i class="icon_mobile"></i> 行动备忘</th>
 
-
+<?php $constant = App\Models\Constant::getInstance(); ?>    
                      <th><i class="icon_cogs"></i> 操作（编辑-删除）</th>
                  </tr>
         @foreach ($recommend->all() as $v)
@@ -238,9 +220,9 @@
                      <td>{{ $v->talent->name }}</td>
                      <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->demand_type_label_1 }}</td>
-                     <td>准备二面</td>
-                     <td>{{ $v->remind_time }}</td>
-                     <td>确认二面地点</td>
+                     <td>{{ array_get($constant, 'recommend_flow_parameter_1.'.$v->recommend_flow_parameter_1, '') }}</td>
+                     <td>{{ array_get($constant, 'recommend_flow_parameter_2.'.$v->recommend_flow_parameter_2, '') }}</td>
+                     <td> {{ $v->recommend_flow_status_label_2 }} </td>
                      <td>
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a> -->

@@ -22,7 +22,7 @@
  
 
 	<div class="row">
-		<div class="col-sm-12">
+		
 		
 		<a href="#batch-delete-modal-form" data-toggle="modal" style="margin: 0px 5px;"  
 			class="btn btn-xs btn-danger pull-right" tabindex="4"> <i
@@ -58,7 +58,7 @@
 			</a>
 
 
-
+<div class="col-sm-12">
 			<div class="table-responsive">
 				<table id="main-table"
 					class="table table-striped table-bordered table-hover">

@@ -43,9 +43,11 @@
                                       <ul>
                                           <li class="active">
                                               
-                                              <i class="fa fa-comments fa-2x"> </i><br>
-											  
-											  最新反馈：候选人{{ $recommend->recommend_flow_parameter_1 }} 
+                                              <i class="fa fa-comments fa-2x"> </i><br>		
+											  最新反馈：
+											  Nancy 2015-11-13 14：30：候选人通过2面；
+											  高荐-Tacy 2015-11-11 14：30:安排2面周三下午；
+											  Nancy 2015-11-13 10：30：候选人通过一面，安排下周二面；
                                           </li>
 										   
                                       </ul>
@@ -56,7 +58,10 @@
                                               
                                               <i class="fa fa-bell fa-2x"> </i><br>
 											  
-											  下一步行动：需要猎头联系候选人确定面试时间 
+											  下一步行动：
+											  Nancy 2015-11-13 10：30：需要联系候选人确定面试时间
+                                              Nancy 2015-11-11 10：30：推荐经理
+                                              Nancy 2015-11-11 10：30：准备文档
                                           </li>
 										   
                                       </ul>
@@ -67,7 +72,7 @@
                                               
                                               <i class="fa fa-tachometer fa-2x"> </i><br>
 											  
-											  评估举报：未评估
+											  招聘阶段：面试阶段
                                           </li>
 										   
                                       </ul>
@@ -148,9 +153,9 @@
                                                   <div class="text">
                                                       <a href="#" class="activity-img"><img class="avatar" src="/front/img/chat-avatar.jpg" alt=""></a>
                                                       <p class="attribution"><a href="#">{{ $talent->name }}</a> 简历全文</p>
-                                                      <p>
+                                                      <pre class="pre-scrollable">
                                                       {{ $talent->resume }}
-                                                        </p>
+                                                        </pre>
                                                   </div>
                                               </div>
                                           </div>
@@ -324,32 +329,26 @@
 
                                      <div class="col-lg-6">
 
-                            <section class="panel">
-                                  <header class="panel-heading">
-                                      下一步行动备注
-                                  </header>
-                                  <div class="panel-body">
-                                      <input name="recommend_flow_status_label_2" id="tagsinput" class="tagsinput" data-role="tagsinput"   value="{{ $recommend->recommend_flow_status_label_2}}" />
-                                  </div>
-                              </section>
-
+                                     <div class="form-group">
+                                          <label class="sr-only" for="recommend_flow_status_label_2">下一步行动备注</label>
+                                          <input id="recommend_flow_status_label_2"  name="recommend_flow_status_label_2"  class="form-control"   value="{{ $recommend->recommend_flow_status_label_2}}"  placeholder="下一步行动备注"/>
+                                      </div>
                                </div>
 
                                       <div class="col-md-2" col-sm-offset-3>
-                                       
+                                       	<?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
                                               <select class="form-control m-bot15" name="recommend_flow_parameter_2">
                                                <option value="0">不提醒</option>
-                                                  <option value="1"  {{ $recommend->recommend_flow_parameter_2 =="1"?"selected":"" }}>1小时后</option>
-                                                  <option value="2"  {{ $recommend->recommend_flow_parameter_2 =="2"?"selected":"" }}>2小时后</option>
-                                                  <option value="3"  {{ $recommend->recommend_flow_parameter_2 =="3"?"selected":"" }}>1天后</option>
-                                                  <option value="4"  {{ $recommend->recommend_flow_parameter_2 =="4"?"selected":"" }}>1周后</option>
+                                                   @foreach($constant as $c)
+			                                         <option value="{{ $c->k }}" @if($recommend->recommend_flow_parameter_2  ==$c->k ) selected @endif >{{ $c->v }}</option> 
+			                                        @endforeach
                                               </select>
                                            
                                           </div>
 
 
                                            <div class="col-md-2">
-                                                <button type="button" class="btn btn-warning">提醒时间设置</button>
+                                                <button type="button" class="btn btn-warning">行动设置</button>
                                          </div>
                                 </div>
 
@@ -358,25 +357,12 @@
 
                                      <div class="col-lg-6">
                                          <div class="form-group">
-                                          <label class="sr-only" for="exampleInputEmail2">简单反馈</label>
+                                          <label class="sr-only" for="exampleInputEmail2">交互反馈</label>
                                           <input type="text" class="form-control" id="recommend_feedback_label_1"  name="recommend_feedback_label_1"  placeholder="简单反馈" value="{{ $recommend->recommend_feedback_label_1}}" >
                                       </div>
 
                                        </div>
 
-
-                                      <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15">
-                                               <option>推荐人</option>
-
-                                                  <option>平台</option>
-                                                  <option>其他</option>
-                                                  <option>好友</option>
-                                                  <option>管理员</option>
-                                              </select>
-                                           
-                                          </div>
 
 
                                       <div class="col-md-2">
@@ -566,7 +552,7 @@
 
 
                                       <div class="col-md-2">                   
-                                                <button type="button" class="btn btn-warning">发送反馈</button>
+                                                <button type="button" class="btn btn-warning">发送反馈消息</button>
                                     </div>                         
                            </div>
 

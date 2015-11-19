@@ -38,6 +38,7 @@ class RecommendController extends Controller
         $name = $request['name'];
         $user_name = $request['user_name'];        
         
+        //人才名称
         if(strlen($name)){
             $query =  $query ->whereExists(function ($query)  use ($name){
                 $query->select(DB::raw(1))
@@ -47,6 +48,7 @@ class RecommendController extends Controller
             });
         }
         
+        //推荐人
         if(strlen($user_name)){
            $query =  $query ->whereExists(function ($query)  use ($user_name){
                 $query->select(DB::raw(1))
@@ -59,9 +61,9 @@ class RecommendController extends Controller
         $post_name_2 = $request['post_name_2'];
         $demand_type_label_1 = $request['demand_type_label_1'];
         $recommend_flow_status_label_3 = $request['recommend_flow_status_label_3'];
-        $remind_time= $request['remind_time'];
+        $recommend_flow_parameter_2= $request['recommend_flow_parameter_2'];
         $recommend_flow_parameter_1= $request['recommend_flow_parameter_1'];
-        
+        //岗位
         if($post_name_2){
             $query =  $query ->whereExists(function ($query)  use ($post_name_2){
                 $query->select(DB::raw(1))
@@ -70,7 +72,7 @@ class RecommendController extends Controller
                 ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
             });
         }
-        
+        //职能
         if($demand_type_label_1){
             $query =  $query ->whereExists(function ($query)  use ($demand_type_label_1){
                 $query->select(DB::raw(1))
@@ -79,20 +81,20 @@ class RecommendController extends Controller
                 ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
             });
         }
-        
+        //进度
         if($recommend_flow_status_label_3){
-            $query =  $query  ->where('recommend_flow_status_label_3', $recommend_flow_status_label_3)             ;
-           
-        }
-        
-        if($remind_time){
-            if($remind_time == "-15 day" ){
-                $query = $query->where('remind_time', '<=',  date('Y-m-d H:i:s',strtotime($remind_time)));
+            if($recommend_flow_status_label_3=="不含流程外候选人"){
+                $query =  $query  ->where('recommend_flow_status_label_3', '<>', '流程外候选人')  ;
             }else{
-                $query = $query->where('remind_time', '>=',  date('Y-m-d H:i:s',strtotime($remind_time)));
+                $query =  $query  ->where('recommend_flow_status_label_3', $recommend_flow_status_label_3)             ;
             }
         }
+        //提醒时间
+        if($recommend_flow_parameter_2){          
+           $query = $query->where('recommend_flow_parameter_2', $recommend_flow_parameter_2);            
+        }
         
+        //状态
         if($recommend_flow_parameter_1){
             $query = $query->where('recommend_flow_parameter_1',  $recommend_flow_parameter_1 );
         }
@@ -108,12 +110,12 @@ class RecommendController extends Controller
         $recommend ->appends(['post_name_2' => $request['post_name_2']]);
         $recommend ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
-        $recommend ->appends(['remind_time' => $request['remind_time']]);
+        $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);
         $recommend ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);
 
         
         $param = ['name' => $request['name'], 'user_name' => $request['user_name'], 'post_name_2' => $request['post_name_2'],
-            'demand_type_label_1' =>$request['demand_type_label_1'] , 'recommend_flow_status_label_3' =>$request['recommend_flow_status_label_3'] , 'remind_time' => $request['remind_time'],
+            'demand_type_label_1' =>$request['demand_type_label_1'] , 'recommend_flow_status_label_3' =>$request['recommend_flow_status_label_3'] , 'recommend_flow_parameter_2' => $request['recommend_flow_parameter_2'],
             'recommend_flow_parameter_1' =>$request['recommend_flow_parameter_1'] 
         ];
         
@@ -189,16 +191,19 @@ class RecommendController extends Controller
             $array1 = [1,  2,  4,  5,  6];
             $array2 = [8,  9,  10,  11,  12,  13];
             $array3 = [16,  17,  18];
+            $array4 = [3,  7,  14,  15,  19,  20];
             $recommend_flow_parameter_1 = $input['recommend_flow_parameter_1'];
             if(in_array($recommend_flow_parameter_1, $array1)){
                 $input['recommend_flow_status_label_3']  = "面试前评审进度中";
             }elseif (in_array($recommend_flow_parameter_1, $array2)){
                 $input['recommend_flow_status_label_3']  = "面试进度中";
             }elseif (in_array($recommend_flow_parameter_1, $array3)){
-                $input['recommend_flow_status_label_3']  = "offer进度中";
-            }
-        }
-        
+                $input['recommend_flow_status_label_3']  = "offer进度中";            
+            }elseif (in_array($recommend_flow_parameter_1, $array4)){
+                $input['recommend_flow_status_label_3']  = "流程外候选人";
+            }           
+         }
+       
         return $input;
     }
     

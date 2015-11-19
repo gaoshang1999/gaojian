@@ -38,7 +38,7 @@ class CreateRecommendTable extends Migration
   $table->string('recommend_flow_status_label_1', 30) ->nullable(); 
   $table->string('recommend_flow_status_label_2', 30) ->nullable(); 
   $table->string('recommend_flow_status_label_3', 30) ->nullable(); 
-  $table->float('recommend_flow_parameter_1') ->nullable(); 
+  $table->float('recommend_flow_parameter_1') ->default(1); 
   $table->float('recommend_flow_parameter_2') ->nullable(); 
   $table->float('recommend_flow_parameter_3') ->nullable(); 
   $table->text('recommend_feedback_label_1') ->nullable(); 

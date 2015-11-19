@@ -219,12 +219,12 @@
                  </tr>
                  @foreach ($demand->all() as $v)
                  <tr>
-                     <td>{{$v-> post_name }} </td>
+                     <td>{{$v-> id }} - {{$v-> post_name }} </td>
                      <td>{{ $v->created_at }}</td>
                      <td>{{$v-> attach_department }} </td>
-                     <td>3</td>
-                     <td>10</td>
-                     <td>默认</td>
+                     <td>{{ $v->recommends()->get()->count() }}</td>
+                     <td>{{ $v->recommends()->where('recommend_flow_status_label_3', '面试进度中' )->get()->count() }}</td>
+                     <td>{{ $v->recommends()->where('recommend_flow_status_label_3', 'offer进度中' )->get()->count() }}</td>
                      <td>
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->
