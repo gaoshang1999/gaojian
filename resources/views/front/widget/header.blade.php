@@ -4,7 +4,7 @@
   			</div>
 
   			<!--logo start-->
-  			<a href="index.html" class="logo">高荐 <span class="lite"> </span></a>
+  			<a href="{{ url('/front/demand/') }}" class="logo">高荐 <span class="lite"> </span></a>
   			<!--logo end-->
 
 
@@ -235,12 +235,12 @@
   								<li>
   									<a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
   								</li>
-  								<li>
-  									<a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
-  								</li>
-  								<li>
-  									<a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
-  								</li>
+<!--   								<li> -->
+<!--   									<a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a> -->
+<!--   								</li> -->
+<!--   								<li> -->
+<!--   									<a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a> -->
+<!--   								</li> -->
   							</ul>
   						</li>
   						<!-- user login dropdown end -->

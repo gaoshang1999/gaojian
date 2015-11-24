@@ -439,34 +439,23 @@
               </div>
 
 
-<!-- I空行-->
-
-                  <div class="row">
-                                        <div class="col-md-12">
-                                        <hr>
-                                                                                <hr>
-
-                                        <hr>
-
-                                                      </div>
-
-
-              </div>
+  
 
 
 
 
 <!-- Inline搜索 form-->
                   <div class="row">
+                                                           <br><br><br>
 
                   <div class="col-md-2">
                   </div>
-
                       <div class="col-md-2">
                         
                                       <div class="form-group">
-                                          <label class="sr-only" for="exampleInputEmail2">岗位名称关键字</label>
-                                          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="岗位名称关键字">
+
+                                          <label class="sr-only" for="exampleInputEmail2">人才姓名</label>
+                                          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="人才姓名">
                                       </div>
                                       
 
@@ -477,8 +466,8 @@
                         
                                       
                                       <div class="form-group">
-                                          <label class="sr-only" for="exampleInputPassword2">关键字</label>
-                                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="关键字">
+                                          <label class="sr-only" for="exampleInputPassword2">手机号</label>
+                                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="手机号">
                                       </div>
                                       
 
@@ -486,18 +475,6 @@
                       </div>
 
 
-                                     <div class="col-md-2">
-                        
-                                     
-                                      <div class="checkbox">
-                                          <label>
-                                              <input type="checkbox"> 特殊要求
-                                          </label>
-                                      </div>
-                                      
-
-
-                      </div>
 
                            <div class="col-md-2">
                         
@@ -535,52 +512,37 @@
            <div class="col-md-2" col-sm-offset-3>
                                        
                                               <select class="form-control m-bot15">
-                                                  <option>所有岗位</option>
-                                                  <option>Option 2</option>
-                                                  <option>Option 3</option>
+                                                  <option>所有推荐公司</option>
+                                                  <option>IBM</option>
+                                                  <option>百度</option>
                                               </select>
                                            
                                           </div>
 
-           <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15">
-                                                  <option>所有职级</option>
-                                                  <option>Option 2</option>
-                                                  <option>Option 3</option>
-                                              </select>
-                                           
-                                          </div>
+        
              <div class="col-md-2" col-sm-offset-3>
                                        
                                               <select class="form-control m-bot15">
                                                   <option>所有状态</option>
-                                                  <option>Option 2</option>
-                                                  <option>Option 3</option>
+                                                  <option>招聘流程中</option>
+                                                  <option>招聘流程外</option>
                                               </select>
                                            
                                           </div>
 
-              <div class="col-md-2" col-sm-offset-3>
+                                              <div class="col-md-2" col-sm-offset-3>
                                        
                                               <select class="form-control m-bot15">
-                                                  <option>Option 1</option>
-                                                  <option>Option 2</option>
-                                                  <option>Option 3</option>
+                                                  <option>所有上传时间</option>
+                                                  <option>最近一周</option>
+                                                  <option>最近二周</option>
+                                                  <option>最近一个月</option>
+                                                  <option>最近三个月</option>
                                               </select>
                                            
                                           </div>
 
-             <div class="col-md-2" col-sm-offset-3>
-                                       
-                                              <select class="form-control m-bot15">
-                                                  <option>Option 1</option>
-                                                  <option>Option 2</option>
-                                                  <option>Option 3</option>
-                                              </select>
-                                           
-                                          </div>
-
+        
 
 
 
@@ -591,6 +553,21 @@
 
 
                                           </div>
+
+
+
+
+             <div class="row">
+            
+
+                           <div class="col-md-2" col-sm-offset-3>
+                        
+
+                               <a class="btn btn-warning" href="addrencai.html" role="button">新增人才</a><br><br>
+
+                      </div>
+
+             </div>
 
 
 
@@ -611,18 +588,17 @@
  <tr>
                      <th><i class="icon_profile"></i> 姓名</th>
                      <th><i class="icon_profile"></i> 备注来源</th>
-                     <th><i class="icon_pin_alt"></i> 推荐岗位</th>
+                     <th><i class="icon_pin_alt"></i> 最新推荐岗位</th>
 
                      <th><i class="icon_calendar"></i> 推荐时间</th>
                      <th><i class="icon_pin_alt"></i> 所在公司</th>
-                     <th><i class="icon_pin_alt"></i> 人才编号</th>
                      <th><i class="icon_pin_alt"></i> 职级</th>
 
-                     <th><i class="icon_mobile"></i> 最新状态</th>
+                     <th><i class="icon_mobile"></i> 招聘状态</th>
                   
 
 
-                     <th><i class="icon_cogs"></i> 操作（增加-编辑-删除）</th>
+                     <th><i class="icon_cogs"></i> 操作（编辑备注-推荐-删除）</th>
                  </tr>
                  <tr>
                      <td>张雷</td>
@@ -630,14 +606,13 @@
                      <td>算法工程师</td>
                      <td>2004-07-06</td>
                      <td>百度</td>
-                     <td>987765</td>
                      <td>开发工程师</td>
                      <td>准备二面</td>
                    
                      <td>
                       <div class="btn-group">
-                           <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a>
-                      <a class="btn btn-warning" href="#"><i class="icon_check_alt2"></i></a>
+                           <a class="btn btn-warning" href="addrencai.html"><i class="icon_plus_alt2"></i></a>
+                      <a class="btn btn-warning" href="addtuijian.html"><i class="icon_check_alt2"></i></a>
                       <a class="btn btn-warning" href="#"><i class="icon_close_alt2"></i></a>
                       </div>
                   </td>
@@ -647,17 +622,16 @@
                  <tr>
                      <td>王力</td>
                      <td>本公司</td>
-                     <td>算法工程师</td>
+                     <td>无</td>
                      <td>2004-07-06</td>
                      <td>百度</td>
-                     <td>987795</td>
                      <td>开发工程师</td>
                      <td>Offer阶段</td>
                    
                      <td>
                       <div class="btn-group">
-                           <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a>
-                      <a class="btn btn-warning" href="#"><i class="icon_check_alt2"></i></a>
+                           <a class="btn btn-warning" href="addrencai.html"><i class="icon_plus_alt2"></i></a>
+                      <a class="btn btn-warning" href="addtuijian.html"><i class="icon_check_alt2"></i></a>
                       <a class="btn btn-warning" href="#"><i class="icon_close_alt2"></i></a>
                       </div>
                   </td>
@@ -670,14 +644,13 @@
                      <td>算法工程师</td>
                      <td>2004-07-06</td>
                      <td>百度</td>
-                     <td>987705</td>
                      <td>开发工程师</td>
                      <td>预审</td>
                    
                      <td>
                       <div class="btn-group">
-                           <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a>
-                      <a class="btn btn-warning" href="#"><i class="icon_check_alt2"></i></a>
+                           <a class="btn btn-warning" href="addrencai.html"><i class="icon_plus_alt2"></i></a>
+                      <a class="btn btn-warning" href="addtuijian.html"><i class="icon_check_alt2"></i></a>
                       <a class="btn btn-warning" href="#"><i class="icon_close_alt2"></i></a>
                       </div>
                   </td>

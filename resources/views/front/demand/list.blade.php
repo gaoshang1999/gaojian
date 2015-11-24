@@ -208,7 +208,7 @@
               <table class="table table-striped table-advance table-hover">
                <tbody>
                   <tr>
-                     <th><i class="icon_profile"></i> #</th>
+                     <th><i class=""></i> #需求编号</th>
                      <th><i class="icon_profile"></i> 岗位</th>
                      <th><i class="icon_calendar"></i> 发布时间</th>
                      <th><i class="icon_pin_alt"></i> 部门</th>

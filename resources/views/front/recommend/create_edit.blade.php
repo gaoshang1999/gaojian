@@ -42,12 +42,12 @@
                             <div class="col-lg-2 col-sm-6 follow-info weather-category">
                                       <ul>
                                           <li class="active">
-                                              
+                                              <?php  $feedbacks = $recommend->comments()->where('comment_type', 'feedback') ->orderBy('created_at', 'desc') ->take(3)->get(); ?>
                                               <i class="fa fa-comments fa-2x"> </i><br>		
 											  最新反馈：
-											  Nancy 2015-11-13 14：30：候选人通过2面；
-											  高荐-Tacy 2015-11-11 14：30:安排2面周三下午；
-											  Nancy 2015-11-13 10：30：候选人通过一面，安排下周二面；
+											   @foreach ($feedbacks->all() as $v)
+											     {{ $v->created_at }}  {{ $v->comment }}
+											  @endforeach
                                           </li>
 										   
                                       </ul>
@@ -55,13 +55,14 @@
 							<div class="col-lg-2 col-sm-6 follow-info weather-category">
                                       <ul>
                                           <li class="active">
-                                              
+                                               
+                                               <?php  $actions = $recommend->comments()->where('comment_type', 'action') ->orderBy('created_at', 'desc') ->take(3)->get(); ?>
                                               <i class="fa fa-bell fa-2x"> </i><br>
 											  
 											  下一步行动：
-											  Nancy 2015-11-13 10：30：需要联系候选人确定面试时间
-                                              Nancy 2015-11-11 10：30：推荐经理
-                                              Nancy 2015-11-11 10：30：准备文档
+		                                      @foreach ($actions->all() as $v)
+											     {{ $v->created_at }}  {{ $v->comment }}
+											  @endforeach
                                           </li>
 										   
                                       </ul>
@@ -183,14 +184,14 @@
 
                                   <!-- flow -->
                                   <div id="flow" class="tab-pane">
-                                    <section class="panel">
-                                      <div class="bio-graph-heading">
-                                        Hello I’m Jenifer Smith, a leading expert in interactive and creative design specializing in the mobile medium. My graduation from Massey University with a Bachelor of Design majoring in visual communication.
-                                    </div>
-                                    <div class="panel-body bio-graph-warning">
+<!--                                     <section class="panel"> -->
+<!--                                       <div class="bio-graph-heading"> -->
+<!--                                         Hello I’m Jenifer Smith, a leading expert in interactive and creative design specializing in the mobile medium. My graduation from Massey University with a Bachelor of Design majoring in visual communication. -->
+<!--                                     </div> -->
+<!--                                     <div class="panel-body bio-graph-warning"> -->
 
-                                    </div>
-                                </section>
+<!--                                     </div> -->
+<!--                                 </section> -->
 
                               <form  role="form" method="post"  action="{{ url('/front/recommend/edit/'.$recommend->id ) }}">
                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -325,53 +326,7 @@
                           </div>
                       </section>  <!-- ckbox end-->
 
-                            <div class="row">   
-
-                                     <div class="col-lg-6">
-
-                                     <div class="form-group">
-                                          <label class="sr-only" for="recommend_flow_status_label_2">下一步行动备注</label>
-                                          <input id="recommend_flow_status_label_2"  name="recommend_flow_status_label_2"  class="form-control"   value="{{ $recommend->recommend_flow_status_label_2}}"  placeholder="下一步行动备注"/>
-                                      </div>
-                               </div>
-
-                                      <div class="col-md-2" col-sm-offset-3>
-                                       	<?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="recommend_flow_parameter_2">
-                                               <option value="0">不提醒</option>
-                                                   @foreach($constant as $c)
-			                                         <option value="{{ $c->k }}" @if($recommend->recommend_flow_parameter_2  ==$c->k ) selected @endif >{{ $c->v }}</option> 
-			                                        @endforeach
-                                              </select>
-                                           
-                                          </div>
-
-
-                                           <div class="col-md-2">
-                                                <button type="button" class="btn btn-warning">行动设置</button>
-                                         </div>
-                                </div>
-
-
-                                   <div class="row">   
-
-                                     <div class="col-lg-6">
-                                         <div class="form-group">
-                                          <label class="sr-only" for="exampleInputEmail2">交互反馈</label>
-                                          <input type="text" class="form-control" id="recommend_feedback_label_1"  name="recommend_feedback_label_1"  placeholder="简单反馈" value="{{ $recommend->recommend_feedback_label_1}}" >
-                                      </div>
-
-                                       </div>
-
-
-
-                                      <div class="col-md-2">
-                                  
-                                            <button type="button" class="btn btn-warning">发送反馈</button>
-                                       </div>
-                         
-                           </div>
-         
+                           
 
                             <div class="row">   
                                         <div class="col-lg-offset-4 col-lg-8">
@@ -383,13 +338,78 @@
                           <input type="hidden" name="referer"  value="{{ Request::header('referer') }}" />  
                         </form>
                         
+                        <hr/>
+                       <form id="action-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
+                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                       <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
+                       <input type="hidden" name="comment_type" value="action">                       
+                         <div class="row">   
+
+                                     <div class="col-lg-6">
+
+                                     <div class="form-group">
+                                          <label class="sr-only" for="recommend_flow_status_label_2">下一步行动备注</label>
+                                          <input id="action-comment"  name="comment"  class="form-control"   value=""  placeholder="下一步行动备注"/>
+                                      </div>
+                               </div>
+
+                                      <div class="col-md-2" col-sm-offset-3>
+                                       	<?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
+                                              <select class="form-control m-bot15" name="remind_type">
+                                               <option value="0">不提醒</option>
+                                                   @foreach($constant as $c)
+			                                         <option value="{{ $c->k }}" >{{ $c->v }}</option> 
+			                                        @endforeach
+                                              </select>
+                                           
+                                          </div>
+
+
+                                           <div class="col-md-2">
+                                                <button type="submit"  id="submit-action-form"  class="btn btn-warning">行动设置</button>                                             
+                                         </div>
+                                         
+                                         <div class="col-md-2">
+                                         <div  id="action-form-hint" class="alert alert-warning alert-dismissible" role="alert" hidden>                                          
+                                          行动设置成功.
+                                        </div>
+                                        </div>
+                                </div>
+                            </form>
+                            
+                              <form id="feedback-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                               <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
+                               <input type="hidden" name="comment_type" value="feedback">
+                                   <div class="row">   
+
+                                     <div class="col-lg-6">
+                                         <div class="form-group">
+                                          <label class="sr-only" for="exampleInputEmail2">交互反馈</label>
+                                          <input type="text" class="form-control" id="feedback-comment"  name="comment"  placeholder="简单反馈" value="" >
+                                      </div>
+
+                                      
+                                   </div>
+
+                                      <div class="col-md-2">                                  
+                                            <button type="submit"  id="submit-feedback-form" class="btn btn-warning">发送反馈</button>                             
+                                        </div>
+                                        <div class="col-md-2">            
+                                       <div  id="feedback-form-hint" class="alert alert-warning alert-dismissible" role="alert" hidden>                                          
+                                          发送反馈成功.
+                                        </div>
+                                         </div>
+                                   </div>    
+                                 
+                          </form>                                   
                         @include('errors.list')
 
-                       </div>
+                       </div>   <!-- end-flow -->
                        
-
-
-                                  <!-- end-flow -->
+                       
+                       
+                       
                                   <div id="evaludate" class="tab-pane">
                                     <section class="panel">        
                         <form  role="form" method="post"  action="{{ url('/front/recommend/edit/'.$recommend->id ) }}">
@@ -526,7 +546,23 @@
                       </section> <!-- ckbox end-->
 
 
-                                   <div class="row">   
+                                  
+
+
+
+                                        <div class="row">   
+                                                <div class="col-lg-offset-4 col-lg-8">
+                                                     <button type="submit" class="btn btn-warning" id="flow-submit">保存并返回</button>                                             
+                                                     <a class="btn btn-warning" href="{{ url('/front/recommend/') }}" role="button">不保存返回</a><br>
+        
+                                                  </div>
+                                          </div>
+                                         <input type="hidden" name="referer"		value="{{ Request::header('referer') }}" />
+                        </form>
+                        
+                        <hr/>
+                        
+                         <div class="row">   
 
                                      <div class="col-lg-6">
                                          <div class="form-group">
@@ -555,18 +591,7 @@
                                                 <button type="button" class="btn btn-warning">发送反馈消息</button>
                                     </div>                         
                            </div>
-
-
-
-                                        <div class="row">   
-                                                <div class="col-lg-offset-4 col-lg-8">
-                                                     <button type="submit" class="btn btn-warning" id="flow-submit">保存并返回</button>                                             
-                                                     <a class="btn btn-warning" href="{{ url('/front/recommend/') }}" role="button">不保存返回</a><br>
-        
-                                                  </div>
-                                          </div>
-                                         <input type="hidden" name="referer"		value="{{ Request::header('referer') }}" />
-                        </form>
+                        
                          @include('errors.list')
                                       </section>
                                   </div>
@@ -581,6 +606,8 @@
           </section>
       </section>
       <!--main content end-->
+      
+      
 
 @endsection
 
@@ -588,13 +615,10 @@
 
      <script src="/front/js/jquery.tagsinput.js"></script>
 
-
-    <!-- custom form component script for this page-->
-    <script src="/front/js/form-component.js"></script>
-
-    
+   
      <script type="text/javascript">
 			jQuery(function($) {
+				
 				 $("#flow-submit").click(function(){
 					 	var val=$('input:radio[name="recommend_flow_parameter_1"]:checked').val();
 						if(val==null){
@@ -603,6 +627,80 @@
 						}
 						return true;
 				 });
+
+				 $action = $('#submit-action-form');
+				 
+				 $action.prop('disabled', true);	
+				 
+				 $('#action-comment').keyup(function(){
+					 if($(this).val().length ==0){
+						 $action.prop('disabled', true);	
+					 }else if($(this).val().length >0){
+						 $action.prop('disabled', false);	
+					 }
+				 });
+				 
+				 $('#action-form').submit(function (ev) { 
+					  
+		             $action.prop('disabled', true);	
+					 $.ajax({
+				           type: $(this).attr('method'),
+				           url: $(this).attr('action'),
+				           data: $(this).serialize(),
+				           dataType: "json",
+				           success: function (data) {
+    				        	$('#action-form-hint').html("行动设置成功");
+      				            $('#action-form-hint').show();  	
+      				            $action.prop('disabled', false);
+// 					            location.reload();	
+				           },
+				           error: function(){
+					        	$('#action-form-hint').html("行动设置失败，请重试");
+	  				            $('#action-form-hint').show();
+				        	    $action.prop('disabled', false);	
+				           }
+				       });
+					   ev.preventDefault();					 
+				 });
+
+				 
+
+				 $feedback = $('#submit-feedback-form');
+				 
+				 $feedback.prop('disabled', true);	
+				 
+				 $('#feedback-comment').keyup(function(){
+					 if($(this).val().length ==0){
+						 $feedback.prop('disabled', true);	
+					 }else if($(this).val().length >0){
+						 $feedback.prop('disabled', false);	
+					 }
+				 });
+				 
+				 $('#feedback-form').submit(function (ev) { 
+					  
+		             $feedback.prop('disabled', true);	
+					 $.ajax({
+				           type: $(this).attr('method'),
+				           url: $(this).attr('action'),
+				           data: $(this).serialize(),
+				           dataType: "json",
+				           success: function (data) {
+    				        	$('#feedback-form-hint').html("发送反馈成功");
+      				            $('#feedback-form-hint').show();
+  				                $feedback.prop('disabled', false);	
+//   				                location.reload();
+				           },
+				           error: function(){
+				        	    $('#feedback-form-hint').html("发送反馈失败，请重试");
+	  				            $('#feedback-form-hint').show();
+				        	    $feedback.prop('disabled', false);	
+				           }
+				       });
+					   ev.preventDefault();					 
+				 });
+
+				 
 			});
 	</script>
  @endsection

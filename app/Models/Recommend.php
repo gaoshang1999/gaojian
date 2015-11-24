@@ -39,4 +39,9 @@ class Recommend extends Model
     {
         return $this->hasOne('App\Models\Demand', 'id', 'demand_id');
     }
+    
+    public function comments()
+    {
+        return $this->hasMany('App\Models\RecommendComment');
+    }
 }

@@ -152,7 +152,7 @@
 
               <div class="col-md-2" col-sm-offset-3>
                                        <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="$recommend_flow_parameter_2">  <?php $recommend_flow_parameter_2 = isset($recommend_flow_parameter_2) ? $recommend_flow_parameter_2 : ""; ?>
+                                              <select class="form-control m-bot15" name="recommend_flow_parameter_2">  <?php $recommend_flow_parameter_2 = isset($recommend_flow_parameter_2) ? $recommend_flow_parameter_2 : ""; ?>
                                                   <option value="0" >所有提醒时间</option>
                                                    @foreach($constant as $c)
 			                                         <option value="{{ $c->k }}" @if($recommend_flow_parameter_2  ==$c->k ) selected @endif >{{ $c->v }}</option> 

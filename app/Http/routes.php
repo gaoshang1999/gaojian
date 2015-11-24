@@ -143,4 +143,6 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('recommend/edit/{id}',  'RecommendController@edit');
     $app->post('recommend/delete/{id}',  'RecommendController@delete');
     $app->get('recommend/search', 'RecommendController@search');
+    $app->post('recommend/comment',  'RecommendController@comment');
+    
 });

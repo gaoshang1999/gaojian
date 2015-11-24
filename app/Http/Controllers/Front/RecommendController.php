@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Recommend;
+use App\Models\RecommendComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use DB;
 class RecommendController extends Controller
 {
@@ -213,5 +215,15 @@ class RecommendController extends Controller
     {
         Recommend::where('id', $id)->delete();
         return redirect($request->header('referer'));
+    }
+    
+    public function comment(Request $request)
+    {      
+            $input = $request->all();
+            $recommendComment = RecommendComment::create($input);
+                        
+            $recommendComment->save(); 
+       
+           return new JsonResponse(['success'=>true, 'message' => '成功']);
     }
 }
