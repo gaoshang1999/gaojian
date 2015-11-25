@@ -20,7 +20,7 @@
 
            
                <li>
-                <a class="" href="index-myrencai.html">
+                <a class="" href="{{ url('/front/talent/') }}">
                   <i class="icon_table"></i>
                   <span>我的人才</span>
                 </a>
@@ -28,14 +28,14 @@
 
 
                <li>
-                <a class="" href="index-mytuijian.html">
+                <a class="" href="{{ url('/front/myrecommend/') }}"">
                   <i class="icon_desktop"></i>
                   <span>我的推荐</span>
                 </a>
               </li>
 
                <li>
-                <a class="" href="index-mycenter.html">
+                <a class="" href="{{ url('/front/mycenter/') }}">
                   <i class="icon_document_alt"></i>
                   <span>个人中心</span>
                 </a>

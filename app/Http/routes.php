@@ -145,4 +145,26 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->get('recommend/search', 'RecommendController@search');
     $app->post('recommend/comment',  'RecommendController@comment');
     
+    $app->get('talent',  'TalentController@lists');
+    $app->get('talent/add',  'TalentController@add');
+    $app->post('talent/add',  'TalentController@add');
+    $app->get('talent/edit/{id}',  'TalentController@edit');
+    $app->post('talent/edit/{id}',  'TalentController@edit');
+    $app->post('talent/delete/{id}',  'TalentController@delete');
+    $app->get('talent/search', 'TalentController@search');
+    $app->get('talent/recommend/{id}',  'TalentController@recommend');
+    $app->post('talent/recommend/{id}',  'TalentController@recommend');
+    $app->get('talent/demandSearch/{id}',  'TalentController@demandSearch');
+    
+    $app->get('myrecommend',  'MyRecommendController@lists');
+    $app->get('myrecommend/add',  'MyRecommendController@add');
+    $app->post('myrecommend/add',  'MyRecommendController@add');
+    $app->get('myrecommend/edit/{id}',  'MyRecommendController@edit');
+    $app->post('myrecommend/edit/{id}',  'MyRecommendController@edit');
+    $app->post('myrecommend/delete/{id}',  'MyRecommendController@delete');
+    $app->get('myrecommend/search', 'MyRecommendController@search');
+    
+        $app->get('mycenter', function () use ($app) {
+            return view('front.mycenter.list');
+        });
 });

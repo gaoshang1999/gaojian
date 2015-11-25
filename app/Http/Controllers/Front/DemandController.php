@@ -69,11 +69,12 @@ class DemandController extends Controller
         $demand ->appends(['position_description' => $request['position_description']]);
         $demand ->appends(['post_name_2' => $request['post_name_2']]);
         $demand ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
+        $demand ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $demand ->appends(['updated_at' => $request['updated_at']]);
         
         $param = ['post_name' => $request['post_name'], 'position_description' => $request['position_description'] 
             , 'post_name_2' => $request['post_name_2'], 'demand_type_label_1' => $request['demand_type_label_1']
-            , 'updated_at' => $request['updated_at'] 
+            , 'recommend_flow_status_label_3' => $request['recommend_flow_status_label_3'] , 'updated_at' => $request['updated_at'] 
          ];
         
         $data = ['demand' => $demand];

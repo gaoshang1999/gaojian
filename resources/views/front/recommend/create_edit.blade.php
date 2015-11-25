@@ -30,7 +30,7 @@
                               <h6>{{ $talent->last_corporation }}  {{ $talent->job_level_1 }}</h6>
                             </div>
                             <div class="col-lg-4 col-sm-4 follow-info">
-                                <p>性别：{{ array_get($constant, 'sex.'.$talent-> sex, '') }}   工作经验：{{ $talent->work_year }}年   学历： {{ array_get($constant, 'sex.'.$talent-> highest_education, '') }} </p>
+                                <p>性别：{{ array_get($constant, 'sex.'.$talent-> sex, '') }}   工作经验：{{ $talent->work_year }}年   学历： {{ array_get($constant, 'highest_education.'.$talent-> highest_education, '') }} </p>
                                 <p>推荐人：{{ $user->corporation }}-{{ $user->user_name }}</p>
 								<p><i class="fa fa-twitter">联系方式：{{ $user->mobile_number }} </i></p>
                                 <h6>
