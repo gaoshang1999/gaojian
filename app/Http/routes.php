@@ -164,7 +164,9 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('myrecommend/delete/{id}',  'MyRecommendController@delete');
     $app->get('myrecommend/search', 'MyRecommendController@search');
     
-        $app->get('mycenter', function () use ($app) {
-            return view('front.profile.myself');
-        });
+//         $app->get('profile', function () use ($app) {
+//             return view('front.profile.myself');
+//         });
+   $app->get('profile/edit/{id}',  'ProfileController@edit');
+   $app->post('profile/edit/{id}',  'ProfileController@edit');
 });

@@ -35,7 +35,7 @@
               </li>
 
                <li>
-                <a class="" href="{{ url('/front/mycenter/') }}">
+                <a class="" href='{{ url("/front/profile/edit/".Auth::user()->id ) }} '>
                   <i class="icon_document_alt"></i>
                   <span>个人中心</span>
                 </a>

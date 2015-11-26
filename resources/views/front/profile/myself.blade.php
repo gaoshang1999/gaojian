@@ -6,26 +6,26 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-		  <?php  $user = Auth::user(); ?>
+
               <div class="row">
                 <!-- profile-widget -->
                 <div class="col-lg-12">
                     <div class="profile-widget profile-widget-info">
                           <div class="panel-body">
                             <div class="col-lg-2 col-sm-2">
-                              <h4>{{ $user->really_name }}</h4>               
+                              <h4>{{ Auth::user()->really_name }}</h4>               
                               <div class="follow-ava">
-                                  <img src="img/profile-widget-avatar.jpg" alt="">
+                                  <img src="/front/img/profile-widget-avatar.jpg" alt="">
                               </div>
-                              <h6>{{ $user->user_name }}</h6>
+                              <h6>{{ Auth::user()->user_name }}</h6>
                             </div>
                             <div class="col-lg-4 col-sm-4 follow-info">
-                                <p>公司：{{ $user->corporation }} </p>
+                                <p>公司：{{ Auth::user()->corporation }} </p>
                                 <p>欢迎！ </p>
 								<p><i class="fa fa-twitter">用户组：企业用户</i></p>
                                 <h6>
                                     <span><i class="icon_calendar"></i>上次登陆日期：15.10.13</span>
-                                    <span><i class="icon_pin_alt"></i>地点：{{$user->location}} </span>
+                                    <span><i class="icon_pin_alt"></i>地点：{{Auth::user()->location}} </span>
                                 </h6>
                             </div>
                             <div class="col-lg-2 col-sm-6 follow-info weather-category">
@@ -109,25 +109,25 @@
                                         <h1>基本信息</h1>
                                           <div class="row">
                                               <div class="bio-row">
-                                                  <p><span>姓名</span>: {{ $user->really_name }}</p>
+                                                  <p><span>姓名</span>: {{ Auth::user()->really_name }}</p>
                                               </div>
                                               <div class="bio-row">
-                                                  <p><span>用户账号 </span>: {{ $user->id }}</p>
+                                                  <p><span>用户账号 </span>: {{ Auth::user()->id }}</p>
                                               </div>                                              
                                               <div class="bio-row">
-                                                  <p><span>登陆名</span>: {{ $user->user_name }}</p>
+                                                  <p><span>登陆名</span>: {{ Auth::user()->user_name }}</p>
                                               </div>
                                               <div class="bio-row">
-                                                  <p><span>手机</span>: {{ $user->mobile_number }}</p>
+                                                  <p><span>手机</span>: {{ Auth::user()->mobile_number }}</p>
                                               </div>
                                               <div class="bio-row">
                                                   <p><span>职位 </span>: 招聘经理</p>
                                               </div>
                                               <div class="bio-row">
-                                                  <p><span>Email </span>:{{ $user->email }}</p>
+                                                  <p><span>Email </span>:{{ Auth::user()->email }}</p>
                                               </div>
                                               <div class="bio-row">
-                                                  <p><span>所在公司</span>:{{ $user->corporation }}</p>
+                                                  <p><span>所在公司</span>:{{ Auth::user()->corporation }}</p>
                                               </div>
                                               <div class="bio-row">
                                                   <p><span>所在部门 </span>:  </p>
@@ -184,8 +184,8 @@
          
 
                                    
-
-
+<form class="form-horizontal " method="post" action="{{ url('/front/profile/' . ($user ? 'edit/'.$user->id : 'add')) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                            <div class="row">   
                            <br>
 
@@ -193,7 +193,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">姓名</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user->really_name }}">
+                                          <input type="text" class="form-control"  name="really_name"  value="{{ old('really_name', $user ? $user-> really_name : '') }}">
                                       </div>
                                       </div>
 
@@ -208,7 +208,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">手机</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control"  value="{{ $user->mobile_number }}">
+                                          <input type="text" class="form-control"  name="mobile_number"  value="{{ old('mobile_number', $user ? $user-> mobile_number : '') }}"> 
                                       </div>
                                       </div>
 
@@ -224,7 +224,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">邮箱</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user->email }}">
+                                          <input type="text" class="form-control"  name="email "  value="{{ old('email ', $user ? $user-> email  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -240,7 +240,7 @@
                                          <div class="form-group  has-success">
                                          <label class="col-sm-2 control-label">公司</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user-> corporation }}">
+                                          <input type="text" class="form-control" name="corporation "  value="{{ old('corporation ', $user ? $user-> corporation  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -256,7 +256,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">部门</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user->really_name }}">
+                                          <input type="text" class="form-control"  > 
                                       </div>
                                       </div>
 
@@ -271,7 +271,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">职务</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user->really_name }}">
+                                          <input type="text" class="form-control"  > 
                                       </div>
                                       </div>
 
@@ -286,7 +286,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">登陆名</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" value="{{ $user->user_name }}">
+                                          <input type="text" class="form-control" name="user_name "  value="{{ old('user_name ', $user ? $user-> user_name  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -295,7 +295,8 @@
 
 
                           
-
+							<input type="hidden" name="referer"
+								value="{{ Request::header('referer') }}" />
 
 
                             <div class="row">   
@@ -303,15 +304,14 @@
                                        
                                  <br><br>
                                         <div class="col-lg-offset-2 col-lg-8">
-                                             <a class="btn btn-primary" href="index-mycenter.html" role="button">更新并返回</a>
-                                             <a class="btn btn-primary" href="index-mycenter.html" role="button">不更新返回</a><br>
-
+                                             <button class="btn btn-primary"   type="submit"  role="button">更新并返回</button>                                             
+                                             <a class="btn btn-primary" href="{{ url("/front/profile/edit/".Auth::user()->id ) }}" role="button">不更新返回</a><br>
                                           </div>
-                                          </div>
+                           </div>
+</form>
 
 
-
-                                           <div class="row">   
+                           <div class="row">   
 
                                        
                                  <br><br>

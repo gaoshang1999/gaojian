@@ -27,17 +27,17 @@ class Recommend extends Model
   
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id',  'user_id');
+        return $this->belongsTo('App\Models\User');
     }
     
     public function talent()
     {
-        return $this->hasOne('App\Models\Talent', 'id', 'talent_id');
+        return $this->belongsTo('App\Models\Talent');
     }
     
     public function demand()
     {
-        return $this->hasOne('App\Models\Demand', 'id', 'demand_id');
+        return $this->belongsTo('App\Models\Demand');
     }
     
     public function comments()
