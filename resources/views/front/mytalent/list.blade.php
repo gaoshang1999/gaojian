@@ -28,10 +28,10 @@
 			
 			<!-- 状态面板 -->
 
-@include('front.widget.profile')
+             @include('front.widget.my_talent_status')
 
 
- <form class="" role="form" method="get" id="search-form" action="{{ url('/front/talent/search') }}">
+ <form class="" role="form" method="get" id="search-form" action="{{ url('/front/mytalent/search') }}">
 <!-- Inline搜索 form-->
                   <div class="row">
                                                            <br><br><br>
@@ -141,7 +141,7 @@
                            <div class="col-md-2" col-sm-offset-3>
                         
 
-                               <a class="btn btn-warning" href="{{ url('/front/talent/add') }}"" role="button">新增人才</a><br><br>
+                               <a class="btn btn-warning" href="{{ url('/front/mytalent/add') }}"" role="button">新增人才</a><br><br>
 
                       </div>
 
@@ -181,8 +181,8 @@
                  @foreach ($talent->all() as $v)
                    <?php  $recommend = $v->recommends()->orderBy('updated_at', 'desc')->first(); ?>
                  <tr>
-                     <td>{{$v-> name }}</td>
-                     <td>{{  $recommend ? $recommend ->user ->user_name : "" }}</td>
+                     <td>{{  $v-> name }}</td>
+                     <td>{{  $v ->user ->user_name }}</td>
                      <td>{{  $recommend ? $recommend ->post_name : ""  }}</td>
                      <td>{{  $recommend ? $recommend ->created_at : ""  }}</td>
                      <td>{{  $recommend ? $recommend ->demand ->recruit_corporation : ""  }}</td>
@@ -191,9 +191,9 @@
                    
                      <td>
                       <div class="btn-group">                          
-                          <a class="btn btn-warning" href="{{ url("/front/talent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
-                          <a class="btn btn-warning" href="{{ url("/front/talent/recommend/{$v->id}") }}"><i class="icon_plus_alt2"></i></a>
-                          <form action='{{ url("/front/talent/delete/{$v->id}") }}' method="post" class="pull-right">
+                          <a class="btn btn-warning" href="{{ url("/front/mytalent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
+                          <a class="btn btn-warning" href="{{ url("/front/mytalent/recommend/{$v->id}") }}"><i class="icon_plus_alt2"></i></a>
+                          <form action='{{ url("/front/mytalent/delete/{$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
     									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
     										<i class="icon_close_alt2"></i>

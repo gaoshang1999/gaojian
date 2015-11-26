@@ -126,7 +126,7 @@
                                        
 
                                         <div class="col-sm-offset-4 col-sm-8">
-                                             <a class="btn btn-warning" href="{{ url('/front/talent/') }}" role="button">返回编辑人才</a>
+                                             <a class="btn btn-warning" href="{{ url('/front/mytalent/') }}" role="button">返回编辑人才</a>
 
                                              <a class="btn btn-warning" href="#" role="button">转发报告</a>
                                              <a class="btn btn-warning" href="#" role="button">下载报告</a>
@@ -146,7 +146,7 @@
 
                                   <!-- profile -->
                                   <div id="recommend" class="tab-pane">
-             <form class="" role="form" method="get" id="search-form" action="{{ url("front/talent/demandSearch/{$talent->id}") }}">     
+             <form class="" role="form" method="get" id="search-form" action="{{ url("front/mytalent/demandSearch/{$talent->id}") }}">     
                   <div class="row">
                                         <div class="col-md-12">
                                         <hr>
@@ -158,12 +158,21 @@
             
                               <div class="col-md-2">
                               </div>
-            
+                              
+                       <div class="col-md-2">
+                        
+                                      
+                                      <div class="form-group"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : ""; ?>
+                                         <input type="text" class="form-control"  name="recruit_corporation" placeholder="公司名称关键字" value="{{$recruit_corporation}}">
+                                      </div>
+                                      
+
+
+                      </div>           
 
                       <div class="col-md-2">
                         
                                       <div class="form-group"> <?php $post_name = isset($post_name) ? $post_name : ""; ?>
-                                          <label class="sr-only" for="exampleInputEmail2">职位名称关键字</label>
                                           <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{$post_name}}">
                                       </div>
                                       
@@ -171,17 +180,7 @@
 
                       </div>
 
-                                     <div class="col-md-2">
-                        
-                                      
-                                      <div class="form-group"> <?php $position_description = isset($position_description) ? $position_description : ""; ?>
-                                          <label class="sr-only" for="exampleInputPassword2">职位描述关键字</label>
-                                          <input type="text" class="form-control"  name="position_description" placeholder="职位描述关键字" value="{{$position_description}}">
-                                      </div>
-                                      
 
-
-                      </div>
 
 
                            <div class="col-md-2">
@@ -229,7 +228,7 @@
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->          
                                
-                      <form id="recommend-form" action='{{ url("/front/talent/recommend/{$v->id}") }}' method="post" class="pull-right">
+                      <form id="recommend-form" action='{{ url("/front/mytalent/recommend/{$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
     							 <input type="hidden" name="talent_id" value="{{ $talent->id }}" >
     									<button class="btn btn-warning"  type="submit" @if($recommened) disabled="true" @endif>																	
@@ -345,8 +344,11 @@
 				 });
 
 				 $('#myModal').on('hidden.bs.modal', function (e) {
-// 					 window.location.reload();
-					 window.location = window.location.href + "?";
+					 if(location.indexOf('?')>0  ){
+						  window.location.reload();
+					 }else{
+						  window.location = window.location.href + "?";
+					 }
 				});
 
 			});

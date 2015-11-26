@@ -12,14 +12,14 @@ use DB;
 use Log;
 use Exception;
 
-class TalentController extends Controller
+class MyTalentController extends Controller
 {
     
     public function lists(Request $request)
     {
         $data = ['talent' => Talent::where('user_id', Auth::user()->id) -> orderBy('id', 'desc')->paginate(10) ];
 
-        return view('front.talent.list', $data);
+        return view('front.mytalent.list', $data);
     }
     
     
@@ -90,7 +90,7 @@ class TalentController extends Controller
          ];
         
         $data = ['talent' => $talent];
-        return view('front.talent.list', array_merge($data, $param));
+        return view('front.mytalent.list', array_merge($data, $param));
     }
 
     public function rules()
@@ -124,7 +124,7 @@ class TalentController extends Controller
             return redirect('/front/talent');
         }
         else {            
-            return view('front.talent.create_edit', ['talent' => null] );
+            return view('front.mytalent.create_edit', ['talent' => null] );
         }
     }
     
@@ -143,7 +143,7 @@ class TalentController extends Controller
             return redirect(empty($referer)?'/front/talent':$referer);
         }
         else {
-            return view('front.talent.create_edit', ['talent' => $talent] );
+            return view('front.mytalent.create_edit', ['talent' => $talent] );
         }
     }
     
@@ -167,7 +167,7 @@ class TalentController extends Controller
         else {
              //查询非当前用户的，未删除数据
             $demand = Demand::where('recruit_user', '<>',  Auth::user()->id)->where('demand_parameter_1', '<>',  2) -> paginate(10);
-            return view('front.talent.recommend', ['talent' => $talent, 'demand' =>$demand] );
+            return view('front.mytalent.recommend', ['talent' => $talent, 'demand' =>$demand] );
         }
     }
     
@@ -176,7 +176,7 @@ class TalentController extends Controller
         $talent = Talent::where('id', $id)->first();
         //搜索
         $post_name = $request['post_name'];
-        $position_description = $request['position_description'];
+        $recruit_corporation = $request['recruit_corporation'];
         
         //查询非当前用户的，未删除数据
         $query = Demand::query()->where('recruit_user', '<>',  Auth::user()->id)  ->where('demand_parameter_1', '<>',  2);
@@ -184,20 +184,20 @@ class TalentController extends Controller
             $query = $query->where('post_name', 'like', '%'.$post_name.'%');
         }
         
-        if(strlen($position_description)){
-            $query = $query->where('position_description', 'like', '%'.$position_description.'%');
+        if(strlen($recruit_corporation)){
+            $query = $query->where('recruit_corporation', 'like', '%'.$recruit_corporation.'%');
         }
         
          
         $demand = $query -> orderBy('id', 'desc')-> paginate(10) ;
         $demand ->appends(['post_name' => $request['post_name']]);
-        $demand ->appends(['position_description' => $request['position_description']]);
+        $demand ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         
-        $param = ['post_name' => $request['post_name'], 'position_description' => $request['position_description']            
+        $param = ['post_name' => $request['post_name'], 'recruit_corporation' => $request['recruit_corporation']            
         ];
         
         $data = ['talent' => $talent,  'demand' => $demand];
-        return view('front.talent.recommend', array_merge($data, $param));
+        return view('front.mytalent.recommend', array_merge($data, $param));
     }
     
     

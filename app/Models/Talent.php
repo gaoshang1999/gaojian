@@ -29,4 +29,9 @@ class Talent extends Model
     {
         return $this->hasMany('App\Models\Recommend');
     }
+    
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id',  'user_id');
+    }
 }

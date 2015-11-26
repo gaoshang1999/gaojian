@@ -12,7 +12,7 @@
 			
 			<!-- 状态面板 -->
 
-@include('front.widget.profile')
+             @include('front.widget.my_talent_status')
 
 
 <!-- I空行-->

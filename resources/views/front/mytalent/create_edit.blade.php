@@ -16,7 +16,7 @@
                              人才{{ $talent ? '编辑' : '新增' }}
                           </header>
                         <div class="panel-body">
-                              <form class="form-horizontal " method="post" action="{{ url('/front/talent/' . ($talent ? 'edit/'.$talent->id : 'add')) }}">
+                              <form class="form-horizontal " method="post" action="{{ url('/front/mytalent/' . ($talent ? 'edit/'.$talent->id : 'add')) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                   <div class="form-group">
@@ -142,7 +142,7 @@
                                               <div class="form-group">
                                           <div class="col-lg-offset-4 col-lg-8">
                                               <button class="btn btn-primary" type="submit">保存</button>
-                                             <a class="btn btn-warning" href="{{ url('/front/talent/' )}}" role="button">返回</a><br>
+                                             <a class="btn btn-warning" href="{{ url('/front/mytalent/' )}}" role="button">返回</a><br>
 
                                           </div>
                                           </div>

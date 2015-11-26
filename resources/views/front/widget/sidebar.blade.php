@@ -20,7 +20,7 @@
 
            
                <li>
-                <a class="" href="{{ url('/front/talent/') }}">
+                <a class="" href="{{ url('/front/mytalent/') }}">
                   <i class="icon_table"></i>
                   <span>我的人才</span>
                 </a>

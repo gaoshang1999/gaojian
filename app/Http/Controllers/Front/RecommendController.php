@@ -13,12 +13,12 @@ class RecommendController extends Controller
     public function lists(Request $request)
     {
         $user_id = Auth::user()->id;
-        //查询当前用户发布的职位,  对应的推荐
+        //查询当前用户发布的职位,  收到的推荐
         $data = ['recommend' => Recommend::query()->whereExists(function ($query)  use ($user_id){
                 $query->select(DB::raw(1))
                 ->from('demand')
                 ->where('demand.recruit_user',  $user_id)
-                ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
+                ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
             })->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.recommend.list', $data);
@@ -28,12 +28,12 @@ class RecommendController extends Controller
     {
         
         $user_id = Auth::user()->id;
-        //查询当前用户发布的职位,  对应的推荐
+        //查询当前用户发布的职位,  收到的推荐
         $query = Recommend::query()->whereExists(function ($query)  use ($user_id){
             $query->select(DB::raw(1))
             ->from('demand')
             ->where('demand.recruit_user',  $user_id)
-            ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
+            ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
         });
         
         //搜索
