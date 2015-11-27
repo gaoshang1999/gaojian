@@ -49,6 +49,13 @@
                   <div class="col-md-2">
                   </div>
 
+                    <div class="col-md-2">
+                        
+                                      <div class="form-group"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : ""; ?>
+                                          <label class="sr-only" for="exampleInputEmail2">公司名称关键字</label>
+                                          <input type="text" class="form-control" name="recruit_corporation" placeholder="公司名称关键字"  value="{{$recruit_corporation}}">
+                                      </div>
+                       </div>
 
                       <div class="col-md-2">
                         
@@ -56,21 +63,15 @@
                                           <label class="sr-only" for="exampleInputEmail2">职位名称关键字</label>
                                           <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{$post_name}}">
                                       </div>
-                                      
+                       </div>
 
-
-                      </div>
-
-                                     <div class="col-md-2">
-                        
-                                      
+                       <div class="col-md-2">
+                                                              
                                       <div class="form-group"> <?php $position_description = isset($position_description) ? $position_description : ""; ?>
                                           <label class="sr-only" for="exampleInputPassword2">职位描述关键字</label>
                                           <input type="text" class="form-control"  name="position_description" placeholder="职位描述关键字" value="{{$position_description}}">
                                       </div>
-                                      
-
-
+                      
                       </div>
 
 
@@ -104,15 +105,30 @@
 
 
  <div class="row">
-           <div class="col-md-2" col-sm-offset-3>
-                   
-                                        
+           <div class="col-md-2" col-sm-offset-3>                   
+                                       
                                          
-                                          </div>
-
+            </div>
+            
            <div class="col-md-2" col-sm-offset-3>
-           	<?php  $d1= App\Models\Demand::select('post_name')->whereNotNull('post_name')->where('recruit_user', Auth::user()->id) ->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>                            
-                                        <select class="form-control m-bot15" name="post_name_2" >
+           	<?php  $d1= App\Models\Demand::myDemand()->select('recruit_corporation')->whereNotNull('recruit_corporation')->distinct()->orderBy('recruit_corporation') ->get();?>                            
+                                        <select class="form-control m-bot15" name="recruit_corporation_2"  id="recruit_corporation_2" ">
+                                                      <option value=0>所有公司</option> <?php $recruit_corporation_2 = isset($recruit_corporation_2) ? $recruit_corporation_2 : null; ?>
+                                           @foreach ($d1->all() as $v)
+                                                  <option value="{{ $v->recruit_corporation }}" {{ !is_null($recruit_corporation_2) && $recruit_corporation_2== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                             @endforeach
+                                              </select>
+                                           
+           </div>
+           
+           
+           <div class="col-md-2" col-sm-offset-3>
+           	<?php  $query= App\Models\Demand::myDemand()->select('post_name')->whereNotNull('post_name');
+           	 if(!is_null($recruit_corporation_2)){
+           	     $query->where('recruit_corporation', $recruit_corporation_2);
+           	 }
+           	 $d1= $query->distinct() ->orderBy('post_name')->get();?>                            
+                                        <select class="form-control m-bot15" name="post_name_2"  id="post_name_2" >
                                                       <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
                                            @foreach ($d1->all() as $v)
                                                   <option value="{{ $v->post_name }}" {{ !is_null($post_name_2) && $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
@@ -122,7 +138,7 @@
            </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>
+           <?php  $d2= App\Models\Demand::myDemand()->select('demand_type_label_1')->whereNotNull('demand_type_label_1')->distinct()->orderBy('demand_type_label_1') ->get();?>
                                            
                                               <select class="form-control m-bot15" name="demand_type_label_1">
                                                   <option value=0>所有职能</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
@@ -203,6 +219,7 @@
                <tbody>
                   <tr>
                      <th><i class=""></i> #需求编号</th>
+                     <th><i class="icon_profile"></i> 公司</th>
                      <th><i class="icon_profile"></i> 岗位</th>
                      <th><i class="icon_calendar"></i> 发布时间</th>
                      <th><i class="icon_pin_alt"></i> 部门</th>
@@ -215,6 +232,7 @@
                  @foreach ($demand->all() as $v)
                  <tr>
                     <td>{{$v-> id }} </td>
+                    <td>{{$v-> recruit_corporation }} </td>
                      <td>{{$v-> post_name }} </td>
                      <td>{{ $v->created_at }}</td>
                      <td>{{$v-> attach_department }} </td>
@@ -259,4 +277,31 @@
 		</section>
 	</section>
 <!--main content end-->    
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+  $('#recruit_corporation_2').change(function(){
+	  var recruit_corporation = $(this).val(); ;
+	  $.ajax({
+          type: 'get',
+          url: "{{ url('/front/demand/queryPostName') }}",
+          data: 'recruit_corporation='+ recruit_corporation,
+          dataType: "json",
+          success: function (data) {
+       	    var lists = eval(data);
+       	    var html = '<option value=0>所有岗位</option>';
+           	 $(lists).each(function() {
+           	   html += '<option value="'+this.post_name+'">'+this.post_name+'</option>';           	 
+           	});
+           	$('#post_name_2').html(html);
+          },
+          error: function(){
+       	    alert('查询岗位失败!');
+          }
+      });
+        
+  });
+                 
+</script>
 @endsection

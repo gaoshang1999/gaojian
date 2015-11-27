@@ -34,6 +34,7 @@ class UserController extends Controller
             ]);
 
             $input = $request->all();
+            $input['password'] = bcrypt($request->input('password'));
             $user = User::create($input);
                         
             $user->save(); 
@@ -53,6 +54,7 @@ class UserController extends Controller
             ]);
     
             $input = $request->all();
+            $input['password'] = bcrypt($request->input('password'));
             $user->fill($input);
     
             $user->save();

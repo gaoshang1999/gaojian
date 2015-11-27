@@ -19,6 +19,13 @@
                               <form class="form-horizontal " method="post" action="{{ url('/front/demand/' . ($demand ? 'edit/'.$demand->id : 'add')) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
+                                <div class="form-group">
+                                      <label class="col-sm-2 control-label"><span style="color: red">*</span>公司名称</label>
+                                      <div class="col-sm-8">
+                                          <input type="text" class="form-control" placeholder="公司名称" name="recruit_corporation"  value="{{ old('recruit_corporation', $demand  ? $demand-> recruit_corporation : '') }}">
+                                      </div>
+                                  </div>
+                                
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label"><span style="color: red">*</span>职位名称</label>
                                       <div class="col-sm-8">
@@ -186,8 +193,7 @@
 		<select id="education_requirement" name="education_requirement"
 			class="form-control m-bot15">
 			<option ></option> @foreach($constant as $c)
-			<option value="{{ $c->k }}" @if($demand && $demand->education_requirement
-				== $c->k ) selected @endif >{{ $c->v }}</option> @endforeach
+			<option value="{{ $c->k }}" @if(old('education_requirement', $demand  ? $demand-> education_requirement : '')== $c->k ) selected @endif >{{ $c->v }}</option> @endforeach
 		</select>
 	         
                                           </div>
@@ -204,8 +210,7 @@
                                 		<select id="sex_requirement" name="sex_requirement"
                                 			class="form-control m-bot15">
                                 			<option value="-1"></option> @foreach($constant as $c)
-                                			<option value="{{ $c->k }}" @if($demand && $demand->sex_requirement
-                                				== $c->k ) selected @endif >{{ $c->v }}</option> @endforeach
+                                			<option value="{{ $c->k }}" @if(old('sex_requirement', $demand  ? $demand-> sex_requirement : '') == $c->k ) selected @endif >{{ $c->v }}</option> @endforeach
                                 		</select>
 	 
                                           </div>

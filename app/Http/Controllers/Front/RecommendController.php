@@ -4,37 +4,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Recommend;
 use App\Models\RecommendComment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use DB;
 class RecommendController extends Controller
-{
-    
+{   
     public function lists(Request $request)
     {
-        $user_id = Auth::user()->id;
         //查询当前用户发布的职位,  收到的推荐
-        $data = ['recommend' => Recommend::query()->whereExists(function ($query)  use ($user_id){
-                $query->select(DB::raw(1))
-                ->from('demand')
-                ->where('demand.recruit_user',  $user_id)
-                ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
-            })->orderBy('id', 'desc')->paginate(10) ];
+        $data = ['recommend' => Recommend::myDemandRecommend()->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.recommend.list', $data);
     }
     
     public function queryBulider(Request $request)
     {
-        
-        $user_id = Auth::user()->id;
         //查询当前用户发布的职位,  收到的推荐
-        $query = Recommend::query()->whereExists(function ($query)  use ($user_id){
-            $query->select(DB::raw(1))
-            ->from('demand')
-            ->where('demand.recruit_user',  $user_id)
-            ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
-        });
+        $query = Recommend::myDemandRecommend();
         
         //搜索
         $name = $request['name'];
@@ -162,7 +147,9 @@ class RecommendController extends Controller
     
     public function edit(Request $request, $id)
     {
-        $recommend = Recommend::where('id', $id)->first();
+        $recommend = Recommend::myDemandRecommend()->where('id', $id)->first();
+        $recommend = $recommend ? $recommend: Recommend::myTalentRecommend()->where('id', $id)->first();
+
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
@@ -208,12 +195,11 @@ class RecommendController extends Controller
        
         return $input;
     }
-    
-    
-    
+   
     public function delete(Request $request, $id)
     {
-        Recommend::where('id', $id)->delete();
+        Recommend::myDemandRecommend()->where('id', $id)->delete();
+        Recommend::myTalentRecommend()->where('id', $id)->delete();
         return redirect($request->header('referer'));
     }
     

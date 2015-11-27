@@ -12,14 +12,8 @@ class MyRecommendController extends Controller
     
     public function lists(Request $request)
     {
-        $user_id = Auth::user()->id;
         //查询当前用户上传的人才,  收到的推荐
-        $data = ['recommend' => Recommend::query()->whereExists(function ($query)  use ($user_id){
-                $query->select(DB::raw(1))
-                ->from('talent')
-                ->where('talent.user_id',  $user_id)
-                ->whereRaw('gj_talent.id = gj_recommend.talent_id') ;
-            })->orderBy('id', 'desc')->paginate(10) ];
+        $data = ['recommend' => Recommend::myTalentRecommend()->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.myrecommend.list', $data);
     }
@@ -29,12 +23,7 @@ class MyRecommendController extends Controller
         
         $user_id = Auth::user()->id;
         //查询当前用户上传的人才,  收到的推荐
-        $query = Recommend::query()->whereExists(function ($query)  use ($user_id){
-                $query->select(DB::raw(1))
-                ->from('talent')
-                ->where('talent.user_id',  $user_id)
-                ->whereRaw('gj_talent.id = gj_recommend.talent_id') ;
-        });
+        $query = Recommend::myTalentRecommend();
         
         //搜索
         $name = $request['name'];
@@ -162,7 +151,7 @@ class MyRecommendController extends Controller
     
     public function edit(Request $request, $id)
     {
-        $recommend = Recommend::where('id', $id)->first();
+        $recommend = Recommend::myTalentRecommend()->where('id', $id)->first();
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
@@ -213,7 +202,7 @@ class MyRecommendController extends Controller
     
     public function delete(Request $request, $id)
     {
-        Recommend::where('id', $id)->delete();
+        Recommend::myTalentRecommend()->where('id', $id)->delete();
         return redirect($request->header('referer'));
     }
     

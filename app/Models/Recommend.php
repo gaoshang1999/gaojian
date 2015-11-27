@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
+use DB;
 class Recommend extends Model
 {
     
@@ -43,5 +44,29 @@ class Recommend extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\RecommendComment');
+    }
+    
+    //查询当前用户发布的职位,  收到的推荐
+    public function scopeMyDemandRecommend($query)
+    {
+        $user_id = Auth::user()->id;
+        return $query->whereExists(function ($query)  use ($user_id){
+                $query->select(DB::raw(1))
+                ->from('demand')
+                ->where('demand.recruit_user',  $user_id)
+                ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
+            });
+    }
+    
+    //查询当前用户上传的人才,  收到的推荐
+    public function scopeMyTalentRecommend($query)
+    {
+        $user_id = Auth::user()->id;
+        return $query->whereExists(function ($query)  use ($user_id){
+            $query->select(DB::raw(1))
+                ->from('talent')
+                ->where('talent.user_id',  $user_id)
+                ->whereRaw('gj_talent.id = gj_recommend.talent_id') ;
+        });
     }
 }

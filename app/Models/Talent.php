@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 class Talent extends Model
 {
     
@@ -33,5 +33,10 @@ class Talent extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id',  'user_id');
+    }
+    
+    public function scopeMyTalent($query)
+    {
+        return $query->where('user_id', Auth::user()->id) ;
     }
 }

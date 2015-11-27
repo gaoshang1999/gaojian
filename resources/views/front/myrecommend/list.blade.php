@@ -89,7 +89,7 @@
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           	<?php  $d1= App\Models\Demand::select('post_name')->whereNotNull('post_name')->where('recruit_user', Auth::user()->id) ->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>                            
+           	<?php  $d1= App\Models\Demand::demandForMyTalent()->select('post_name')->whereNotNull('post_name')->distinct() ->orderBy('post_name')->get();?>         
                                         <select class="form-control m-bot15" name="post_name_2" >
                                                       <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
                                            @foreach ($d1->all() as $v)
@@ -100,7 +100,7 @@
            </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           <?php  $d2= App\Models\Demand::select('demand_type_label_1')->whereNotNull('demand_type_label_1')->where('recruit_user', Auth::user()->id)->where('demand_parameter_1', '<>',  2)->distinct() ->get();?>
+           <?php  $d2= App\Models\Demand::demandForMyTalent()->select('demand_type_label_1')->whereNotNull('demand_type_label_1')->distinct()->orderBy('demand_type_label_1') ->get();?>
                                            
                                               <select class="form-control m-bot15" name="demand_type_label_1">
                                                   <option value=0>所有职能</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>

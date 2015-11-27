@@ -83,24 +83,11 @@
            </div>
 
            <div class="col-md-2" col-sm-offset-3>
-              <?php  $recruit_corporations= App\Models\Demand::select('recruit_corporation')
-              -> whereExists(function ($query)  {
-                  $query->select(DB::raw(1))
-                  ->from('recommend')                
-                  ->whereRaw('gj_recommend.demand_id = gj_demand.id') 
-                  -> whereExists(function ($query)  {
-                          $query->select(DB::raw(1))
-                          ->from('talent')
-                         ->where('user_id', Auth::user()->id)
-                          ->whereRaw('gj_recommend.talent_id = gj_talent.id')   ;
-                        })  ;
-              })            
-              ->distinct()
-              ->get();?>                         
-                                              <select class="form-control m-bot15" name="recruit_corporation"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : ""; ?>
+              <?php  $recruit_corporations= App\Models\Demand:: demandForMyTalent()->select('recruit_corporation') ->distinct()->orderBy('recruit_corporation')->get();?>                         
+                                              <select class="form-control m-bot15" name="recruit_corporation"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : null; ?>
                                                   <option value="0">所有推荐公司</option>
                                                   @foreach($recruit_corporations as $c)
-                                        			<option value="{{ $c->recruit_corporation }}" @if($recruit_corporation ==$c->recruit_corporation ) selected @endif >{{ $c->recruit_corporation }}</option>
+                                        			<option value="{{ $c->recruit_corporation }}" @if(!is_null($recruit_corporation)&&$recruit_corporation ==$c->recruit_corporation ) selected @endif >{{ $c->recruit_corporation }}</option>
                                         		  @endforeach
                                               </select>
                                            
@@ -109,10 +96,10 @@
         
              <div class="col-md-2" col-sm-offset-3>
                                        <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_1')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1"> <?php $recommend_flow_parameter_1 = isset($recommend_flow_parameter_1) ? $recommend_flow_parameter_1 : ""; ?>
+                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1"> <?php $recommend_flow_parameter_1 = isset($recommend_flow_parameter_1) ? $recommend_flow_parameter_1 : null; ?>
                                                   <option value="0">所有状态</option>
                                                 @foreach($constant as $c)
-                                        			<option value="{{ $c->k }}" @if($recommend_flow_parameter_1 ==$c->k ) selected @endif >{{ $c->v }}</option>
+                                        			<option value="{{ $c->k }}" @if(!is_null($recommend_flow_parameter_1)&&$recommend_flow_parameter_1 ==$c->k ) selected @endif >{{ $c->v }}</option>
                                         		  @endforeach
                                               </select>
                                            
