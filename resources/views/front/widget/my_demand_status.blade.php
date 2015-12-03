@@ -14,8 +14,8 @@
                                           <li class="active">
                                               
                                               <i class="fa fa-comments fa-2x"> </i><br>
-											  
-											  待联系的人才：{{ App\Models\Recommend::myDemandRecommend()-> whereIn('recommend_flow_parameter_1', [1,  2,  4,  5,  6])->count() }}
+
+											  待联系的人才：{{ App\Models\Recommend::myDemandRecommend() -> whereIn('recommend_flow_parameter_1', [1,  2,  4,  5,  6])->count() }}
                                           </li>
 										   
                                       </ul>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-
+use Illuminate\Support\Facades\Auth;
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
@@ -35,5 +35,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
     
+    
+    public function scopeOthers($query)
+    {
+        return $query->where('id', '<>' , Auth::user()->id) ;
+    }
+    /**
+     * HR组，组编参数= 2
+        猎头 组别参数=3 
+     */
+    public function isHr()
+    {
+        return $this->group_parameter == 2;
+    }
 }
 

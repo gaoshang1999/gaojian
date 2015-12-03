@@ -331,7 +331,7 @@
                             <div class="row">   
                                         <div class="col-lg-offset-4 col-lg-8">
                                            <button type="submit" class="btn btn-warning" id="flow-submit">保存并返回</button>                                             
-                                             <a class="btn btn-warning" href="{{ url('/front/recommend/') }}" role="button">不保存返回</a><br>
+                                             <a class="btn btn-warning" href="javascript:history.back()" role="button">不保存返回</a><br>
 
                                           </div>
                           </div>

@@ -6,13 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use DB;
+
 class DemandController extends Controller
 {   
     public function lists(Request $request)
     {
-        //查询当前用户的，未删除数据
-        $data = ['demand' => Demand::myDemand() ->orderBy('id', 'desc')->paginate(10) ];
-
+        if($request->has('open'))  {
+            //查询开放的需求
+            $data = ['demand' => Demand::openDemand() ->orderBy('id', 'desc')->paginate(10), 'open'=>1 ];
+        }else{
+            //查询当前用户的，未删除数据
+            $data = ['demand' => Demand::myDemand() ->orderBy('id', 'desc')->paginate(10) ];
+        }
+        
         return view('front.demand.list', $data);
     }
     
@@ -22,8 +28,15 @@ class DemandController extends Controller
         $recruit_corporation = $request['recruit_corporation'];
         $post_name = $request['post_name'];
         $position_description = $request['position_description'];
-        //查询当前用户的，未删除数据
-        $query = Demand::myDemand();
+        
+        if($request->has('open'))  {
+            //查询开放的需求
+            $query = Demand::openDemand();
+        }else{
+            //查询当前用户的，未删除数据
+            $query = Demand::myDemand();
+        }
+
         if(strlen($recruit_corporation)){
             $query = $query->where('recruit_corporation', 'like', '%'.$recruit_corporation.'%');
         }
@@ -86,7 +99,8 @@ class DemandController extends Controller
         
         $param = ['recruit_corporation' => $request['recruit_corporation'], 'post_name' => $request['post_name'], 'position_description' => $request['position_description'] 
             , 'recruit_corporation_2' => $request['recruit_corporation_2'], 'post_name_2' => $request['post_name_2'], 'demand_type_label_1' => $request['demand_type_label_1']
-            , 'recommend_flow_status_label_3' => $request['recommend_flow_status_label_3'] , 'updated_at' => $request['updated_at'] 
+            , 'recommend_flow_status_label_3' => $request['recommend_flow_status_label_3'] , 'updated_at' => $request['updated_at']
+            ,'open'=> $request->has('open')
          ];
         
         $data = ['demand' => $demand];
@@ -163,7 +177,7 @@ class DemandController extends Controller
     
             $input = $request->all();
             $demand->fill($input);
-    
+
             $demand->update();
             
             $referer = $input['referer'];
@@ -193,5 +207,48 @@ class DemandController extends Controller
         $lists = $query->distinct() ->orderBy('post_name')->get();
         
         return new JsonResponse($lists);
+    }
+       
+    public function view(Request $request, $id)
+    {
+        $demand = Demand::myDemand()->where('id', $id)->first();
+        
+        if($demand){
+            return view('front.demand.view', ['demand' => $demand] );
+        }else{
+            abort(404);
+        }
+    }
+    
+    public function queryMyDemand(Request $request)
+    {
+        $recruit_user = $request['recruit_user'];
+        $recruit_corporation = $request['recruit_corporation'];
+        
+        $query = Demand::demand()->select('recruit_corporation');
+    
+        if($recruit_user){
+            $query = $query->where('recruit_user', $recruit_user);
+        }
+        if($recruit_corporation){
+            $query = $query->addSelect('post_name')->where('recruit_corporation', $recruit_corporation);
+        }
+        $lists = $query->distinct() ->orderBy('recruit_corporation')->orderBy('post_name')->get();
+    
+        return new JsonResponse($lists);
+    }
+    
+    
+    public function open(Request $request, $id)
+    {
+        $demand = Demand::myDemand()-> where('id', $id)->first(); 
+    
+        $input = $request->all();
+        $demand->fill($input);
+
+        $demand->update();
+
+       return new JsonResponse(['success'=>true, 'message' => '操作成功']);
+                
     }
 }

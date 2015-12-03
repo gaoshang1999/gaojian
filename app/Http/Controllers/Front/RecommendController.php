@@ -6,20 +6,26 @@ use App\Models\RecommendComment;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Demand;
+use App\Models\Talent;
+use App\Models\Flow;
+use App\Models\Recom;
+use App\Models\User;
 class RecommendController extends Controller
 {   
     public function lists(Request $request)
     {
         //查询当前用户发布的职位,  收到的推荐
-        $data = ['recommend' => Recommend::myDemandRecommend()->orderBy('id', 'desc')->paginate(10) ];
+        $data = ['recommend' => Recommend::myHostRecommend()->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.recommend.list', $data);
     }
     
     public function queryBulider(Request $request)
-    {
+    {  
         //查询当前用户发布的职位,  收到的推荐
-        $query = Recommend::myDemandRecommend();
+        $query = Recommend::myHostRecommend();
         
         //搜索
         $name = $request['name'];
@@ -90,6 +96,9 @@ class RecommendController extends Controller
     public function search(Request $request)
     {
         $query = $this->queryBulider($request);
+        if($request->has('demand_id')){
+             $query =  $query -> where('demand_id', $request['demand_id']);
+        }
          
         $recommend = $query -> orderBy('id', 'desc')-> paginate(10) ;
         $recommend ->appends(['name' => $request['name']]);
@@ -147,17 +156,20 @@ class RecommendController extends Controller
     
     public function edit(Request $request, $id)
     {
-        $recommend = Recommend::myDemandRecommend()->where('id', $id)->first();
-        $recommend = $recommend ? $recommend: Recommend::myTalentRecommend()->where('id', $id)->first();
+        $recommend = Recommend::myHostRecommend()->where('id', $id)->first();
+        $recommend = $recommend ? $recommend: Recommend::myRecommend()->where('id', $id)->first();
 
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
             $input = $request->all();
             $input = $this->assignValue($request, $input);
-            $recommend->fill($input);
-    
-            $recommend->save();
+                        
+            $recommend->recom->fill($input);    
+            $recommend->recom->save();
+            
+            $recommend->flow->fill($input);
+            $recommend->flow->save();
             
             $referer = $input['referer'];
             return redirect(empty($referer)?'/front/recommend':$referer);
@@ -198,8 +210,8 @@ class RecommendController extends Controller
    
     public function delete(Request $request, $id)
     {
-        Recommend::myDemandRecommend()->where('id', $id)->delete();
-        Recommend::myTalentRecommend()->where('id', $id)->delete();
+        Recommend::myHostRecommend()->where('id', $id)->delete();
+        Recommend::myRecommend()->where('id', $id)->delete();
         return redirect($request->header('referer'));
     }
     
@@ -211,5 +223,118 @@ class RecommendController extends Controller
             $recommendComment->save(); 
        
            return new JsonResponse(['success'=>true, 'message' => '成功']);
+    }
+    
+    public function recommend(Request $request)
+    {           
+        if ($request->isMethod('post')) {
+
+            $talent_id= $request['talent_id'];
+            $demand_id = $request['demand_id'];
+            $demand = Demand::where('id', $demand_id)->first();
+    
+            $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);
+            
+            $data = ['talent_id'=> $talent_id, 'demand_id' => $demand_id , 'user_id' => Auth::user()->id , 'host_id'=>$demand->recruit_user, 'type'=> $request['type'], 'flow_id'=>$flow->id] ;
+            $recom = Recom::create($data);      
+             
+             return new JsonResponse(['success'=>true, 'message' => '推荐成功']);
+        }
+        else {
+            $demand_id = $request['demand_id'];
+            $demand = Demand::where('id', $demand_id)->first();
+            $talent_id = $request['talent_id'];
+            $talent = Talent::where('id', $talent_id)->get();
+
+            return view('front.recommend.recommend' , ['demand' => $demand , 'talent' => $talent ]);
+        }
+    }
+    
+    public function recommendHR(Request $request)
+    {  
+        if($request->has("id")) {
+            $id= $request['id'];
+             
+            $recommend = Recommend::where('id', $id)->first();
+    
+            $flow = $recommend->flow;
+            /**
+             * 1. 推荐号--- 需求号---- 是否关联 HR？  
+             * Y 则正式推荐给关联需求的发布hr, 
+             * N:是否有公司名下的HR注册用户 （有，推荐给第一个）（没有，新建一个HR1511，推荐给她）
+             */
+            if($recommend->demand->user->isHr()){
+                $host_id = $recommend->demand->recruit_user;
+            }else{
+                $first_hr =User::where('corporation', $recommend->demand->recruit_corporation)->where('group_parameter', 2)->orderBy('id', 'desc')->first();
+                if(!$first_hr){              
+                    $first_hr = ['corporation' =>$recommend->demand->recruit_corporation, 'group_parameter'=> 2];
+                    $first_hr = User::create($first_hr);
+                }
+                $host_id =$first_hr->id;
+            }
+            
+            $data = ['talent_id'=> $recommend->talent_id, 'demand_id' => $recommend->demand_id , 'user_id' => Auth::user()->id , 'host_id'=>$host_id, 'type'=> $request['type'], 'flow_id'=>$flow->id] ;
+            $recom = Recom::create($data);
+            // 推荐参数2=1 hr推荐 默认=0，没有hr推荐
+            $flow -> recommend_parameter_2=1;
+            $flow -> save();
+        }else{
+            $talent_id= $request['talent_id'];
+            $demand_id = $request['demand_id'];
+            $demand = Demand::where('id', $demand_id)->first();
+            
+            if($demand->user->isHr()){
+                $host_id = $demand->recruit_user;
+            }else{
+                $first_hr =User::where('corporation', $demand->recruit_corporation)->where('group_parameter', 2)->orderBy('id', 'desc')->first();
+                if(!$first_hr){
+                    $first_hr = ['corporation' =>$demand->recruit_corporation, 'group_parameter'=> 2];
+                    $first_hr = User::create($first_hr);
+                }
+                $host_id =$first_hr->id;
+            }
+            
+            $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);
+            
+            $data = ['talent_id'=> $talent_id, 'demand_id' => $demand_id , 'user_id' => Auth::user()->id , 'host_id'=>$host_id, 'type'=> $request['type'], 'flow_id'=>$flow->id] ;
+            $recom = Recom::create($data);
+        }
+
+         
+        return new JsonResponse(['success'=>true, 'message' => '推荐成功']);
+       
+    }
+    
+    public function queryTalent(Request $request)
+    {
+        $demand_id = $request['demand_id'];
+        $demand = Demand::where('id', $demand_id)->first();
+        //搜索
+        $name = $request['name'];
+        $mobile = $request['mobile'];
+        $last_corporation = $request['last_corporation'];
+        //查询当前用户的，未删除数据
+        $query = Talent::myTalent();
+        if(strlen($name)){
+            $query = $query->where('name', 'like', '%'.$name.'%');
+        }
+    
+        if(strlen($mobile)){
+            $query = $query->where('mobile', 'like', '%'.$mobile.'%');
+        }
+        
+        if(strlen($last_corporation)){
+            $query = $query->where('last_corporation', 'like', '%'.$last_corporation.'%');
+        }
+        
+        $talent = $query -> orderBy('id', 'desc')-> paginate(10) ;
+        $talent ->appends(['name' => $request['name']]);
+        $talent ->appends(['mobile' => $request['mobile']]);
+        $talent ->appends(['last_corporation' => $request['last_corporation']]);
+
+        return view('front.recommend.recommend',  ['talent' => $talent,'demand'=>$demand
+            , 'name' => $request['name'],  'mobile' => $request['mobile'] 
+            , 'last_corporation' => $request['last_corporation']] );
     }
 }

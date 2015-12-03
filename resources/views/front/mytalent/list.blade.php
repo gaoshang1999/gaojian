@@ -170,7 +170,7 @@
                  <tr>
                      <td>{{  $v-> name }}</td>
                      <td>{{  $v ->user ->user_name }}</td>
-                     <td>{{  $recommend ? $recommend ->post_name : ""  }}</td>
+                     <td>{{  $recommend ? $recommend ->demand ->post_name : ""  }}</td>
                      <td>{{  $recommend ? $recommend ->created_at : ""  }}</td>
                      <td>{{  $recommend ? $recommend ->demand ->recruit_corporation : ""  }}</td>
                      <td>{{$v-> job_level_1 }}</td>
@@ -178,12 +178,15 @@
                    
                      <td>
                       <div class="btn-group">                          
-                          <a class="btn btn-warning" href="{{ url("/front/mytalent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
-                          <a class="btn btn-warning" href="{{ url("/front/mytalent/recommend/{$v->id}") }}"><i class="icon_plus_alt2"></i></a>
+                           <a class="btn btn-warning" href="{{ url("/front/mytalent/view/{$v->id}") }}" role="button">查看详细</a>
+                           <a class="btn btn-success" href="{{ url("/front/recommend/recommend?talent_id={$v->id}") }}" role="button">快速推荐</a>
+                        
+<!--                           <a class="btn btn-warning" href="{{ url("/front/mytalent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a> -->
+<!--                           <a class="btn btn-warning" href="{{ url("/front/mytalent/recommend/{$v->id}") }}"><i class="icon_plus_alt2"></i></a> -->
                           <form action='{{ url("/front/mytalent/delete/{$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
     									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
-    										<i class="icon_close_alt2"></i>
+    										删除
     									</button>
     							</form>
                       </div>

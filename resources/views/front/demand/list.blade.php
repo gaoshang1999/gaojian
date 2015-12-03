@@ -43,6 +43,7 @@
 
 
  <form class="" role="form" method="get" id="search-form" action="{{ url('/front/demand/search') }}">
+ <input type="hidden" name="open" value="{{ isset($open)?1:''}}">
 <!-- Inline搜索 form-->
                   <div class="row">
 
@@ -74,21 +75,7 @@
                       
                       </div>
 
-
-                                     <div class="col-md-2">
-                        
-                                     
-                                      <div class="checkbox">
-                                          <label>
-                                              <input type="checkbox"> 特殊要求
-                                          </label>
-                                      </div>
-                                      
-
-
-                      </div>
-
-                           <div class="col-md-2">
+                     <div class="col-md-2">
                         
                                   
                                       <button type="submit" class="btn btn-warning">搜索</button>
@@ -189,19 +176,22 @@
 
 
 
-
+@if(!isset($open)) 
  <div class="row">
             
 
-                           <div class="col-md-2" col-sm-offset-3>
-                        
+                    <div class="col-md-2 " col-sm-offset-3>                        
 
-                               <a class="btn btn-warning" href="{{ url('/front/demand/add') }}" role="button">新增岗位</a><br><br>
+                               <a class="btn btn-warning" href="{{ url('/front/demand/add') }}" role="button">新增职位</a><br><br>
+                         </div>
+                      <div class="col-md-2" col-sm-offset-3>                       
+
+                               <a class="btn btn-warning" href="{{ url('/front/demand?open=1') }}" role="button">公共职位</a><br><br>
 
                       </div>
 
-             </div>
-
+</div>
+@endif
 
 
 <!-- advanced表格 table-->
@@ -227,6 +217,10 @@
                      <th><i class="icon_pin_alt"></i> 已面试人数</th>
 
                      <th><i class="icon_mobile"></i> 优先级</th>
+                    <th><i class="icon_mobile"></i> 开放状态</th>
+                     <th><i class="icon_mobile"></i>发布人</th>
+                     <th><i class="icon_mobile"></i>发布人所在公司</th>
+                     
                      <th><i class="icon_cogs"></i> 操作（编辑-删除）</th>
                  </tr>
                  @foreach ($demand->all() as $v)
@@ -239,16 +233,50 @@
                      <td>{{ $v->recommends()->get()->count() }}</td>
                      <td>{{ $v->recommends()->where('recommend_flow_status_label_3', '面试进度中' )->get()->count() }}</td>
                      <td>{{ $v->recommends()->where('recommend_flow_status_label_3', 'offer进度中' )->get()->count() }}</td>
+                     <td>{{ $v->created_at }}</td>
+                     <td>{{ $v->created_at }}</td>
+                     <td>{{ $v->created_at }}</td>
                      <td>
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->
-                      <a class="btn btn-warning" href="{{ url("/front/demand/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
-                      <form action='{{ url("/front/demand/delete/{$v->id}") }}' method="post" class="pull-right">
+                      <a href="{{ url("/front/demand/view/{$v->id}") }}" class="btn btn-warning btn-sm" role="button">
+                      职位详细
+                      </a>
+                      @if(!isset($open)) 
+                      <a href="{{ url("/front/recommend/search?demand_id={$v->id}") }}" class="btn btn-warning btn-sm" role="button">
+                      候选人
+                      </a>
+                      @endif
+                      <a href="{{ url("/front/recommend/recommend?demand_id={$v->id}") }}" class="btn btn-success btn-sm" role="button">
+                      快速推荐
+                      </a>
+                      					
+ @if(!isset($open)) 
+                      <form action='{{ url("/front/demand/delete/{$v->id}") }}' method="post"  class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
-    									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
-    										<i class="icon_close_alt2"></i>
+    									<button class="btn btn-warning btn-sm" onclick="return deleleConfirm();">																	
+    										 删除 
     									</button>
-    							</form>
+    					</form>
+    					
+    				 @if($v->demand_parameter_5)
+                      <form name="open-form" action='{{ url("/front/demand/open/{$v->id}") }}' method="post"  class="pull-right">
+    							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
+    							 <input type="hidden" name="demand_parameter_5" value="0">
+    									<button class="btn btn-success btn-sm" onclick="">																	
+    										关闭推荐
+    									</button>
+    					</form>
+    				@else
+                       <form name="open-form"  action='{{ url("/front/demand/open/{$v->id}") }}' method="post"  class="pull-right">
+    							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
+    							 <input type="hidden" name="demand_parameter_5" value="1">
+    									<button class="btn btn-success btn-sm" onclick="">																	
+    										开放推荐
+    									</button>
+    					</form>
+    				@endif	
+@endif
                       </div>
                   </td>
               </tr>
@@ -302,6 +330,24 @@
       });
         
   });
-                 
+
+  $("form[name='open-form']").submit(function (ev) { 	
+	   $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize() ,
+        dataType: "json",
+        success: function (data) { 
+	           	var ret = eval(data); 
+	            alert(ret.message);	
+	            location.reload();
+        },
+        error: function(){       	    
+     	     alert("操作失败，请重试");
+        }
+    });
+
+	   ev.preventDefault();
+});                
 </script>
 @endsection

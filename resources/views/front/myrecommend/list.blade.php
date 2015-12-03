@@ -171,9 +171,11 @@
                     <th><i class="icon_profile"></i> 推荐公司</th>
                      <th><i class="icon_profile"></i> 推荐岗位</th>
                      <th><i class="icon_pin_alt"></i> 推荐号</th>
+                     <th><i class="icon_pin_alt"></i> 推荐HR</th>
                      <th><i class="icon_pin_alt"></i> 推荐人</th>
 
                      <th><i class="icon_calendar"></i> 推荐时间</th>
+                     <th><i class="icon_pin_alt"></i> 人才Host</th>
                      <th><i class="icon_pin_alt"></i> 姓名</th>
                      <th><i class="icon_pin_alt"></i> 所在公司</th>
                      <th><i class="icon_pin_alt"></i> 职能</th>
@@ -190,8 +192,10 @@
                      <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->post_name }}</td>
                      <td>{{ $v->id }} </td>
+                      <td>  </td>
                      <td>{{ $v->user->corporation }}-{{ $v->user->user_name }}</td>
-                     <td>{{ $v->created_at }}</td>
+                     <td>{{ $v->created_at }}</td>                       
+                      <td>  </td>
                      <td>{{ $v->talent->name }}</td>
                      <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->demand_type_label_1 }}</td>
@@ -200,14 +204,24 @@
                      <td> {{ $v->recommend_flow_status_label_2 }} </td>
                      <td>
                       <div class="btn-group">
-<!--                            <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a> -->
-                      <a class="btn btn-warning" href="{{ url("/front/recommend/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
+                      
+                            <a class="btn btn-warning" href="{{ url("/front/myrecommend/edit/{$v->id}")  }}" role="button">详细</a>
+                            <a class="btn btn-success" href='{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}'  role="button">转推荐</a>
+                            
                       <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
     									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
-    										<i class="icon_close_alt2"></i>
+    										删除
     									</button>
     							</form>
+    							
+    					<form name="recommend-hr-form" action='{{ url("/front/recommend/recommendHR?id={$v->id}") }}' method="post" class="pull-right">
+    							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
+    							 <input type="hidden" name="type" value="2" >
+    									<button class="btn btn-success" onclick="">																	
+    										推荐HR
+    									</button>
+    					</form>
                       </div>
                   </td>
               </tr>
@@ -234,4 +248,29 @@
 		</section>
 	</section>
 <!--main content end-->    
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+
+  $("form[name='recommend-hr-form']").submit(function (ev) { 					
+	   $.ajax({
+          type: $(this).attr('method'),
+          url: $(this).attr('action'),
+          data: $(this).serialize() ,
+          dataType: "json",
+          success: function (data) { 
+	           	var ret = eval(data); 
+	            alert(ret.message);	
+	            location.reload();
+          },
+          error: function(){       	    
+       	     alert("推荐HR失败，请重试");
+          }
+      });
+
+	   ev.preventDefault();
+  });
+  
+</script>
 @endsection

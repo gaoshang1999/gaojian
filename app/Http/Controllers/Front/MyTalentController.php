@@ -201,6 +201,11 @@ class MyTalentController extends Controller
     }
     
     
-    
+    public function view(Request $request, $id)
+    {
+        $talent = Talent::myTalent()->where('id', $id)->first();
+         
+         return view('front.mytalent.view', ['talent' => $talent] );        
+    }
 
 }

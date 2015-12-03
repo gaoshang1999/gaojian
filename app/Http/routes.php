@@ -136,6 +136,9 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('demand/delete/{id}',  'DemandController@delete');
     $app->get('demand/search', 'DemandController@search');
     $app->get('demand/queryPostName', 'DemandController@queryPostName');
+    $app->get('demand/view/{id}', 'DemandController@view');
+    $app->get('demand/queryMyDemand', 'DemandController@queryMyDemand');
+    $app->post('demand/open/{id}',  'DemandController@open');
     
     $app->get('recommend',  'RecommendController@lists');
     $app->get('recommend/add',  'RecommendController@add');
@@ -145,6 +148,10 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('recommend/delete/{id}',  'RecommendController@delete');
     $app->get('recommend/search', 'RecommendController@search');
     $app->post('recommend/comment',  'RecommendController@comment');
+    $app->get('recommend/recommend',  'RecommendController@recommend');
+    $app->post('recommend/recommend',  'RecommendController@recommend');
+    $app->post('recommend/recommendHR',  'RecommendController@recommendHR');
+    $app->get('recommend/queryTalent', 'RecommendController@queryTalent');
     
     $app->get('mytalent',  'MyTalentController@lists');
     $app->get('mytalent/add',  'MyTalentController@add');
@@ -156,11 +163,12 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->get('mytalent/recommend/{id}',  'MyTalentController@recommend');
     $app->post('mytalent/recommend/{id}',  'MyTalentController@recommend');
     $app->get('mytalent/demandSearch/{id}',  'MyTalentController@demandSearch');
+    $app->get('mytalent/view/{id}',  'MyTalentController@view');
     
     $app->get('myrecommend',  'MyRecommendController@lists');
     $app->get('myrecommend/add',  'MyRecommendController@add');
     $app->post('myrecommend/add',  'MyRecommendController@add');
-    $app->get('myrecommend/edit/{id}',  'MyRecommendController@edit');
+    $app->get('myrecommend/edit/{id}',  'RecommendController@edit');
     $app->post('myrecommend/edit/{id}',  'MyRecommendController@edit');
     $app->post('myrecommend/delete/{id}',  'MyRecommendController@delete');
     $app->get('myrecommend/search', 'MyRecommendController@search');

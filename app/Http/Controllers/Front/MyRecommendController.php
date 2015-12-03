@@ -12,18 +12,17 @@ class MyRecommendController extends Controller
     
     public function lists(Request $request)
     {
-        //查询当前用户上传的人才,  收到的推荐
-        $data = ['recommend' => Recommend::myTalentRecommend()->orderBy('id', 'desc')->paginate(10) ];
+        //查询当前的推荐
+        $data = ['recommend' => Recommend::myRecommend()->orderBy('id', 'desc')->paginate(10) ];
 
         return view('front.myrecommend.list', $data);
     }
     
     public function queryBulider(Request $request)
-    {
-        
+    {        
         $user_id = Auth::user()->id;
-        //查询当前用户上传的人才,  收到的推荐
-        $query = Recommend::myTalentRecommend();
+        //查询当前的推荐
+        $query = Recommend::myRecommend();
         
         //搜索
         $name = $request['name'];
@@ -151,7 +150,7 @@ class MyRecommendController extends Controller
     
     public function edit(Request $request, $id)
     {
-        $recommend = Recommend::myTalentRecommend()->where('id', $id)->first();
+        $recommend = Recommend::myRecommend()->where('id', $id)->first();
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
@@ -202,7 +201,7 @@ class MyRecommendController extends Controller
     
     public function delete(Request $request, $id)
     {
-        Recommend::myTalentRecommend()->where('id', $id)->delete();
+        Recommend::myRecommend()->where('id', $id)->delete();
         return redirect($request->header('referer'));
     }
     

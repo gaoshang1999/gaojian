@@ -39,7 +39,8 @@
               </div>
               
 <!-- Inline搜索 form-->
- <form class="" role="form" method="get" id="search-form" action="{{ url('/front/recommend/search') }}">              
+ <form class="" role="form" method="get" id="search-form" action="{{ url('/front/recommend/search') }}">         
+ <input type="hidden" name="demand_id" value="{{ Request::has('demand_id') ?Request::input('demand_id') :''}}" >				     
                   <div class="row">
 
                   <div class="col-md-2">
@@ -184,6 +185,7 @@
  <tr>
                      <th><i class="icon_profile"></i> 推荐岗位</th>
                      <th><i class="icon_pin_alt"></i> 推荐号</th>
+                     <th><i class="icon_pin_alt"></i> 推荐HR</th>                     
                      <th><i class="icon_pin_alt"></i> 推荐人</th>
 
                      <th><i class="icon_calendar"></i> 推荐时间</th>
@@ -202,6 +204,7 @@
                  <tr>
                      <td>{{ $v->demand->post_name }}</td>
                      <td>{{ $v->id }} </td>
+                     <td>{{ $v->id }} </td>
                      <td>{{ $v->user->corporation }}-{{ $v->user->user_name }}</td>
                      <td>{{ $v->created_at }}</td>
                      <td>{{ $v->talent->name }}</td>
@@ -212,14 +215,29 @@
                      <td> {{ $v->recommend_flow_status_label_2 }} </td>
                      <td>
                       <div class="btn-group">
-<!--                            <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a> -->
-                      <a class="btn btn-warning" href="{{ url("/front/recommend/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a>
-                      <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
+                      
+                          <a class="btn btn-warning" href="{{ url("/front/recommend/edit/{$v->id}") }}" role="button">详细</a>
+                          <a class="btn btn-success" href="{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}" role="button">转推荐</a>
+                          <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
+							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >							 
+									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
+										删除
+									</button>
+							</form>           
+						 @if($v->recommend_parameter_2 == 1)
+						   <a class="btn btn-success" href="#" role="button" class="pull-right">已推荐HR</a>
+						 @else
+                         <form name="recommend-hr-form" action='{{ url("/front/recommend/recommendHR?id={$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
-    									<button class="btn btn-warning" onclick="return deleleConfirm();">																	
-    										<i class="icon_close_alt2"></i>
+    							 <input type="hidden" name="type" value="2" >
+    									<button class="btn btn-success" onclick="">																	
+    										推荐HR
     									</button>
     							</form>
+                         @endif
+<!--                            <a class="btn btn-warning" href="profile-process.html"><i class="icon_plus_alt2"></i></a> -->
+<!--                       <a class="btn btn-warning" href="{{ url("/front/recommend/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a> -->
+
                       </div>
                   </td>
               </tr>
@@ -246,4 +264,29 @@
 		</section>
 	</section>
 <!--main content end-->    
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+
+  $("form[name='recommend-hr-form']").submit(function (ev) { 					
+	   $.ajax({
+          type: $(this).attr('method'),
+          url: $(this).attr('action'),
+          data: $(this).serialize() ,
+          dataType: "json",
+          success: function (data) { 
+	           	var ret = eval(data); 
+	            alert(ret.message);	
+	            location.reload();
+          },
+          error: function(){       	    
+       	     alert("推荐HR失败，请重试");
+          }
+      });
+
+	   ev.preventDefault();
+  });
+  
+</script>
 @endsection
