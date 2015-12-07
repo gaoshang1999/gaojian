@@ -96,15 +96,13 @@ class DemandController extends Controller
         $demand ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $demand ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $demand ->appends(['updated_at' => $request['updated_at']]);
+        if($request->has('open'))  {
+            $demand ->appends(['open' => 1]);
+        }
         
-        $param = ['recruit_corporation' => $request['recruit_corporation'], 'post_name' => $request['post_name'], 'position_description' => $request['position_description'] 
-            , 'recruit_corporation_2' => $request['recruit_corporation_2'], 'post_name_2' => $request['post_name_2'], 'demand_type_label_1' => $request['demand_type_label_1']
-            , 'recommend_flow_status_label_3' => $request['recommend_flow_status_label_3'] , 'updated_at' => $request['updated_at']
-            ,'open'=> $request->has('open')
-         ];
-        
+                
         $data = ['demand' => $demand];
-        return view('front.demand.list', array_merge($data, $param));
+        return view('front.demand.list',  $data);
     }
     
     public function rules()
@@ -231,7 +229,7 @@ class DemandController extends Controller
             $query = $query->where('recruit_user', $recruit_user);
         }
         if($recruit_corporation){
-            $query = $query->addSelect('post_name')->where('recruit_corporation', $recruit_corporation);
+            $query = $query->addSelect('id','post_name')->where('recruit_corporation', $recruit_corporation);
         }
         $lists = $query->distinct() ->orderBy('recruit_corporation')->orderBy('post_name')->get();
     

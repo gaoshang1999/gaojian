@@ -102,15 +102,9 @@ class MyRecommendController extends Controller
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);
         $recommend ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);
-
-        
-        $param = ['name' => $request['name'], 'user_name' => $request['user_name'], 'post_name_2' => $request['post_name_2'],
-            'demand_type_label_1' =>$request['demand_type_label_1'] , 'recommend_flow_status_label_3' =>$request['recommend_flow_status_label_3'] , 'recommend_flow_parameter_2' => $request['recommend_flow_parameter_2'],
-            'recommend_flow_parameter_1' =>$request['recommend_flow_parameter_1'] 
-        ];
         
         $data = ['recommend' => $recommend];
-        return view('front.myrecommend.list', array_merge($data, $param));
+        return view('front.myrecommend.list', $data);
     }
     
     public function rules()

@@ -248,6 +248,20 @@
                                                       <textarea class="form-control ckeditor"  placeholder="补充信息" name="additional_specification" rows="10">{{ old('additional_specification', $demand  ? $demand-> additional_specification : '') }}</textarea>
                                                   </div>
                                               </div>
+                                              
+                                            <div class="form-group">
+                                                  <label class="control-label col-sm-2">公司介绍</label>
+                                                  <div class="col-sm-8">
+                                                      <textarea class="form-control ckeditor"  placeholder="公司介绍" name="corporation_synopsis" rows="10">{{ old('corporation_synopsis', $demand  ? $demand-> corporation_synopsis : '') }}</textarea>
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group">
+                                                  <label class="control-label col-sm-2">公司亮点</label>
+                                                  <div class="col-sm-8">
+                                                      <textarea class="form-control ckeditor"  placeholder="公司亮点" name="highlight" rows="10">{{ old('highlight',  $demand  ?$demand-> highlight:'' ) }}</textarea>
+                                                  </div>
+                                              </div>                                             
 
                                               <div class="form-group">
                                           <div class="col-lg-offset-4 col-lg-8">

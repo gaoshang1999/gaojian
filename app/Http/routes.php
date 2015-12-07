@@ -126,7 +126,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
 
 $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', 'middleware' => ['auth.login']], function($app){
    
-    $app->get('/',  'DemandController@lists');
+    $app->get('/index',  'DemandController@lists');
     
     $app->get('demand',  'DemandController@lists');
     $app->get('demand/add',  'DemandController@add');

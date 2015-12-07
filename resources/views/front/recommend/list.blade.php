@@ -2,7 +2,6 @@
 
 {{-- Content --}}
 @section('content')
-
   			<!--main content start-->
   			<section id="main-content">
   				<section class="wrapper">            
@@ -40,7 +39,7 @@
               
 <!-- Inline搜索 form-->
  <form class="" role="form" method="get" id="search-form" action="{{ url('/front/recommend/search') }}">         
- <input type="hidden" name="demand_id" value="{{ Request::has('demand_id') ?Request::input('demand_id') :''}}" >				     
+ <input type="hidden" name="demand_id" value="{{ Request::input('demand_id') }}" >				     
                   <div class="row">
 
                   <div class="col-md-2">
@@ -50,7 +49,7 @@
                         
                                       <div class="form-group"> <?php $name = isset($name) ? $name : ""; ?>
                                           <label class="sr-only" for="name">人才名称关键字</label>
-                                          <input type="text" class="form-control" name="name" placeholder="人才名称关键字"  value="{{$name}}">
+                                          <input type="text" class="form-control" name="name" placeholder="人才名称关键字"  value="{{ Request::input('name') }}">
                                       </div>
                                       
 
@@ -62,7 +61,7 @@
                                       
                                       <div class="form-group"> <?php $user_name = isset($user_name) ? $user_name : ""; ?>
                                           <label class="sr-only" for="user_name">推荐人关键字</label>
-                                          <input type="text" class="form-control" name="user_name" placeholder="推荐人关键字"  value="{{$user_name}}">
+                                          <input type="text" class="form-control" name="user_name" placeholder="推荐人关键字"  value="{{ Request::input('user_name') }}">
                                       </div>
                                       
 
@@ -106,9 +105,9 @@
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $d1= App\Models\Demand::myDemand()->select('post_name')->whereNotNull('post_name')->distinct() ->orderBy('post_name')->get();?>                            
                                         <select class="form-control m-bot15" name="post_name_2" >
-                                                      <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
+                                                      <option value=0>所有岗位</option>  
                                            @foreach ($d1->all() as $v)
-                                                  <option value="{{ $v->post_name }}" {{ !is_null($post_name_2) && $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->post_name }}" {{  Request::input('post_name') == $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -118,9 +117,9 @@
            <?php  $d2=App\Models\Demand::myDemand()->select('demand_type_label_1')->whereNotNull('demand_type_label_1')->distinct() ->orderBy('demand_type_label_1')->get();?>
                                            
                                               <select class="form-control m-bot15" name="demand_type_label_1">
-                                                  <option value=0>所有职能</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
+                                                  <option value=0>所有职能</option>   
                                            @foreach ($d2->all() as $v)
-                                                  <option value="{{ $v->demand_type_label_1}}" {{ !is_null($demand_type_label_1) &&$demand_type_label_1== $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
+                                                  <option value="{{ $v->demand_type_label_1}}" {{ Request::input('demand_type_label_1') == $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -128,7 +127,7 @@
              <div class="col-md-2" col-sm-offset-3>
                                        
                                        
-                                              <select class="form-control m-bot15"  name="recommend_flow_status_label_3">  <?php $recommend_flow_status_label_3 = isset($recommend_flow_status_label_3) ? $recommend_flow_status_label_3 : ""; ?>
+                                              <select class="form-control m-bot15"  name="recommend_flow_status_label_3">  <?php $recommend_flow_status_label_3 = Request::input('recommend_flow_status_label_3'); ?>
                                                   <option value="不含流程外候选人">有效进度中所有</option>
                                                   <option value="offer进度中" {{ $recommend_flow_status_label_3== "offer进度中" ?	'selected' : '' }}>offer进度中</option>
                                                   <option value="面试进度中" {{ $recommend_flow_status_label_3== "面试进度中" ?	'selected' : '' }}>面试进度中</option>
@@ -140,10 +139,10 @@
 
               <div class="col-md-2" col-sm-offset-3>
                                        <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_2')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="recommend_flow_parameter_2">  <?php $recommend_flow_parameter_2 = isset($recommend_flow_parameter_2) ? $recommend_flow_parameter_2 : ""; ?>
+                                              <select class="form-control m-bot15" name="recommend_flow_parameter_2">  
                                                   <option value="0" >所有提醒时间</option>
                                                    @foreach($constant as $c)
-			                                         <option value="{{ $c->k }}" @if($recommend_flow_parameter_2  ==$c->k ) selected @endif >{{ $c->v }}</option> 
+			                                         <option value="{{ $c->k }}" @if(Request::input('recommend_flow_parameter_2')  ==$c->k ) selected @endif >{{ $c->v }}</option> 
 			                                        @endforeach
 
                                               </select>
@@ -152,10 +151,10 @@
 
              <div class="col-md-2" col-sm-offset-3>
                                        <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_1')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1"> <?php $recommend_flow_parameter_1 = isset($recommend_flow_parameter_1) ? $recommend_flow_parameter_1 : ""; ?>
+                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1">
                                                  <option value="0">所有状态</option>
                                                   @foreach($constant as $c)
-                                        			<option value="{{ $c->k }}" @if($recommend_flow_parameter_1 ==$c->k ) selected @endif >{{ $c->v }}</option>
+                                        			<option value="{{ $c->k }}" @if(Request::input('recommend_flow_parameter_1') ==$c->k ) selected @endif >{{ $c->v }}</option>
                                         		  @endforeach
                                                                                                                                                                            
                                               </select>

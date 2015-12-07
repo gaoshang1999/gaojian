@@ -13,20 +13,20 @@
                   <div class="col-lg-8"><!-- col start-->
                       <section class="panel">
                           <header class="panel-heading">
-                             快速推荐
+                             快速推荐 {{Request::input('recruit_user')}}
                           </header>
                         <div class="panel-body">
          <form id="" class="form-horizontal "  method="get"  action="{{ url('/front/recommend/queryTalent') }}">
-         <input type="hidden" name="demand_id" value="{{isset($demand) ?$demand->id:''}}" >
+         <input type="hidden" name="demand_id" value="{{Request::input('demand_id')}}" >
 	<?php  $users= App\Models\User::others() ->orderBy('user_name')->get();?>                    
                                  <div class="form-group">
                                       <label class="col-sm-2 control-label">发布人</label>
                                         <div class="col-md-4" col-sm-offset-3>
                                        
                                               <select class="form-control m-bot15" id="recruit_user" name="recruit_user">
-                                                <option value="{{ Auth::user()->id}}" {{ isset($demand) &&$demand->recruit_user== Auth::user()->id?	'selected' : '' }}>本人（默认）</option>
+                                                <option value="{{ Auth::user()->id}}" {{ Request::input('recruit_user')== Auth::user()->id?	'selected' : '' }}>本人（默认）</option>
                                                     @foreach ($users->all() as $v)
-                                                  <option value="{{ $v->recruit_user}}" {{ isset($demand) &&$demand->recruit_user== $v->recruit_user?	'selected' : '' }}>{{ $v->user_name }}</option>
+                                                  <option value="{{ $v->id}}" {{ Request::input('recruit_user')== $v->id?	'selected' : '' }}>{{ $v->user_name }}</option>
                                                     @endforeach
                                                  
                                               </select>
@@ -49,7 +49,7 @@
                                        
                                               <select class="form-control m-bot15" id="recruit_corporation" name="recruit_corporation">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->recruit_corporation}}" {{ isset($demand) &&$demand->recruit_corporation== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                                     @endforeach
                                               </select>
                                            
@@ -72,7 +72,7 @@
                                        
                                               <select class="form-control m-bot15" id="post_name" name="post_name">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->id}}" {{ isset($demand) &&$demand->id== $v->id?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->id}}" {{ Request::input('post_name')== $v->id ?	'selected' : '' }}>{{ $v->post_name }}</option>
                                                     @endforeach    
                                               </select>
                                            
@@ -82,27 +82,26 @@
 
                                        
  
-                                <?php $name = isset($name) ? $name : ""; ?>
-                                  <div class="form-group">
+                              <div class="form-group">
                                       <label class="col-sm-2 control-label">人才姓名搜索</label>
                                       <div class="col-sm-8">
-                                          <input type="text" class="form-control"  name="name" value="{{$name}}">
+                                          <input type="text" class="form-control"  name="name" value="{{Request::input('name')}}">
                                       </div>
                                   </div>
 
-                                   <?php $mobile = isset($mobile) ? $mobile : ""; ?>
+                                  
                                    <div class="form-group">
                                       <label class="col-sm-2 control-label">人才手机搜索</label>
                                       <div class="col-sm-8">
-                                          <input type="text" class="form-control"  name="mobile" value="{{$mobile}}">
+                                          <input type="text" class="form-control"  name="mobile" value="{{Request::input('mobile')}}">
                                       </div>
                                   </div>
 
-                                  <?php $last_corporation = isset($last_corporation) ? $last_corporation : ""; ?>
+                                  
                                    <div class="form-group">
                                       <label class="col-sm-2 control-label">所在公司搜索</label>
                                       <div class="col-sm-8">
-                                          <input type="text" class="form-control"  name="last_corporation" value="{{$last_corporation}}">
+                                          <input type="text" class="form-control"  name="last_corporation" value="{{Request::input('last_corporation')}}">
                                       </div>
                                   </div>
 
@@ -193,7 +192,7 @@
 
                                               <div class="form-group">
                                           <div class="col-lg-offset-4 col-lg-8">
-                                             <a class="btn btn-warning" href="index.html" role="button">返回</a><br>
+                                             <a class="btn btn-warning" href="javascript:history.back()" role="button">返回</a><br>
 
                                           </div>
                                           </div>
@@ -258,12 +257,13 @@
           type: 'get',
           url: "{{ url('/front/demand/queryMyDemand') }}",
           data: 'recruit_corporation='+ recruit_corporation +'&recruit_user='+ recruit_user,
+          contentType: "application/x-www-form-urlencoded; charset=utf-8", 
           dataType: "json",
           success: function (data) {
        	    var lists = eval(data);
        	    var html = '';
            	 $(lists).each(function() {
-           	   html += '<option value="'+this.post_name+'">'+this.post_name+'</option>';           	 
+           	   html += '<option value="'+this.id+'">'+this.post_name+'</option>';           	 
            	});
            	$('#post_name').html(html);
           },

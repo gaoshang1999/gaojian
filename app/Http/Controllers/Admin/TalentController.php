@@ -4,6 +4,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Demand;
 use App\Models\Talent;
 use App\Models\Recommend;
+use App\Models\Flow;
+use App\Models\Recom;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use ZipArchive;
@@ -368,10 +370,12 @@ class TalentController extends Controller
             if(! $demand){
                 return new JsonResponse(['success'=>false, 'message' => '需求编号不存在，请重新输入.']);
             }             
-            foreach($talents as $t){                
-                $data = ['talent_id'=> $t ->id, 'demand_id' => $demand_id, 'user_id'=> $user->id, 'recommend_time'=> date("Y-m-d H:i:s"),'recommend_type'=> $request['recommend_type']];
+            foreach($talents as $t){ 
+                $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);
                 
-                $recommend = Recommend::create($data);
+                $data = ['talent_id'=> $t ->id, 'demand_id' => $demand_id, 'user_id'=> $user->id, 'host_id'=>$demand->recruit_user, 'type'=> 1, 'flow_id'=>$flow->id];
+                
+                $recommend = Recom::create($data);
             }
         }catch(Exception $e)
         {

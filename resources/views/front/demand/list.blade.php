@@ -43,18 +43,19 @@
 
 
  <form class="" role="form" method="get" id="search-form" action="{{ url('/front/demand/search') }}">
- <input type="hidden" name="open" value="{{ isset($open)?1:''}}">
+ <input type="hidden" name="open" value="{{Request::input('open')}}">
 <!-- Inline搜索 form-->
                   <div class="row">
 
                   <div class="col-md-2">
+                  
                   </div>
 
                     <div class="col-md-2">
                         
-                                      <div class="form-group"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : ""; ?>
+                                      <div class="form-group"> 
                                           <label class="sr-only" for="exampleInputEmail2">公司名称关键字</label>
-                                          <input type="text" class="form-control" name="recruit_corporation" placeholder="公司名称关键字"  value="{{$recruit_corporation}}">
+                                          <input type="text" class="form-control" name="recruit_corporation" placeholder="公司名称关键字"  value="{{Request::input('recruit_corporation')}}">
                                       </div>
                        </div>
 
@@ -62,15 +63,15 @@
                         
                                       <div class="form-group"> <?php $post_name = isset($post_name) ? $post_name : ""; ?>
                                           <label class="sr-only" for="exampleInputEmail2">职位名称关键字</label>
-                                          <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{$post_name}}">
+                                          <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{Request::input('post_name')}}"">
                                       </div>
                        </div>
 
                        <div class="col-md-2">
                                                               
-                                      <div class="form-group"> <?php $position_description = isset($position_description) ? $position_description : ""; ?>
+                                      <div class="form-group"> 
                                           <label class="sr-only" for="exampleInputPassword2">职位描述关键字</label>
-                                          <input type="text" class="form-control"  name="position_description" placeholder="职位描述关键字" value="{{$position_description}}">
+                                          <input type="text" class="form-control"  name="position_description" placeholder="职位描述关键字" value="{{Request::input('position_description')}}"">
                                       </div>
                       
                       </div>
@@ -100,9 +101,9 @@
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $d1= App\Models\Demand::myDemand()->select('recruit_corporation')->whereNotNull('recruit_corporation')->distinct()->orderBy('recruit_corporation') ->get();?>                            
                                         <select class="form-control m-bot15" name="recruit_corporation_2"  id="recruit_corporation_2" ">
-                                                      <option value=0>所有公司</option> <?php $recruit_corporation_2 = isset($recruit_corporation_2) ? $recruit_corporation_2 : null; ?>
-                                           @foreach ($d1->all() as $v)
-                                                  <option value="{{ $v->recruit_corporation }}" {{ !is_null($recruit_corporation_2) && $recruit_corporation_2== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                      <option value=0>所有公司</option> 
+                                           @foreach ($d1->all() as $v)   
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation_2') == $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -111,14 +112,14 @@
            
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $query= App\Models\Demand::myDemand()->select('post_name')->whereNotNull('post_name');
-           	 if(!is_null($recruit_corporation_2)){
-           	     $query->where('recruit_corporation', $recruit_corporation_2);
+           	 if(Request::input('recruit_corporation_2')){
+           	     $query->where('recruit_corporation', Request::input('recruit_corporation_2'));
            	 }
            	 $d1= $query->distinct() ->orderBy('post_name')->get();?>                            
                                         <select class="form-control m-bot15" name="post_name_2"  id="post_name_2" >
-                                                      <option value=0>所有岗位</option> <?php $post_name_2 = isset($post_name_2) ? $post_name_2 : null; ?>
+                                                      <option value=0>所有岗位</option> 
                                            @foreach ($d1->all() as $v)
-                                                  <option value="{{ $v->post_name }}" {{ !is_null($post_name_2) && $post_name_2== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->post_name }}" {{ Request::input('post_name_2')== $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -128,9 +129,9 @@
            <?php  $d2= App\Models\Demand::myDemand()->select('demand_type_label_1')->whereNotNull('demand_type_label_1')->distinct()->orderBy('demand_type_label_1') ->get();?>
                                            
                                               <select class="form-control m-bot15" name="demand_type_label_1">
-                                                  <option value=0>所有职能</option>  <?php $demand_type_label_1 = isset($demand_type_label_1) ? $demand_type_label_1 : null; ?>
+                                                  <option value=0>所有职能</option>  
                                            @foreach ($d2->all() as $v)
-                                                  <option value="{{ $v->demand_type_label_1}}" {{ !is_null($demand_type_label_1) &&$demand_type_label_1== $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
+                                                  <option value="{{ $v->demand_type_label_1}}" {{Request::input('demand_type_label_1') == $v->demand_type_label_1?	'selected' : '' }}>{{ $v->demand_type_label_1 }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -151,8 +152,8 @@
 
               <div class="col-md-2" col-sm-offset-3>
                                        
-                                              <select class="form-control m-bot15" name="updated_at">  <?php $updated_at = isset($updated_at) ? $updated_at : ""; ?>
-                                                  <option value="0" >全部发布时间</option>
+                                              <select class="form-control m-bot15" name="updated_at">  <?php $updated_at = Request::input('updated_at'); ?>
+                                                  <option value="0" >全部发布时间</option>  
                                                   <option value="-3 day"  {{ $updated_at== "-3 day" ?	'selected' : '' }}>3天内</option>
                                                   <option value="-7 day"  {{ $updated_at== "-7 day" ?	'selected' : '' }}>1周内</option>
                                                   <option value="-14 day"  {{ $updated_at== "-14 day" ?	'selected' : '' }}>2周内</option>
@@ -176,7 +177,7 @@
 
 
 
-@if(!isset($open)) 
+@if(!Request::has('open')) 
  <div class="row">
             
 
@@ -233,16 +234,16 @@
                      <td>{{ $v->recommends()->get()->count() }}</td>
                      <td>{{ $v->recommends()->where('recommend_flow_status_label_3', '面试进度中' )->get()->count() }}</td>
                      <td>{{ $v->recommends()->where('recommend_flow_status_label_3', 'offer进度中' )->get()->count() }}</td>
-                     <td>{{ $v->created_at }}</td>
-                     <td>{{ $v->created_at }}</td>
-                     <td>{{ $v->created_at }}</td>
+                     <td>{{ $v->demand_parameter_5==1?'已开放':'未开放' }}</td>
+                     <td>{{ $v->user->user_name }}</td>
+                     <td>{{ $v->user->corporation }}</td>
                      <td>
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->
                       <a href="{{ url("/front/demand/view/{$v->id}") }}" class="btn btn-warning btn-sm" role="button">
                       职位详细
                       </a>
-                      @if(!isset($open)) 
+                      @if(!Request::has('open')) 
                       <a href="{{ url("/front/recommend/search?demand_id={$v->id}") }}" class="btn btn-warning btn-sm" role="button">
                       候选人
                       </a>
@@ -251,7 +252,7 @@
                       快速推荐
                       </a>
                       					
- @if(!isset($open)) 
+ @if(!Request::has('open')) 
                       <form action='{{ url("/front/demand/delete/{$v->id}") }}' method="post"  class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >
     									<button class="btn btn-warning btn-sm" onclick="return deleleConfirm();">																	
@@ -315,6 +316,7 @@
           type: 'get',
           url: "{{ url('/front/demand/queryPostName') }}",
           data: 'recruit_corporation='+ recruit_corporation,
+          contentType: "application/x-www-form-urlencoded; charset=utf-8", 
           dataType: "json",
           success: function (data) {
        	    var lists = eval(data);
@@ -348,6 +350,7 @@
     });
 
 	   ev.preventDefault();
-});                
+  });                
+
 </script>
 @endsection

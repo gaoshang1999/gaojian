@@ -83,14 +83,9 @@ class MyTalentController extends Controller
         $talent ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         $talent ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);
         $talent ->appends(['updated_at' => $request['updated_at']]);
-        
-        $param = ['name' => $request['name'],  'mobile' => $request['mobile'] 
-            , 'recruit_corporation' => $request['recruit_corporation'], 'recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']
-            , 'updated_at' => $request['updated_at'] 
-         ];
-        
+                
         $data = ['talent' => $talent];
-        return view('front.mytalent.list', array_merge($data, $param));
+        return view('front.mytalent.list', $data);
     }
 
     public function rules()
@@ -121,7 +116,7 @@ class MyTalentController extends Controller
             $talent ->user_id = $user->id;
             $talent->save(); 
        
-            return redirect('/front/talent');
+            return redirect('/front/mytalent');
         }
         else {            
             return view('front.mytalent.create_edit', ['talent' => null] );

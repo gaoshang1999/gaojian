@@ -149,9 +149,7 @@
                                                   <div class="text">
                                                       <a href="#" class="activity-img"><img class="avatar" src="/front/img/chat-avatar.jpg" alt=""></a>
                                                       <p class="attribution"><a href="#">职位描述</a> </p>
-                                                      <pre class="pre-scrollable">
-                                                        {{ $demand->position_description }}
-                                                      </pre>
+                                                      <pre class="pre-scrollable">{{ $demand->position_description }}</pre>
                                                   </div>
                                               </div>
                                           </div>
@@ -252,9 +250,7 @@
                                                   <div class="text">
                                                       <a href="#" class="activity-img"><img class="avatar" src="/front/img/chat-avatar.jpg" alt=""></a>
                                                       <p class="attribution"><a href="#">公司介绍</a> </p>
-                                                      <pre class="pre-scrollable">
-                                                        {{ $demand->corporation_synopsis }}
-                                                      </pre>
+                                                      <pre class="pre-scrollable">{{ $demand->corporation_synopsis }}</pre>
                                                   </div>
                                               </div>
                                           </div>
@@ -267,9 +263,7 @@
                                                   <div class="text">
                                                       <a href="#" class="activity-img"><img class="avatar" src="/front/img/chat-avatar.jpg" alt=""></a>
                                                       <p class="attribution"><a href="#">公司亮点</a> </p>
-                                                      <pre class="pre-scrollable">
-                                                        {{ $demand->highlight }}
-                                                      </pre>
+                                                      <pre class="pre-scrollable">{{ $demand->highlight }}</pre>
                                                   </div>
                                               </div>
                                           </div>

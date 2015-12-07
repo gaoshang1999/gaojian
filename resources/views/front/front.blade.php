@@ -99,7 +99,6 @@
 <!-- <script src="/front/js/charts.js"></script> -->
 <!-- <script src="/front/js/jquery.slimscroll.min.js"></script> -->
 <script>
-
 //       //knob
 //       $(function() {
 //       	$(".knob").knob({
@@ -108,7 +107,6 @@
 //       		}
 //       	})
 //       });
-
 //       //carousel
 //       $(document).ready(function() {
 //       	$("#owl-slider").owlCarousel({
@@ -116,16 +114,12 @@
 //       		slideSpeed : 300,
 //       		paginationSpeed : 400,
 //       		singleItem : true
-
 //       	});
 //       });
-
 //       //custom select box
-
 //       $(function(){
 //       	$('select.styled').customSelect();
 //       });
-
 //       /* ---------- Map ---------- */
 //       $(function(){
 //       	$('#map').vectorMap({
@@ -143,15 +137,10 @@
 //       		}
 //       	});
 //       });
-
-
-
   </script>
   <script type="text/javascript">
     jQuery(function($) {
-
 	    $("#sidebar li a").each(function(){    
-
 	     var reg=new RegExp("^"+$(this).attr("href"));  
 		 if(reg.test(window.location) ) 	      
          { 
@@ -172,7 +161,6 @@
             return false;
         }
      }//del end
-
    </script>	
    @yield('scripts')	
    

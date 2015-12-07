@@ -42,8 +42,8 @@
                         
                                       <div class="form-group">
 
-                                          <label class="sr-only" for="name">人才姓名</label> <?php $name = isset($name) ? $name : ""; ?>
-                                          <input type="text" class="form-control" id="name" placeholder="人才姓名" name="name" value="{{$name}}">
+                                          <label class="sr-only" for="name">人才姓名</label> 
+                                          <input type="text" class="form-control" id="name" placeholder="人才姓名" name="name" value="{{ Request::input('name') }}">
                                       </div>
                                       
 
@@ -54,8 +54,8 @@
                         
                                       
                                       <div class="form-group">
-                                          <label class="sr-only" for="mobile">手机号</label> <?php $mobile = isset($mobile) ? $mobile : ""; ?>
-                                          <input type="text" class="form-control" id="mobile" placeholder="手机号" name="mobile" value="{{$mobile}}">
+                                          <label class="sr-only" for="mobile">手机号</label> 
+                                          <input type="text" class="form-control" id="mobile" placeholder="手机号" name="mobile" value="{{ Request::input('mobile') }}">
                                       </div>
                                       
 
@@ -84,10 +84,10 @@
 
            <div class="col-md-2" col-sm-offset-3>
               <?php  $recruit_corporations= App\Models\Demand:: demandForMyTalent()->select('recruit_corporation') ->distinct()->orderBy('recruit_corporation')->get();?>                         
-                                              <select class="form-control m-bot15" name="recruit_corporation"> <?php $recruit_corporation = isset($recruit_corporation) ? $recruit_corporation : null; ?>
+                                              <select class="form-control m-bot15" name="recruit_corporation"> 
                                                   <option value="0">所有推荐公司</option>
                                                   @foreach($recruit_corporations as $c)
-                                        			<option value="{{ $c->recruit_corporation }}" @if(!is_null($recruit_corporation)&&$recruit_corporation ==$c->recruit_corporation ) selected @endif >{{ $c->recruit_corporation }}</option>
+                                        			<option value="{{ $c->recruit_corporation }}" @if( Request::input('recruit_corporation') ==$c->recruit_corporation ) selected @endif >{{ $c->recruit_corporation }}</option>
                                         		  @endforeach
                                               </select>
                                            
@@ -96,10 +96,10 @@
         
              <div class="col-md-2" col-sm-offset-3>
                                        <?php  $constant = App\Models\Constant::where('en', 'recommend_flow_parameter_1')->orderBy('k')->get();?>
-                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1"> <?php $recommend_flow_parameter_1 = isset($recommend_flow_parameter_1) ? $recommend_flow_parameter_1 : null; ?>
+                                              <select class="form-control m-bot15" name="recommend_flow_parameter_1"> 
                                                   <option value="0">所有状态</option>
                                                 @foreach($constant as $c)
-                                        			<option value="{{ $c->k }}" @if(!is_null($recommend_flow_parameter_1)&&$recommend_flow_parameter_1 ==$c->k ) selected @endif >{{ $c->v }}</option>
+                                        			<option value="{{ $c->k }}" @if( Request::input('recommend_flow_parameter_1') ==$c->k ) selected @endif >{{ $c->v }}</option>
                                         		  @endforeach
                                               </select>
                                            
@@ -107,7 +107,7 @@
 
               <div class="col-md-2" col-sm-offset-3>
                                        
-                                              <select class="form-control m-bot15" name="updated_at"> <?php $updated_at = isset($updated_at) ? $updated_at : ""; ?>
+                                              <select class="form-control m-bot15" name="updated_at"> <?php $updated_at = Request::input('updated_at'); ?>
                                                   <option value="0">所有上传时间</option>
                                                   <option value="-7 day" {{ $updated_at== "-7 day" ?	'selected' : '' }}>1周内</option>
                                                   <option value="-14 day"  {{ $updated_at== "-14 day" ?	'selected' : '' }}>2周内</option>

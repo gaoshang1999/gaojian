@@ -107,16 +107,10 @@ class RecommendController extends Controller
         $recommend ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);
-        $recommend ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);
-
-        
-        $param = ['name' => $request['name'], 'user_name' => $request['user_name'], 'post_name_2' => $request['post_name_2'],
-            'demand_type_label_1' =>$request['demand_type_label_1'] , 'recommend_flow_status_label_3' =>$request['recommend_flow_status_label_3'] , 'recommend_flow_parameter_2' => $request['recommend_flow_parameter_2'],
-            'recommend_flow_parameter_1' =>$request['recommend_flow_parameter_1'] 
-        ];
-        
+        $recommend ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);   
+       
         $data = ['recommend' => $recommend];
-        return view('front.recommend.list', array_merge($data, $param));
+        return view('front.recommend.list', $data);
     }
     
     public function rules()
@@ -232,9 +226,14 @@ class RecommendController extends Controller
             $talent_id= $request['talent_id'];
             $demand_id = $request['demand_id'];
             $demand = Demand::where('id', $demand_id)->first();
+            
+            $recommend = Recommend::where('talent_id', $talent_id)->where('demand_id', $demand_id)->first();
+            if($recommend){
+                return new JsonResponse(['success'=>false, 'message' => '对不起，人才已经被推荐给这个职位，加油！']);
+            }
     
             $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);
-            
+
             $data = ['talent_id'=> $talent_id, 'demand_id' => $demand_id , 'user_id' => Auth::user()->id , 'host_id'=>$demand->recruit_user, 'type'=> $request['type'], 'flow_id'=>$flow->id] ;
             $recom = Recom::create($data);      
              
@@ -244,7 +243,11 @@ class RecommendController extends Controller
             $demand_id = $request['demand_id'];
             $demand = Demand::where('id', $demand_id)->first();
             $talent_id = $request['talent_id'];
-            $talent = Talent::where('id', $talent_id)->get();
+            if($talent_id){
+                $talent = Talent::where('id', $talent_id)->get();
+            }else{
+                $talent = Talent::myTalent()->get();
+            }
 
             return view('front.recommend.recommend' , ['demand' => $demand , 'talent' => $talent ]);
         }
@@ -252,10 +255,14 @@ class RecommendController extends Controller
     
     public function recommendHR(Request $request)
     {  
+        //推荐HR
         if($request->has("id")) {
             $id= $request['id'];
              
             $recommend = Recommend::where('id', $id)->first();
+            if($recommend->host_id != Auth::user()->id){
+                return new JsonResponse(['success'=>false, 'message' => '不能直接推荐给其他顾问HR！']);
+            }
     
             $flow = $recommend->flow;
             /**
@@ -279,9 +286,10 @@ class RecommendController extends Controller
             // 推荐参数2=1 hr推荐 默认=0，没有hr推荐
             $flow -> recommend_parameter_2=1;
             $flow -> save();
-        }else{
+        }else{ //新建推荐
             $talent_id= $request['talent_id'];
-            $demand_id = $request['demand_id'];
+            $demand_id = $request['demand_id'];            
+           
             $demand = Demand::where('id', $demand_id)->first();
             
             if($demand->user->isHr()){
@@ -333,8 +341,6 @@ class RecommendController extends Controller
         $talent ->appends(['mobile' => $request['mobile']]);
         $talent ->appends(['last_corporation' => $request['last_corporation']]);
 
-        return view('front.recommend.recommend',  ['talent' => $talent,'demand'=>$demand
-            , 'name' => $request['name'],  'mobile' => $request['mobile'] 
-            , 'last_corporation' => $request['last_corporation']] );
+        return view('front.recommend.recommend',  [ 'talent' => $talent,'demand'=>$demand  ] );
     }
 }

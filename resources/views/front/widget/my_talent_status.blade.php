@@ -15,7 +15,7 @@
                                               
                                               <i class="fa fa-comments fa-2x"> </i><br>
 											  
-											  待联系的人才：{{ App\Models\Recommend::myTalentRecommend()-> whereIn('recommend_flow_parameter_1', [1,  2,  4,  5,  6])->count() }}
+											  待联系的人才：{{ App\Models\Recommend::myRecommend()-> whereIn('recommend_flow_parameter_1', [1,  2,  4,  5,  6])->count() }}
                                           </li>
 										   
                                       </ul>
@@ -26,7 +26,7 @@
                                               
                                               <i class="fa fa-bell fa-2x"> </i><br>
 											  
-											  待反馈的人才：{{ App\Models\Recommend::myTalentRecommend() -> whereIn('recommend_flow_parameter_1', [8,  9,  10,  11,  12,  13])->count() }}
+											  待反馈的人才：{{ App\Models\Recommend::myRecommend() -> whereIn('recommend_flow_parameter_1', [8,  9,  10,  11,  12,  13])->count() }}
                                           </li>
 										   
                                       </ul>
@@ -37,7 +37,7 @@
                                               
                                               <i class="fa fa-tachometer fa-2x"> </i><br>
 											  
-											  Offer阶段的人才:{{ App\Models\Recommend::myTalentRecommend() -> whereIn('recommend_flow_parameter_1', [16,  17,  18])->count() }}
+											  Offer阶段的人才:{{ App\Models\Recommend::myRecommend() -> whereIn('recommend_flow_parameter_1', [16,  17,  18])->count() }}
                                           </li>
 										   
                                       </ul>
