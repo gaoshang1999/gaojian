@@ -24,9 +24,9 @@
                                         <div class="col-md-4" col-sm-offset-3>
                                        
                                               <select class="form-control m-bot15" id="recruit_user" name="recruit_user">
-                                                <option value="{{ Auth::user()->id}}" {{ Request::input('recruit_user')== Auth::user()->id?	'selected' : '' }}>本人（默认）</option>
+                                                <option value="{{ Auth::user()->id}}" {{ Request::input('recruit_user')== Auth::user()->id || $demand && $demand->recruit_user== Auth::user()->id ?	'selected' : '' }}>本人（默认）</option>
                                                     @foreach ($users->all() as $v)
-                                                  <option value="{{ $v->id}}" {{ Request::input('recruit_user')== $v->id?	'selected' : '' }}>{{ $v->user_name }}</option>
+                                                  <option value="{{ $v->id}}" {{ Request::input('recruit_user')== $v->id || $demand && $demand->recruit_user== $v->id?	'selected' : '' }}>{{ $v->user_name }}</option>
                                                     @endforeach
                                                  
                                               </select>
@@ -37,7 +37,7 @@
  	<?php  
  	
  	if(isset($demand)){
- 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $demand->recruit_user) ->distinct()  ->orderBy('recruit_corporation')->get();
+ 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $demand && $demand->recruit_user) ->distinct()  ->orderBy('recruit_corporation')->get();
  	}else{
  	      $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', Auth::user()->id) ->distinct()  ->orderBy('recruit_corporation')->get();
  	}
@@ -49,7 +49,7 @@
                                        
                                               <select class="form-control m-bot15" id="recruit_corporation" name="recruit_corporation">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation || $demand && $demand->recruit_corporation== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                                     @endforeach
                                               </select>
                                            
@@ -72,7 +72,7 @@
                                        
                                               <select class="form-control m-bot15" id="post_name" name="post_name">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->id}}" {{ Request::input('post_name')== $v->id ?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->id}}" {{ Request::input('post_name')== $v->id || $demand && $demand->id== $v->id?	'selected' : '' }}>{{ $v->post_name }}</option>
                                                     @endforeach    
                                               </select>
                                            
@@ -127,13 +127,13 @@
               <header class="panel-heading">
                   我的人才储备
               </header>
-
+<div class="table-responsive">
               <table class="table table-striped table-advance table-hover">
                <tbody>
                 
  <tr>
                      <th><i class="icon_profile"></i> 姓名</th>
-                     <th><i class="icon_profile"></i> 备注来源</th>
+                     <th><i class="icon_profile"></i> 职级</th>
 
                      <th><i class="icon_pin_alt"></i> 所在公司</th>
                      <th><i class="icon_pin_alt"></i> 手机</th>
@@ -147,7 +147,7 @@
         @foreach ($talent->all() as $v)
                  <tr>
                      <td>{{ $v->name }}</td>
-                     <td>**猎头：kelly</td>
+                     <td>{{ $v->job_level_1 }}</td>
                      <td>{{ $v->last_corporation }}</td>
                      <td>{{ $v->mobile }}</td>
                    
@@ -178,6 +178,7 @@
    
     </tbody>
     </table>
+</div>    
     </section>
     </div>
     </div>
@@ -304,7 +305,6 @@
          success: function (data) { 
 	           	var ret = eval(data); 
 	            alert(ret.message);	
-	            location.reload();
          },
          error: function(){       	    
       	     alert("推荐HR失败，请重试");

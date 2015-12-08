@@ -44,10 +44,19 @@
 
                   <div class="col-md-2">
                   </div>
+                        <div class="col-md-2">
+                        
+                                      
+                                      <div class="form-group">  
+                                          <label class="sr-only" for="user_name">岗位名称关键字</label>
+                                          <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{ Request::input('post_name') }}">
+                                      </div>
 
+                      </div>
+                  
                       <div class="col-md-2">
                         
-                                      <div class="form-group"> <?php $name = isset($name) ? $name : ""; ?>
+                                      <div class="form-group">  
                                           <label class="sr-only" for="name">人才名称关键字</label>
                                           <input type="text" class="form-control" name="name" placeholder="人才名称关键字"  value="{{ Request::input('name') }}">
                                       </div>
@@ -56,17 +65,7 @@
 
                       </div>
 
-                                     <div class="col-md-2">
-                        
-                                      
-                                      <div class="form-group"> <?php $user_name = isset($user_name) ? $user_name : ""; ?>
-                                          <label class="sr-only" for="user_name">推荐人关键字</label>
-                                          <input type="text" class="form-control" name="user_name" placeholder="推荐人关键字"  value="{{ Request::input('user_name') }}">
-                                      </div>
-                                      
 
-
-                      </div>
 
 
                                      <div class="col-md-2">
@@ -103,11 +102,11 @@
                                           </div>
 
            <div class="col-md-2" col-sm-offset-3>
-           	<?php  $d1= App\Models\Demand::myDemand()->select('post_name')->whereNotNull('post_name')->distinct() ->orderBy('post_name')->get();?>                            
-                                        <select class="form-control m-bot15" name="post_name_2" >
-                                                      <option value=0>所有岗位</option>  
+           	<?php  $d1= App\Models\Demand::demandForMyTalent()->select('recruit_corporation')->whereNotNull('recruit_corporation')->distinct() ->orderBy('recruit_corporation')->get();?>                            
+                                        <select class="form-control m-bot15" name="recruit_corporation" >
+                                                      <option value=0>所有公司</option>  
                                            @foreach ($d1->all() as $v)
-                                                  <option value="{{ $v->post_name }}" {{  Request::input('post_name') == $v->post_name?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{  Request::input('recruit_corporation') == $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -177,18 +176,20 @@
               <header class="panel-heading">
                   招聘流程
               </header>
-
+<div class="table-responsive">
               <table class="table table-striped table-advance table-hover">
                <tbody>
            
  <tr>
+                    <th><i class="icon_profile"></i> 推荐公司</th>
                      <th><i class="icon_profile"></i> 推荐岗位</th>
                      <th><i class="icon_pin_alt"></i> 推荐号</th>
                      <th><i class="icon_pin_alt"></i> 推荐HR</th>                     
-                     <th><i class="icon_pin_alt"></i> 推荐人</th>
+                     <th><i class="icon_pin_alt"></i> 人才来源</th>
 
                      <th><i class="icon_calendar"></i> 推荐时间</th>
-                     <th><i class="icon_pin_alt"></i> 姓名</th>
+                     <th><i class="icon_pin_alt"></i> 招聘负责人</th>
+                     <th><i class="icon_pin_alt"></i> 人才姓名</th>
                      <th><i class="icon_pin_alt"></i> 所在公司</th>
                      <th><i class="icon_pin_alt"></i> 职能</th>
 
@@ -201,11 +202,13 @@
                  </tr>
         @foreach ($recommend->all() as $v)
                  <tr>
+                     <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->post_name }}</td>
                      <td>{{ $v->id }} </td>
-                     <td>{{ $v->id }} </td>
+                     <td>{{ $v->recommend_parameter_2 == 1?'是':'否' }} </td>
                      <td>{{ $v->user->corporation }}-{{ $v->user->user_name }}</td>
                      <td>{{ $v->created_at }}</td>
+                     <td>{{ $v->host->user_name }}</td>
                      <td>{{ $v->talent->name }}</td>
                      <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->demand_type_label_1 }}</td>
@@ -243,6 +246,7 @@
          @endforeach
     </tbody>
     </table>
+</div>    
     </section>
     </div>
     </div>

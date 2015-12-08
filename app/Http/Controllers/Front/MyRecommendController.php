@@ -26,7 +26,7 @@ class MyRecommendController extends Controller
         
         //搜索
         $name = $request['name'];
-        $user_name = $request['user_name'];        
+        $post_name = $request['post_name'];        
         
         //人才名称
         if(strlen($name)){
@@ -38,27 +38,28 @@ class MyRecommendController extends Controller
             });
         }
         
-        //推荐人
-        if(strlen($user_name)){
-           $query =  $query ->whereExists(function ($query)  use ($user_name){
+        //岗位名称
+        if(strlen($post_name)){
+            $query =  $query ->whereExists(function ($query)  use ($post_name){
                 $query->select(DB::raw(1))
-                ->from('user')
-                ->where('user.user_name', 'like', '%'.$user_name.'%')
-                ->whereRaw('gj_user.id = gj_recommend.user_id')             ;
+                ->from('demand')
+                ->where('demand.post_name', 'like', '%'.$post_name.'%')
+                ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
             });
         }
+        
         //过滤
-        $post_name_2 = $request['post_name_2'];
+        $recruit_corporation = $request['recruit_corporation'];
         $demand_type_label_1 = $request['demand_type_label_1'];
         $recommend_flow_status_label_3 = $request['recommend_flow_status_label_3'];
         $recommend_flow_parameter_2= $request['recommend_flow_parameter_2'];
         $recommend_flow_parameter_1= $request['recommend_flow_parameter_1'];
         //岗位
-        if($post_name_2){
-            $query =  $query ->whereExists(function ($query)  use ($post_name_2){
+        if($recruit_corporation){
+            $query =  $query ->whereExists(function ($query)  use ($recruit_corporation){
                 $query->select(DB::raw(1))
                 ->from('demand')
-                ->where('demand.post_name',  $post_name_2)
+                ->where('demand.recruit_corporation',  $recruit_corporation)
                 ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
             });
         }
@@ -96,8 +97,8 @@ class MyRecommendController extends Controller
          
         $recommend = $query -> orderBy('id', 'desc')-> paginate(10) ;
         $recommend ->appends(['name' => $request['name']]);
-        $recommend ->appends(['user_name' => $request['user_name']]);
-        $recommend ->appends(['post_name_2' => $request['post_name_2']]);
+        $recommend ->appends(['post_name' => $request['post_name']]);
+        $recommend ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         $recommend ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);

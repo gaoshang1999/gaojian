@@ -51,17 +51,9 @@
                   
                   </div>
 
-                    <div class="col-md-2">
-                        
-                                      <div class="form-group"> 
-                                          <label class="sr-only" for="exampleInputEmail2">公司名称关键字</label>
-                                          <input type="text" class="form-control" name="recruit_corporation" placeholder="公司名称关键字"  value="{{Request::input('recruit_corporation')}}">
-                                      </div>
-                       </div>
-
                       <div class="col-md-2">
                         
-                                      <div class="form-group"> <?php $post_name = isset($post_name) ? $post_name : ""; ?>
+                                      <div class="form-group"> 
                                           <label class="sr-only" for="exampleInputEmail2">职位名称关键字</label>
                                           <input type="text" class="form-control" name="post_name" placeholder="岗位名称关键字"  value="{{Request::input('post_name')}}"">
                                       </div>
@@ -100,10 +92,10 @@
             
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $d1= App\Models\Demand::myDemand()->select('recruit_corporation')->whereNotNull('recruit_corporation')->distinct()->orderBy('recruit_corporation') ->get();?>                            
-                                        <select class="form-control m-bot15" name="recruit_corporation_2"  id="recruit_corporation_2" ">
+                                        <select class="form-control m-bot15" name="recruit_corporation"  id="recruit_corporation" ">
                                                       <option value=0>所有公司</option> 
                                            @foreach ($d1->all() as $v)   
-                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation_2') == $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation') == $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                              @endforeach
                                               </select>
                                            
@@ -112,8 +104,8 @@
            
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $query= App\Models\Demand::myDemand()->select('post_name')->whereNotNull('post_name');
-           	 if(Request::input('recruit_corporation_2')){
-           	     $query->where('recruit_corporation', Request::input('recruit_corporation_2'));
+           	 if(Request::input('recruit_corporation')){
+           	     $query->where('recruit_corporation', Request::input('recruit_corporation'));
            	 }
            	 $d1= $query->distinct() ->orderBy('post_name')->get();?>                            
                                         <select class="form-control m-bot15" name="post_name_2"  id="post_name_2" >
@@ -205,7 +197,7 @@
               <header class="panel-heading">
                   岗位管理
               </header>
-
+<div class="table-responsive">
               <table class="table table-striped table-advance table-hover">
                <tbody>
                   <tr>
@@ -284,6 +276,7 @@
               @endforeach
     </tbody>
     </table>
+    </div>
     </section>
     </div>
     </div>
@@ -310,7 +303,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-  $('#recruit_corporation_2').change(function(){
+  $('#recruit_corporation').change(function(){
 	  var recruit_corporation = $(this).val(); ;
 	  $.ajax({
           type: 'get',

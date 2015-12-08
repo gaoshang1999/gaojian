@@ -26,8 +26,7 @@ class TalentController extends Controller
     
     
     public function queryBulider(Request $request)
-    {
-        
+    {        
         $q1 = $request['q1'];
         $op = $request['op'];
         $field1 = $request['field1'];
@@ -88,8 +87,8 @@ class TalentController extends Controller
     
     public function search(Request $request)
     {
-        $query = $this->queryBulider($request);            
-                 
+        $query = $this->queryBulider($request);  
+                
         $talent = $query -> orderBy('id', 'desc')-> paginate(20) ;
         $talent ->appends(['q1' => $request['q1']]);
         $talent ->appends(['op' => $request['op']]);
@@ -101,6 +100,14 @@ class TalentController extends Controller
         $talent ->appends(['q3_end' => $request['q3_end']]);
         $talent ->appends(['field3' => $request['field3']]);
         $talent ->appends(['search_scope' => $request['search_scope']]);
+        
+        $search_scope = $request['search_scope'];
+        if ($search_scope == 1) { //搜索结果
+            $talent ->appends(['query_where' => $request['query_where']]);
+            $talent ->appends(['query_bindings' => $request['query_bindings']]);
+        }elseif ($search_scope == 2) { //选中项
+           $talent ->appends(['ids' => $request['ids']]);
+        }
     
         $param = ['q1' => $request['q1'], 'op' => $request['op'], 'field1' => $request['field1'],  
             'q2_start' =>$request['q2_start'] , 'q2_end' =>$request['q2_end'] , 'field2' => $request['field2'],  

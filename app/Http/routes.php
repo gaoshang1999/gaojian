@@ -139,6 +139,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->get('demand/view/{id}', 'DemandController@view');
     $app->get('demand/queryMyDemand', 'DemandController@queryMyDemand');
     $app->post('demand/open/{id}',  'DemandController@open');
+    $app->get('demand/talentSearch',  'DemandController@talentSearch');
     
     $app->get('recommend',  'RecommendController@lists');
     $app->get('recommend/add',  'RecommendController@add');

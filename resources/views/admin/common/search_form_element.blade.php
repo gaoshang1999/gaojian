@@ -58,8 +58,8 @@
 		</div>
 
         <input type="hidden" name="ids" id="ids"/>
-        <input type="hidden" name="query_where" id="query_where" value="{{ isset($query_where) ? $query_where : "" }}"/>
-        <input type="hidden" name="query_bindings" id="query_bindings" value="{{ isset($query_bindings) ? $query_bindings : "" }}"/>
+        <input type="hidden" name="query_where" id="query_where" value="{{ isset($query_where) ? $query_where : '' }}"/>
+        <input type="hidden" name="query_bindings" id="query_bindings" value="{{ isset($query_bindings) ? $query_bindings : '' }}"/>
  
 		 <div class="col-sm-6 "> <?php $search_scope = isset($search_scope) ? $search_scope : ""; ?>
     		<label class="col-sm-2 radio-inline"><input type="radio" name="search_scope" value="0" {{ $search_scope== "0" || $search_scope== "" ? 'checked' : '' }}> 全库</label>

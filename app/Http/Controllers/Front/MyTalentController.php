@@ -17,7 +17,7 @@ class MyTalentController extends Controller
     
     public function lists(Request $request)
     {
-        $data = ['talent' => Talent::myTalent() -> orderBy('id', 'desc')->paginate(10) ];
+        $data = ['talent' => Talent::myTalent() -> orderBy('id', 'desc')->get() ];
 
         return view('front.mytalent.list', $data);
     }
@@ -29,7 +29,7 @@ class MyTalentController extends Controller
         $name = $request['name'];
         $mobile = $request['mobile'];
         //查询当前用户的，未删除数据
-        $query = Talent::myTalent();
+        $query = Talent::query;
         if(strlen($name)){
             $query = $query->where('name', 'like', '%'.$name.'%');
         }
@@ -125,7 +125,7 @@ class MyTalentController extends Controller
     
     public function edit(Request $request, $id)
     {
-        $talent = Talent::myTalent()->where('id', $id)->first();
+        $talent = Talent::where('id', $id)->first();
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
     
@@ -144,13 +144,13 @@ class MyTalentController extends Controller
     
     public function delete(Request $request, $id)
     {
-        Talent::myTalent()->where('id', $id)->delete();
+        Talent::where('id', $id)->delete();
         return redirect($request->header('referer'));
     }
     
     public function recommend(Request $request, $id)
     {
-        $talent = Talent::myTalent()->where('id', $id)->first();       
+        $talent = Talent::where('id', $id)->first();       
         if ($request->isMethod('post')) {
             $talent_id = $request['talent_id'];
                         
@@ -198,7 +198,7 @@ class MyTalentController extends Controller
     
     public function view(Request $request, $id)
     {
-        $talent = Talent::myTalent()->where('id', $id)->first();
+        $talent = Talent::where('id', $id)->first();
          
          return view('front.mytalent.view', ['talent' => $talent] );        
     }

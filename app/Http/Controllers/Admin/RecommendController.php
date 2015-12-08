@@ -90,6 +90,14 @@ class RecommendController extends Controller
         $recommend ->appends(['q3_end' => $request['q3_end']]);
         $recommend ->appends(['field3' => $request['field3']]);
         $recommend ->appends(['search_scope' => $request['search_scope']]);
+
+        $search_scope = $request['search_scope'];
+        if ($search_scope == 1) { //搜索结果
+            $recommend ->appends(['query_where' => $request['query_where']]);
+            $recommend ->appends(['query_bindings' => $request['query_bindings']]);
+        }elseif ($search_scope == 2) { //选中项
+            $recommend ->appends(['ids' => $request['ids']]);
+        }
         
         $param = ['q1' => $request['q1'], 'op' => $request['op'], 'field1' => $request['field1'],
             'q2_start' =>$request['q2_start'] , 'q2_end' =>$request['q2_end'] , 'field2' => $request['field2'],

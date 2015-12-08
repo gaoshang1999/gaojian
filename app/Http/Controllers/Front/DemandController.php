@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use DB;
-
+use App\Models\Talent;
+use App\Models\Recom;
 class DemandController extends Controller
 {   
     public function lists(Request $request)
@@ -25,7 +26,6 @@ class DemandController extends Controller
     public function queryBulider(Request $request)
     {
         //搜索
-        $recruit_corporation = $request['recruit_corporation'];
         $post_name = $request['post_name'];
         $position_description = $request['position_description'];
         
@@ -36,10 +36,6 @@ class DemandController extends Controller
             //查询当前用户的，未删除数据
             $query = Demand::myDemand();
         }
-
-        if(strlen($recruit_corporation)){
-            $query = $query->where('recruit_corporation', 'like', '%'.$recruit_corporation.'%');
-        }
         
         if(strlen($post_name)){
             $query = $query->where('post_name', 'like', '%'.$post_name.'%');
@@ -49,14 +45,14 @@ class DemandController extends Controller
             $query = $query->where('position_description', 'like', '%'.$position_description.'%');
         }
         //过滤
-        $recruit_corporation_2 = $request['recruit_corporation_2'];
+        $recruit_corporation = $request['recruit_corporation'];
         $post_name_2 = $request['post_name_2'];
         $demand_type_label_1 = $request['demand_type_label_1'];
         $recommend_flow_status_label_3 = $request['recommend_flow_status_label_3'];
         $updated_at= $request['updated_at'];
         
-        if($recruit_corporation_2){
-            $query = $query->where('recruit_corporation',  $recruit_corporation_2);
+        if($recruit_corporation){
+            $query = $query->where('recruit_corporation',  $recruit_corporation);
         }
         
         if($post_name_2){
@@ -88,10 +84,9 @@ class DemandController extends Controller
         $query = $this->queryBulider($request); 
          
         $demand = $query -> orderBy('id', 'desc')-> paginate(10) ;
-        $demand ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         $demand ->appends(['post_name' => $request['post_name']]);
         $demand ->appends(['position_description' => $request['position_description']]);
-        $demand ->appends(['recruit_corporation_2' => $request['recruit_corporation_2']]);
+        $demand ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         $demand ->appends(['post_name_2' => $request['post_name_2']]);
         $demand ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $demand ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
@@ -248,5 +243,34 @@ class DemandController extends Controller
 
        return new JsonResponse(['success'=>true, 'message' => '操作成功']);
                 
+    }
+    
+    public function talentSearch(Request $request)
+    {
+        $demand_id = $request['demand_id'];
+//         $demand = Demand::myDemand()-> where('id', $demand_id)->first();
+  
+        $name = $request['name'];
+        $mobile = $request['mobile'];        
+       
+        $recom = Recom::where('demand_id', $demand_id)->whereIn('talent_id', function($query) use ($name, $mobile)
+        {
+            $query->select('id')
+                  ->from('talent');
+            
+            if($name){
+                $query = $query->where('name', $name);
+            }        
+            if($mobile){
+                $query = $query->where('mobile', $mobile);
+            }    
+        });
+        
+        if($recom->count()>0){    
+            return new JsonResponse(['success'=>false, 'message' => '对不起，人才已经被推荐到该岗位，下次快点哦！']);
+        }else{
+            return new JsonResponse(['success'=>true, 'message' => '尚未推荐！']);
+        }
+    
     }
 }

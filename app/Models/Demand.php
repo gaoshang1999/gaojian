@@ -56,16 +56,22 @@ class Demand extends Model
     public function scopeDemandForMyTalent($query)
     {
         $user_id = Auth::user()->id;
-        return $query-> whereExists(function ($query)  {
+        return $query-> whereExists(function ($query)  use ($user_id){
                   $query->select(DB::raw(1))
-                  ->from('recommend')                
-                  ->whereRaw('gj_recommend.demand_id = gj_demand.id') 
-                  -> whereExists(function ($query)  {
-                          $query->select(DB::raw(1))
-                          ->from('talent')
-                         ->where('user_id', Auth::user()->id)
-                          ->whereRaw('gj_recommend.talent_id = gj_talent.id')   ;
-                        })  ;
+                  ->from('recom')                
+                  ->whereRaw('gj_recom.demand_id = gj_demand.id') 
+                  -> where('host_id',  $user_id)  ;
               })  ;
+    }
+    
+    public function scopeDemandForMyRecommend($query)
+    {
+        $user_id = Auth::user()->id;
+        return $query-> whereExists(function ($query)  use ($user_id){
+            $query->select(DB::raw(1))
+            ->from('recom')
+            ->whereRaw('gj_recom.demand_id = gj_demand.id')
+            -> where('user_id',  $user_id)  ;
+        })  ;
     }
 }

@@ -29,7 +29,7 @@ class RecommendController extends Controller
         
         //搜索
         $name = $request['name'];
-        $user_name = $request['user_name'];        
+        $post_name = $request['post_name'];        
         
         //人才名称
         if(strlen($name)){
@@ -37,31 +37,31 @@ class RecommendController extends Controller
                 $query->select(DB::raw(1))
                 ->from('talent')
                 ->where('talent.name', 'like', '%'.$name.'%')
-                ->whereRaw('gj_talent.id = gj_recommend.talent_id')             ;
+                ->whereRaw('gj_talent.id = gj_recommend.talent_id') ;
             });
         }
         
-        //推荐人
-        if(strlen($user_name)){
-           $query =  $query ->whereExists(function ($query)  use ($user_name){
+        //岗位名称
+        if(strlen($post_name)){
+           $query =  $query ->whereExists(function ($query)  use ($post_name){
                 $query->select(DB::raw(1))
-                ->from('user')
-                ->where('user.user_name', 'like', '%'.$user_name.'%')
-                ->whereRaw('gj_user.id = gj_recommend.user_id')             ;
+                ->from('demand')
+                ->where('demand.post_name', 'like', '%'.$post_name.'%')
+                ->whereRaw('gj_demand.id = gj_recommend.demand_id') ;
             });
         }
         //过滤
-        $post_name_2 = $request['post_name_2'];
+        $recruit_corporation = $request['recruit_corporation'];
         $demand_type_label_1 = $request['demand_type_label_1'];
         $recommend_flow_status_label_3 = $request['recommend_flow_status_label_3'];
         $recommend_flow_parameter_2= $request['recommend_flow_parameter_2'];
         $recommend_flow_parameter_1= $request['recommend_flow_parameter_1'];
         //岗位
-        if($post_name_2){
-            $query =  $query ->whereExists(function ($query)  use ($post_name_2){
+        if($recruit_corporation){
+            $query =  $query ->whereExists(function ($query)  use ($recruit_corporation){
                 $query->select(DB::raw(1))
                 ->from('demand')
-                ->where('demand.post_name',  $post_name_2)
+                ->where('demand.recruit_corporation',  $recruit_corporation)
                 ->whereRaw('gj_demand.id = gj_recommend.demand_id')             ;
             });
         }
@@ -102,8 +102,8 @@ class RecommendController extends Controller
          
         $recommend = $query -> orderBy('id', 'desc')-> paginate(10) ;
         $recommend ->appends(['name' => $request['name']]);
-        $recommend ->appends(['user_name' => $request['user_name']]);
-        $recommend ->appends(['post_name_2' => $request['post_name_2']]);
+        $recommend ->appends(['post_name' => $request['post_name']]);
+        $recommend ->appends(['recruit_corporation' => $request['recruit_corporation']]);
         $recommend ->appends(['demand_type_label_1' => $request['demand_type_label_1']]);
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);
@@ -261,9 +261,9 @@ class RecommendController extends Controller
              
             $recommend = Recommend::where('id', $id)->first();
             if($recommend->host_id != Auth::user()->id){
-                return new JsonResponse(['success'=>false, 'message' => '不能直接推荐给其他顾问HR！']);
+                return new JsonResponse(['success'=>false, 'message' => '不能直接推荐给其他顾问的HR！']);
             }
-    
+               
             $flow = $recommend->flow;
             /**
              * 1. 推荐号--- 需求号---- 是否关联 HR？  
@@ -291,6 +291,15 @@ class RecommendController extends Controller
             $demand_id = $request['demand_id'];            
            
             $demand = Demand::where('id', $demand_id)->first();
+
+            if($demand->recruit_user != Auth::user()->id){
+                return new JsonResponse(['success'=>false, 'message' => '不能直接推荐给其他顾问的HR！']);
+            }
+            
+            $recommend = Recommend::where(['talent_id'=> $talent_id, 'demand_id' => $demand_id, 'type'=>1])->first();
+            if(!$recommend){
+                return new JsonResponse(['success'=>false, 'message' => '必须先做预推荐！']);
+            }
             
             if($demand->user->isHr()){
                 $host_id = $demand->recruit_user;
@@ -302,11 +311,19 @@ class RecommendController extends Controller
                 }
                 $host_id =$first_hr->id;
             }
+                        
+            $data = ['talent_id'=> $talent_id, 'demand_id' => $demand_id, 'type'=> $request['type']];
+            $recommend = Recommend::where($data)->first();
+            if($recommend){
+                return new JsonResponse(['success'=>false, 'message' => '对不起，人才已经被推荐给HR了！']);
+            }
             
             $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);
-            
-            $data = ['talent_id'=> $talent_id, 'demand_id' => $demand_id , 'user_id' => Auth::user()->id , 'host_id'=>$host_id, 'type'=> $request['type'], 'flow_id'=>$flow->id] ;
-            $recom = Recom::create($data);
+            // 推荐参数2=1 hr推荐 默认=0，没有hr推荐
+            $flow -> recommend_parameter_2=1;
+            $flow -> save();
+
+            $recom = Recom::create(array_merge($data, [ 'user_id' => Auth::user()->id , 'host_id'=>$host_id, 'flow_id'=>$flow->id]));
         }
 
          

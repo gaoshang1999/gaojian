@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use DB;
+
 class Talent extends Model
 {
     
@@ -35,8 +37,40 @@ class Talent extends Model
         return $this->hasOne('App\Models\User', 'id',  'user_id');
     }
     
+//     public function scopeMyTalent($query)
+//     {
+//         return $query->where('user_id', Auth::user()->id) ->orWhere(function ($query) {
+//                 $query->whereExists(function ($query) {               
+//                     $query->select(DB::raw(1))
+//                     ->from('recom')
+//                     ->where('recom.host_id',  Auth::user()->id)
+//                     ->whereRaw('gj_recom.talent_id = gj_talent.id');
+//                 });
+//             });
+//     }
+    
+//     public function scopeMyTalent($query)
+//     {
+//         return $query->where('user_id', Auth::user()->id) ->orWhere(function ($query) {
+//             $query->whereIn('id', function ($query) {
+//                 $query->select('talent_id')
+//                 ->from('recom')
+//                 ->where('recom.host_id',  Auth::user()->id);
+//             });
+//         });
+//     }
+
     public function scopeMyTalent($query)
     {
-        return $query->where('user_id', Auth::user()->id) ;
+        $q = DB::table('talent')
+            ->whereIn('id', function ($query) {
+                $query->select('talent_id')
+                ->from('recom')
+                ->where('host_id',  Auth::user()->id);
+            });        
+        
+        return $query->where('user_id', Auth::user()->id) ->union($q);
+        
+//         DB::raw('(select * from `gj_talent` where `user_id` = ?) union (select * from `gj_talent` where `id` in (select `talent_id` from `gj_recom` where `host_id` = ?))' );
     }
 }

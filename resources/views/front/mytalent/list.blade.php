@@ -146,7 +146,7 @@
               <header class="panel-heading">
                   我的人才储备
               </header>
-
+<div class="table-responsive">
               <table class="table table-striped table-advance table-hover">
                <tbody>
                 
@@ -169,10 +169,10 @@
                    <?php  $recommend = $v->recommends()->orderBy('updated_at', 'desc')->first(); ?>
                  <tr>
                      <td>{{  $v-> name }}</td>
-                     <td>{{  $v ->user ->user_name }}</td>
+                     <td>{{  $v ->user?$v ->user ->user_name:'' }}</td>
                      <td>{{  $recommend ? $recommend ->demand ->post_name : ""  }}</td>
                      <td>{{  $recommend ? $recommend ->created_at : ""  }}</td>
-                     <td>{{  $recommend ? $recommend ->demand ->recruit_corporation : ""  }}</td>
+                     <td>{{  $v->last_corporation  }}</td>
                      <td>{{$v-> job_level_1 }}</td>
                      <td>{{  $recommend ? array_get($constant, 'recommend_flow_parameter_1.'.$recommend->recommend_flow_parameter_1, '') : ""  }}</td>
                    
@@ -198,6 +198,7 @@
 
     </tbody>
     </table>
+</div>
     </section>
     </div>
     </div>

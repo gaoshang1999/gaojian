@@ -63,29 +63,29 @@
 <!-- <script src="/front/js/jquery-ui-1.10.4.min.js"></script> -->
 <script src="/front/js/jquery-1.8.3.min.js"></script>
 <!-- <script type="text/javascript" src="/front/js/jquery-ui-1.9.2.custom.min.js"></script> -->
-<!-- <!-- bootstrap --> -->
+<!-- <!-- bootstrap -->  
 <script src="/front/js/bootstrap.min.js"></script>
-<!-- <!-- nice scroll --> -->
+<!-- <!-- nice scroll --> 
 <!-- <script src="/front/js/jquery.scrollTo.min.js"></script> -->
 <!-- <script src="/front/js/jquery.nicescroll.js" type="text/javascript"></script> -->
-<!-- <!-- charts scripts --> -->
+<!-- <!-- charts scripts -->  
 <!-- <script src="/front/assets/jquery-knob/js/jquery.knob.js"></script> -->
 <!-- <script src="/front/js/jquery.sparkline.js" type="text/javascript"></script> -->
 <!-- <script src="/front/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script> -->
 <!-- <script src="/front/js/owl.carousel.js" ></script> -->
-<!-- <!-- jQuery full calendar --> -->
+<!-- <!-- jQuery full calendar --> 
 <<script src="/front/js/fullcalendar.min.js"></script> <!-- Full Google Calendar - Calendar -->
 <!-- <script src="/front/assets/fullcalendar/fullcalendar/fullcalendar.js"></script> -->
-<!-- <!--script for this page only--> -->
+<!-- <!--script for this page only-->  
 <!-- <script src="/front/js/calendar-custom.js"></script> -->
 <!-- <script src="/front/js/jquery.rateit.min.js"></script> -->
-<!-- <!-- custom select --> -->
+<!-- <!-- custom select -->  
 <!-- <script src="/front/js/jquery.customSelect.min.js" ></script> -->
 <!-- <script src="/front/assets/chart-master/Chart.js"></script> -->
 
-<!-- <!--custome script for all page--> -->
+<!-- <!--custome script for all page--> 
 <!-- <script src="/front/js/scripts.js"></script> -->
-<!-- <!-- custom script for this page--> -->
+<!-- <!-- custom script for this page-->  
 <!-- <script src="/front/js/sparkline-chart.js"></script> -->
 <!-- <script src="/front/js/easy-pie-chart.js"></script> -->
 <!-- <script src="/front/js/jquery-jvectormap-1.2.2.min.js"></script> -->

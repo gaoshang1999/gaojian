@@ -113,9 +113,7 @@
                                                   <div class="text">
                                                       <a href="#" class="activity-img"><img class="avatar"  src="/front/img/chat-avatar.jpg"  alt=""></a>
                                                       <p class="attribution"><a href="#">{{ $talent-> name }}</a> 简历全文</p>
-                                                      <pre class="pre-scrollable">
-                                                        {{ $talent->resume }}
-                                                      </pre>
+                                                      <pre class="pre-scrollable">{{ $talent->resume }}</pre>
                                                   </div>
                                               </div>
                                           </div>

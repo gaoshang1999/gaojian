@@ -90,6 +90,15 @@ class DemandController extends Controller
         $demand ->appends(['field3' => $request['field3']]);
         $demand ->appends(['search_scope' => $request['search_scope']]);
         
+        $search_scope = $request['search_scope'];
+        if ($search_scope == 1) { //搜索结果
+            $demand ->appends(['query_where' => $request['query_where']]);
+            $demand ->appends(['query_bindings' => $request['query_bindings']]);
+        }elseif ($search_scope == 2) { //选中项
+            $demand ->appends(['ids' => $request['ids']]);
+        }
+        
+        
         $param = ['q1' => $request['q1'], 'op' => $request['op'], 'field1' => $request['field1'],
             'q2_start' =>$request['q2_start'] , 'q2_end' =>$request['q2_end'] , 'field2' => $request['field2'],
             'q3_start' =>$request['q3_start'] , 'q3_end' =>$request['q3_end'] , 'field3' => $request['field3'],

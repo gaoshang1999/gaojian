@@ -88,12 +88,12 @@ class Recommend extends Model
     //查询当前用户的推荐
     public function scopeMyRecommend($query)
     {
-        return $query->where('user_id', Auth::user()->id);
+        return $query->where('user_id', Auth::user()->id)->where('type', '<>', 2);;
     }
     
     //查询当前用户Host的推荐
     public function scopeMyHostRecommend($query)
     {
-        return $query->where('host_id', Auth::user()->id);
+        return $query->where('host_id', Auth::user()->id) ->where('type', '<>', 2);
     }
 }

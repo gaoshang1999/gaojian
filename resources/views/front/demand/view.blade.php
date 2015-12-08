@@ -155,14 +155,14 @@
                                           </div>
 
                                                                         <!-- chachong start-->
-
+ <form   method="get" id="search-form" action="{{ url('/front/demand/talentSearch') }}">
+                        <input type="hidden" name="demand_id" value="{{ $demand->id }}">
                        <div class="row">
                                                        <br><br><br><br>
 
-
                                       <label class="col-sm-2 control-label">人才姓名</label>
                                       <div class="col-sm-2">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" id="name" name="name">
                                   </div>
                                  </div>
 
@@ -171,7 +171,7 @@
 
                                       <label class="col-sm-2 control-label">人才手机</label>
                                       <div class="col-sm-2">
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" id="mobile" name="mobile">
                                   </div>
                                  </div>
                               
@@ -179,35 +179,33 @@
 
 
                                 <div class="form-group">
-                                          <div class="col-lg-offset-4 col-sm-8">
-                                              <button class="btn btn-primary" data-toggle="modal" href="#myModal">推荐查重</button>
+                                          <div class="col-lg-offset-2 col-sm-8">
+                                              <button class="btn btn-primary"  type="submit">推荐查重</button>
 
-
-
+                                          </div>
+                                      </div>
+</form>
                                                  <!-- Modal -->
                               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                   <div class="modal-dialog">
                                       <div class="modal-content">
                                           <div class="modal-header">
                                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                              <h4 class="modal-title">查重结果</h4>
+                                              <h4 class="modal-title">提示</h4>
                                           </div>
-                                          <div class="modal-body">
+                                          <div class="modal-body"  id="myModal-body">
 
                                              对不起，人才已经被推荐到该岗位，下次快点哦！
 
                                           </div>
                                           <div class="modal-footer">
-                                              <button class="btn btn-success" type="button">OK</button>
+                                              <button class="btn btn-success" type="button" data-dismiss="modal" >OK</button>
                                           </div>
                                       </div>
                                   </div>
                               </div>
                               <!-- modal -->
 
-                                          </div>
-
-                                      </div>
 
 
 
@@ -295,6 +293,32 @@
 
 @section('scripts')
 <script type="text/javascript">
+$('#search-form').submit(function (ev) { 	
+ var name = $('#name').val();
+ var mobile = $('#mobile').val();
+ if(name.length==0 && mobile.length==0 )
+ {
+	 $('#myModal-body').html('请输入人才姓名或者人才手机号！');
+	 $('#myModal').modal();
+	 return false;
+ }
+	
+$.ajax({
+     type: $(this).attr('method'),
+     url: $(this).attr('action'),
+     data: $(this).serialize() ,
+     success: function (data) { 
+         var ret = eval(data); 
+         $('#myModal-body').html(ret.message);
+    	 $('#myModal').modal();
+     },
+     error: function(){       	    
+  	     alert("操作失败，请重试");
+     }
+ });
+	   ev.preventDefault();
+}); 
+
                    
 </script>
 @endsection
