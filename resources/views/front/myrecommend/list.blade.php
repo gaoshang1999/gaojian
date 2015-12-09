@@ -88,7 +88,7 @@
            <div class="col-md-2" col-sm-offset-3>
            	<?php  $d1= App\Models\Demand::demandForMyRecommend()->select('recruit_corporation')->whereNotNull('recruit_corporation')->distinct() ->orderBy('recruit_corporation')->get();?>         
                                         <select class="form-control m-bot15" name="recruit_corporation" >
-                                                      <option value=0>所有岗位</option>
+                                                      <option value=0>所有公司</option>
                                            @foreach ($d1->all() as $v)
                                                   <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation') == $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                              @endforeach

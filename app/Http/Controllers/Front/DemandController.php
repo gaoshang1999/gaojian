@@ -19,7 +19,7 @@ class DemandController extends Controller
             //查询当前用户的，未删除数据
             $data = ['demand' => Demand::myDemand() ->orderBy('id', 'desc')->paginate(10) ];
         }
-        
+
         return view('front.demand.list', $data);
     }
     

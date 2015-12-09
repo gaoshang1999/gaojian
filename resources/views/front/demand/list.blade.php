@@ -1,3 +1,5 @@
+
+
 @extends('front/front')
 
 {{-- Content --}}

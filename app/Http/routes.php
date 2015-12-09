@@ -180,3 +180,4 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
    $app->get('profile/edit/{id}',  'ProfileController@edit');
    $app->post('profile/edit/{id}',  'ProfileController@edit');
 });
+

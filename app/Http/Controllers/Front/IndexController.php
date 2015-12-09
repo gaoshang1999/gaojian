@@ -10,8 +10,8 @@ use DB;
 class IndexController extends Controller
 {   
     public function lists(Request $request)
-    {
-        if($request->has('open'))  {
+    {        
+       if($request->has('open'))  {
             //查询开放的需求
             $data = ['demand' => Demand::openDemand() ->orderBy('id', 'desc')->paginate(10), 'open'=>1 ];
         }else{
