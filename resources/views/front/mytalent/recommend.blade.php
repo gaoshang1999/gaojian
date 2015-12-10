@@ -217,7 +217,7 @@
                      <td>{{$v-> post_name }} </td>                     
                      <td>{{$v-> attach_department }} </td>
                      <td>{{ $v->created_at }}</td> 
-                     <?php $recommened = $v->recommends()->where('talent_id', $talent->id ) ->where('user_id', Auth::user()->id) ->count() > 0; ?>
+                     <?php $recommened = $v->recommends()->where('recommend_parameter_1', '<>', 2)->where('talent_id', $talent->id ) ->where('user_id', Auth::user()->id) ->count() > 0; ?>
                      <td>{{  $recommened ? "已推荐" : "未推荐"}}</td>
 <!--                      <td>{{ $v->recommends()->get()->count() }}</td> -->
 <!--                      <td>{{ $v->recommends()->where('recommend_flow_status_label_3', '面试进度中' )->get()->count() }}</td> -->

@@ -14,7 +14,9 @@ class CreateTableRecommendComment extends Migration
     {
         Schema::create('recommend_comment', function (Blueprint $table) {               
             $table->increments('id') ;
-              
+
+            $table->integer('user_id') ;
+            
             $table->integer('recommend_id') ; 
             
             $table->string('comment_type')  ;

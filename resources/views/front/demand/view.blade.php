@@ -38,7 +38,7 @@
                                               
                                               <i class="fa fa-comments fa-2x"> </i><br>
                                               
-                                              推荐流程中人数：8
+                                              推荐流程中人数：{{ App\Models\Recommend::recommend() -> where('demand_id',  $demand->id) -> whereNotIn('recommend_flow_parameter_1', [3, 7, 14, 15, 16, 17])->count() }}
                                           </li>
                                            
                                       </ul>
@@ -49,7 +49,7 @@
                                               
                                               <i class="fa fa-bell fa-2x"> </i><br>
                                               
-                                              面试总人数：9
+                                              面试总人数：{{ App\Models\Recommend::recommend() -> where('demand_id',  $demand->id) -> where('recommend_flow_parameter_1', '>', 7)->count() }}
                                           </li>
                                            
                                       </ul>
@@ -60,7 +60,7 @@
                                               
                                               <i class="fa fa-tachometer fa-2x"> </i><br>
                                               
-                                              推荐总人数:22
+                                              推荐总人数: {{ App\Models\Recommend::recommend() -> where('demand_id',  $demand->id) ->count() }}
                                           </li>
                                            
                                       </ul>
@@ -222,7 +222,7 @@
 
                                              <a class="btn btn-warning" href="{{ url("/front/demand/edit/{$demand->id}") }}" role="button">编辑职位</a>
 
-                                             <a class="btn btn-warning" href="kuaisutuijian.html" role="button">快速推荐</a>
+                                             <a class="btn btn-warning" href="{{ url("/front/recommend/recommend?demand_id={$demand->id}") }}" role="button">快速推荐</a>
 
                                              <a class="btn btn-warning" href="{{ url("/front/demand") }}" role="button">返回</a><br>
 

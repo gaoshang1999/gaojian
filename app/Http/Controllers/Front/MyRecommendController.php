@@ -89,7 +89,20 @@ class MyRecommendController extends Controller
         if($recommend_flow_parameter_1){
             $query = $query->where('recommend_flow_parameter_1',  $recommend_flow_parameter_1 );
         }
-        return $query;   }
+        
+        //用状态栏，推荐流程筛选
+        if($request->has('recommend_flow_parameter')){
+            $flow = $request['recommend_flow_parameter'];
+            if($flow == 1){
+                $query =  $query -> whereIn('recommend_flow_parameter_1', [1,  2,  4,  5,  6]);
+            }elseif ($flow == 2){
+                $query =  $query -> whereIn('recommend_flow_parameter_1', [8,  9,  10,  11,  12,  13]);
+            }elseif ($flow == 3){
+                $query =  $query -> whereIn('recommend_flow_parameter_1', [16,  17,  18]);
+            }
+        }
+        return $query;   
+    }
     
     public function search(Request $request)
     {
@@ -103,6 +116,8 @@ class MyRecommendController extends Controller
         $recommend ->appends(['recommend_flow_status_label_3' => $request['recommend_flow_status_label_3']]);
         $recommend ->appends(['recommend_flow_parameter_2' => $request['recommend_flow_parameter_2']]);
         $recommend ->appends(['recommend_flow_parameter_1' => $request['recommend_flow_parameter_1']]);
+        $recommend ->appends(['demand_id' => $request['demand_id']]);
+        $recommend ->appends(['recommend_flow_parameter' => $request['recommend_flow_parameter']]);
         
         $data = ['recommend' => $recommend];
         return view('front.myrecommend.list', $data);

@@ -62,15 +62,18 @@ class Talent extends Model
 
     public function scopeMyTalent($query)
     {
-        $q = DB::table('talent')
-            ->whereIn('id', function ($query) {
-                $query->select('talent_id')
-                ->from('recom')
-                ->where('host_id',  Auth::user()->id);
-            });        
+//         $q = DB::table('talent')
+//             ->whereIn('id', function ($query) {
+//                 $query->select('talent_id')
+//                 ->from('recom')
+//                 ->where('host_id',  Auth::user()->id);
+//             });        
         
-        return $query->where('user_id', Auth::user()->id) ->union($q);
+//         return $query->where('user_id', Auth::user()->id) ->union($q);
+
+//         return $query->where('user_id', Auth::user()->id)  ;
         
-//         DB::raw('(select * from `gj_talent` where `user_id` = ?) union (select * from `gj_talent` where `id` in (select `talent_id` from `gj_recom` where `host_id` = ?))' );
+        $user_id = Auth::user()->id;
+        return $query->whereRaw('id in ( select * from ( (select id from `gj_talent` where `user_id` = ?) union  (select `talent_id` from `gj_recom` where `host_id` = ?) )t ) ', [$user_id, $user_id] );
     }
 }

@@ -23,7 +23,8 @@
               </div>
               
 <!-- Inline搜索 form-->
- <form class="" role="form" method="get" id="search-form" action="{{ url('/front/myrecommend/search') }}">              
+ <form class="" role="form" method="get" id="search-form" action="{{ url('/front/myrecommend/search') }}">  
+ <input type="hidden" name="recommend_flow_parameter" value="{{ Request::input('recommend_flow_parameter') }}" >            
                   <div class="row">
 
                   <div class="col-md-2">
@@ -182,7 +183,7 @@
                     <th><i class="icon_mobile"></i> 行动备忘</th>
 
 <?php $constant = App\Models\Constant::getInstance(); ?>    
-                     <th><i class="icon_cogs"></i> 操作（编辑-删除）</th>
+                     <th><i class="icon_cogs"></i> 操作</th>
                  </tr>
         @foreach ($recommend->all() as $v)
                  <tr>
@@ -193,17 +194,19 @@
                      <td>{{ $v->user->corporation }}-{{ $v->user->user_name }}</td>
                      <td>{{ $v->created_at }}</td>                       
                       <td>{{ $v->host->user_name }}</td>
-                     <td>{{ $v->talent->name }}</td>
+                     <td>{{ $v->talent?$v->talent->name:''  }}</td>
                      <td>{{ $v->demand->recruit_corporation }}</td>
                      <td>{{ $v->demand->demand_type_label_1 }}</td>
                      <td>{{ array_get($constant, 'recommend_flow_parameter_1.'.$v->recommend_flow_parameter_1, '') }}</td>
-                     <td>{{ array_get($constant, 'recommend_flow_parameter_2.'.$v->recommend_flow_parameter_2, '') }}</td>
-                     <td> {{ $v->recommend_flow_status_label_2 }} </td>
+                     <?php  $action = $v->comments()->where('comment_type', 'action') ->orderBy('created_at', 'desc') ->first(); ?>
+                     <td>{{ $action? array_get($constant, 'recommend_flow_parameter_2.'.$action->remind_type, '') :'' }}</td>
+                      <?php  $feedback = $v->comments()->where('comment_type', 'feedback') ->orderBy('created_at', 'desc') ->first(); ?>
+                     <td> {{ $feedback?$feedback->comment:''  }} </td>
                      <td>
                       <div class="btn-group">
                       
                             <a class="btn btn-warning" href="{{ url("/front/myrecommend/edit/{$v->id}")  }}" role="button">详细</a>
-                            <a class="btn btn-success" href='{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}'  role="button">转推荐</a>
+                            <a class="btn btn-warning" href='{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}'  role="button">转推荐</a>
                             
                       <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
     							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >

@@ -20,7 +20,7 @@ class CreateFlowTable extends Migration
   $table->string('recommend_label_2', 30) ->nullable(); 
   $table->float('recommend_label_3') ->nullable(); 
   $table->float('recommend_label_4') ->nullable(); 
-  $table->float('recommend_parameter_1') ->nullable(); 
+  $table->float('recommend_parameter_1') ->default(0);
   $table->float('recommend_parameter_2') ->nullable(); 
   $table->float('recommend_parameter_3') ->nullable(); 
   $table->float('recommend_parameter_4') ->nullable(); 

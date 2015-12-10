@@ -22,8 +22,11 @@ class RecommendComment extends Model
      */
     protected $table = 'recommend_comment';
 
-    protected $fillable = ['id','recommend_id','comment_type','comment','remind_type','remind_time'];
+    protected $fillable = ['id', 'user_id', 'recommend_id','comment_type','comment','remind_type','remind_time'];
     
   
- 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

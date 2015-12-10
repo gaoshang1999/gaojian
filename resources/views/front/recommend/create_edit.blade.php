@@ -46,7 +46,7 @@
                                               <i class="fa fa-comments fa-2x"> </i><br>		
 											  最新反馈：
 											   @foreach ($feedbacks->all() as $v)
-											     {{ $v->created_at }}  {{ $v->comment }}
+											  <br/>  {{ $v->user->user_name }} : {{ $v->created_at }} {{ $v->comment }} 
 											  @endforeach
                                           </li>
 										   
@@ -61,7 +61,7 @@
 											  
 											  下一步行动：
 		                                      @foreach ($actions->all() as $v)
-											     {{ $v->created_at }}  {{ $v->comment }}
+											   <br/>  {{ $v->user->user_name }} : {{ $v->created_at }} {{ $v->comment }} 
 											  @endforeach
                                           </li>
 										   
@@ -73,7 +73,7 @@
                                               
                                               <i class="fa fa-tachometer fa-2x"> </i><br>
 											  
-											  招聘阶段：面试阶段
+											  招聘阶段：{{ $recommend->recommend_flow_status_label_3}}
                                           </li>
 										   
                                       </ul>
@@ -328,8 +328,8 @@
 
                             <div class="row">   
                                         <div class="col-lg-offset-4 col-lg-8">
-                                           <button type="submit" class="btn btn-warning" id="flow-submit">保存并返回</button>                                             
-                                             <a class="btn btn-warning" href="javascript:history.back()" role="button">不保存返回</a><br>
+                                           <button type="submit" class="btn btn-warning" id="flow-submit">保存</button>                                             
+                                          <br>
 
                                           </div>
                           </div>
@@ -339,6 +339,7 @@
                         <hr/>
                        <form id="action-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                        <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
                        <input type="hidden" name="comment_type" value="action">                       
                          <div class="row">   
@@ -377,6 +378,7 @@
                             
                               <form id="feedback-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                               <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
                                <input type="hidden" name="comment_type" value="feedback">
                                    <div class="row">   
@@ -550,8 +552,8 @@
 
                                         <div class="row">   
                                                 <div class="col-lg-offset-4 col-lg-8">
-                                                     <button type="submit" class="btn btn-warning" id="flow-submit">保存并返回</button>                                             
-                                                     <a class="btn btn-warning" href="{{ url('/front/recommend/') }}" role="button">不保存返回</a><br>
+                                                     <button type="submit" class="btn btn-warning" id="flow-submit">保存</button>                                             
+                                                     <br>
         
                                                   </div>
                                           </div>

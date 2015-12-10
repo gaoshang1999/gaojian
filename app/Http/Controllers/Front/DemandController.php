@@ -206,6 +206,10 @@ class DemandController extends Controller
     {
         $demand = Demand::myDemand()->where('id', $id)->first();
         
+        if(!$demand){ //公开职位
+            $demand = Demand::where('id', $id)->where('demand_parameter_5', 1)->first();
+        }
+        
         if($demand){
             return view('front.demand.view', ['demand' => $demand] );
         }else{

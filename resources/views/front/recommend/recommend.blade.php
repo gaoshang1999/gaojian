@@ -37,7 +37,7 @@
  	<?php  
  	
  	if(isset($demand)){
- 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $demand && $demand->recruit_user) ->distinct()  ->orderBy('recruit_corporation')->get();
+ 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $demand->recruit_user) ->distinct()  ->orderBy('recruit_corporation')->get();
  	}else{
  	      $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', Auth::user()->id) ->distinct()  ->orderBy('recruit_corporation')->get();
  	}
@@ -49,7 +49,7 @@
                                        
                                               <select class="form-control m-bot15" id="recruit_corporation" name="recruit_corporation">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation || $demand && $demand->recruit_corporation== $v->recruit_corporation?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation || $demand && $demand->recruit_corporation== $v->recruit_corporation ?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
                                                     @endforeach
                                               </select>
                                            

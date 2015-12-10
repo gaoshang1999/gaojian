@@ -32,10 +32,11 @@
   <body class="login-img3-body">
 
     <div class="container">
-
+     
       <form class="login-form" action="{{ url("auth/login") }}" method="post">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="login-wrap">
+           @include('errors.list')
             <p class="login-img"><i class="icon_lock_alt"></i></p>
             <div class="input-group">
               <span class="input-group-addon"><i class="icon_profile"></i></span>
@@ -56,6 +57,15 @@
 
     </div>
 
+<!-- javascripts -->
+<script src="/front/js/jquery.js"></script>
+<!-- <script src="/front/js/jquery-ui-1.10.4.min.js"></script> -->
+<script src="/front/js/jquery-1.8.3.min.js"></script>
+<!-- <!-- bootstrap -->  
+<script src="/front/js/bootstrap.min.js"></script>
 
+  <script type="text/javascript">
+        $(".login-img3-body").addClass("carousel-inner img-responsive img-rounded");  
+  </script>
   </body>
 </html>

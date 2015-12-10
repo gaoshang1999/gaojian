@@ -216,7 +216,7 @@
                      <th><i class="icon_mobile"></i>发布人</th>
                      <th><i class="icon_mobile"></i>发布人所在公司</th>
                      
-                     <th><i class="icon_cogs"></i> 操作（编辑-删除）</th>
+                     <th><i class="icon_cogs"></i> 操作</th>
                  </tr>
                  @foreach ($demand->all() as $v)
                  <tr>
@@ -225,9 +225,9 @@
                      <td>{{$v-> post_name }} </td>
                      <td>{{ $v->created_at }}</td>
                      <td>{{$v-> attach_department }} </td>
-                     <td>{{ $v->recommends()->get()->count() }}</td>
-                     <td>{{ $v->recommends()->where('recommend_flow_status_label_3', '面试进度中' )->get()->count() }}</td>
-                     <td>{{ $v->recommends()->where('recommend_flow_status_label_3', 'offer进度中' )->get()->count() }}</td>
+                     <td>{{ $v->recommends()->where('recommend_parameter_1', '<>', 2)->whereNotIn('recommend_flow_parameter_1', [3, 7, 14, 15, 16, 17])->count() }}</td>
+                     <td>{{ $v->recommends()->where('recommend_parameter_1', '<>', 2)->where('recommend_flow_status_label_3', '面试进度中' )->count() }}</td>
+                     <td>{{ $v->recommends()->where('recommend_parameter_1', '<>', 2)->where('recommend_flow_status_label_3', 'offer进度中' )->count() }}</td>
                      <td>{{ $v->demand_parameter_5==1?'已开放':'未开放' }}</td>
                      <td>{{ $v->user->user_name }}</td>
                      <td>{{ $v->user->corporation }}</td>
@@ -242,7 +242,7 @@
                       候选人
                       </a>
                       @endif
-                      <a href="{{ url("/front/recommend/recommend?demand_id={$v->id}") }}" class="btn btn-success btn-sm" role="button">
+                      <a href="{{ url("/front/recommend/recommend?demand_id={$v->id}") }}" class="btn btn-warning btn-sm" role="button">
                       快速推荐
                       </a>
                       					

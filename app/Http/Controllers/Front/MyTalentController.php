@@ -17,7 +17,7 @@ class MyTalentController extends Controller
     
     public function lists(Request $request)
     {
-        $data = ['talent' => Talent::myTalent() -> orderBy('id', 'desc')->get() ];
+        $data = ['talent' => Talent::myTalent() -> orderBy('id', 'desc')->paginate(10)  ];
 
         return view('front.mytalent.list', $data);
     }
