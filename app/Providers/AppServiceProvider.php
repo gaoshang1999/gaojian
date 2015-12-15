@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
     
         DB::listen(function($sql, $bindings, $time) {
-            Log::info  ($sql);
+            Log::info  ($sql, $bindings, $time);
         });    
         
         Constant::saved(function ($constant) {

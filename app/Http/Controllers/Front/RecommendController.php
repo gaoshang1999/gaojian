@@ -229,15 +229,37 @@ class RecommendController extends Controller
         return redirect($request->header('referer'));
     }
     
-    public function comment(Request $request)
-    {      
-            $input = $request->all();
-            $recommendComment = RecommendComment::create($input);
-                        
-            $recommendComment->save(); 
+//     public function comment(Request $request)
+//     {      
+//             $input = $request->all();
+            
+
+//             switch ($input['remind_type'])
+//             {
+//                 case 1:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+2 hours"));
+//                     break;
+//                 case 2:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+1 days"));
+//                     break;
+//                 case 3:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+2 days"));
+//                     break;
+//                 case 4:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+7 days"));
+//                     break;
+//                 case 5:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+14 days"));
+//                     break;
+//                 case 6:
+//                     $input['remind_time'] = date('Y-m-d H:i:s',strtotime("+1 months"));
+//                     break;                    
+//             }
+
+//             $recommendComment = RecommendComment::create($input);
        
-           return new JsonResponse(['success'=>true, 'message' => '成功']);
-    }
+//            return new JsonResponse(['success'=>true, 'message' => '成功']);
+//     }
     
     public function recommend(Request $request)
     {           

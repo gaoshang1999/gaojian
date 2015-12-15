@@ -15,85 +15,31 @@
 
   					<!-- task notificatoin start -->
   					<li id="task_notificatoin_bar" class="dropdown">
-  						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-  							<span class="icon-task-l"></i>
-  								<span class="badge bg-important">6</span>
+   						<?php  $comments = App\Models\RecommendComment::comments()->orderBy('id', 'desc')->get(); ?>	
+ 
+                       <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+  							<i class="icon-bell-l"></i>
+  								<span class="badge bg-important">{{ $comments->count() }}</span>
   							</a>
   							<ul class="dropdown-menu extended tasks-bar">
   								<div class="notify-arrow notify-arrow-blue"></div>
   								<li>
-  									<p class="blue">You have 6 pending letter</p>
+  									<p class="blue">你有{{ $comments->count() }}个提醒</p>
   								</li>
-  								<li>
-  									<a href="#">
+						
+  								@foreach ($comments->take(5)->all() as $v)
+  								<li class="normal">
+  									<a href="{{ url('/front/comment/view/'.$v->id) }}">
   										<div class="task-info">
-  											<div class="desc">Design PSD </div>
-  											<div class="percent">90%</div>
+  											<div class="desc">{{ $v->user->user_name }} : {{ $v->created_at }} {{ $v->comment }}  </div>
   										</div>
-  										<div class="progress progress-striped">
-											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%"> 
-  												<span class="sr-only">90% Complete (success)</span>
-  											</div>
-  										</div>
-  									</a>
+  	  								</a>
   								</li>
-  								<li>
-  									<a href="#">
-  										<div class="task-info">
-  											<div class="desc">
-  												Project 1
-  											</div>
-  											<div class="percent">30%</div>
-  										</div>
-  										<div class="progress progress-striped">
-  											<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%"> 
-  												<span class="sr-only">30% Complete (warning)</span>
-  											</div>
-  										</div>
-  									</a>
-  								</li>
-  								<li>
-  									<a href="#">
-  										<div class="task-info">
-  											<div class="desc">Digital Marketing</div>
-  											<div class="percent">80%</div>
-  										</div>
-  										<div class="progress progress-striped">
-  											<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-  												<span class="sr-only">80% Complete</span>
-  											</div>
-  										</div>
-  									</a>
-  								</li>
-  								<li>
-  									<a href="#">
-  										<div class="task-info">
-  											<div class="desc">Logo Designing</div>
-  											<div class="percent">78%</div>
-  										</div>
-  										<div class="progress progress-striped">
-    											<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
-  												<span class="sr-only">78% Complete (danger)</span>
-  											</div>
-  										</div>
-  									</a>
-  								</li>
-  								<li>
-  									<a href="#">
-  										<div class="task-info">
-  											<div class="desc">Mobile App</div>
-  											<div class="percent">50%</div>
-  										</div>
-  										<div class="progress progress-striped active">
-    											<div class="progress-bar"  role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-  												<span class="sr-only">50% Complete</span>
-  											</div>
-  										</div>
+  								@endforeach
 
-  									</a>
-  								</li>
+
   								<li class="external">
-  									<a href="#">See All Tasks</a>
+  									<a href="#">查看所有提醒</a>
   								</li>
   							</ul>
   						</li>
@@ -249,3 +195,26 @@
   				</div>
   			</header>      
   			<!--header end-->
+                             
+                             
+                            <!-- Modal -->
+                              <div class="modal fade" id="remind-Modal" tabindex="-1" role="dialog" aria-labelledby="remind-Modalabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                              <h4 class="modal-title">提醒</h4>
+                                          </div>
+                                          <form class="form-horizontal "  id="remind-Modal-form" method="post" action="{{ url('/front/comment/edit') }}">
+                                          <div class="modal-body"  id="remind-Modal-body">
+
+                                          </div>
+                                          <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" id="remind-Modal-form-button-1">30分钟后再提醒  </button>
+                                                <button type="button" class="btn btn-default"  id="remind-Modal-form-button-2" >不再提醒 </button>                                             
+                                          </div>
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!-- modal -->

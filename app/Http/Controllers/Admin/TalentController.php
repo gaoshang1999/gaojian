@@ -13,6 +13,7 @@ use DB;
 use Log;
 use Exception;
 use Auth;
+use sngrl\SphinxSearch\SphinxSearch;
 
 class TalentController extends Controller
 {
@@ -51,6 +52,14 @@ class TalentController extends Controller
             if($query_where){
                 $query->getQuery()->wheres = $query_where;
                 $query->getQuery()->setBindings($query_bindings);
+ 
+//                 dump($query_where);
+//                 dump($query_bindings);
+//                 $query = $query->whereIn('id', function ($query) use($query_where, $query_bindings) {
+//                                     $query->select('id')
+//                                     ->from('talent')
+//                                     ->mergeWheres($query_where, $query_bindings);
+//                                 });
             }
         }elseif ($search_scope == 2) { //选中项
             $ids = $request['ids'];
@@ -413,4 +422,13 @@ class TalentController extends Controller
          
         
     }
+    
+    public function sphinx(Request $request)
+    {
+        //->setRankingMode(\Sphinx\SphinxClient::SPH_MATCH_ALL)
+        $sphinx = new SphinxSearch();
+        $results = $sphinx->search('北京 通信 结构设计', 'talent_index')->filter('sex', 0)->query();
+        dump($results);
+    }
+ 
 }

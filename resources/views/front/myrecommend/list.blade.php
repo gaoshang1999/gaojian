@@ -195,7 +195,7 @@
                      <td>{{ $v->created_at }}</td>                       
                       <td>{{ $v->host->user_name }}</td>
                      <td>{{ $v->talent?$v->talent->name:''  }}</td>
-                     <td>{{ $v->demand->recruit_corporation }}</td>
+                     <td>{{ $v->talent?$v->talent->last_corporation:'' }}</td>
                      <td>{{ $v->demand->demand_type_label_1 }}</td>
                      <td>{{ array_get($constant, 'recommend_flow_parameter_1.'.$v->recommend_flow_parameter_1, '') }}</td>
                      <?php  $action = $v->comments()->where('comment_type', 'action') ->orderBy('created_at', 'desc') ->first(); ?>

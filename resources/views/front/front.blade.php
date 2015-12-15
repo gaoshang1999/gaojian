@@ -148,7 +148,74 @@
         	 $(this).parents("li").addClass("active");
          }
         });
-        
+
+	    function showRemindHint(pageurl) {
+	    	$('#remind-Modal-body').empty();
+	    	$('#remind-Modal-body').load(pageurl);
+	    	$('#remind-Modal').modal('show');
+	    }
+
+	    $(".dropdown-menu li[class='normal'] a").click(function(e){    
+            var $this = $(this);
+            var pageurl = $this.attr('href');
+            showRemindHint(pageurl);
+            
+	    	
+            e.preventDefault();
+	     });
+
+
+
+	     function submitRemindModalForm(op){
+			    var $form = $('#remind-Modal-form');
+		    	$.ajax({
+			           type: $form.attr('method'),
+			           url: $form.attr('action'),
+			           data: $form.serialize()+"&op="+op,
+			           dataType: "json",
+			           success: function (data) {
+			        	   $('#remind-Modal').modal('hide');
+			        	   location.reload();
+			           },
+			           error: function(){
+			        	     alert('操作失败，请重试！');
+			           }
+			       });
+	     }
+
+		    $("#remind-Modal-form-button-1").click(function(e){    
+		    	  submitRemindModalForm(1);
+				   e.preventDefault();			
+		     });
+
+		    $("#remind-Modal-form-button-2").click(function(e){    
+		    	  submitRemindModalForm(2);
+				   e.preventDefault();			
+		     });
+
+		    function pollRemind(){
+		    	$.ajax({
+			           url: '{{ url('/front/comment/lists') }}',
+			           dataType: "json",
+			           success: function (data) {
+			        	   var url = "{{ url('/front/comment/view/') }}/";
+			        	   var ret = eval(data);
+			        	 
+			        	   for(var key in ret){
+			        		     var id=ret[key].id;
+			        		     showRemindHint(url+id);	 
+				        	}
+			           },
+			           error: function(){
+			        	     alert('操作失败，请重试！');
+			           }
+			       });
+			 }		    
+
+		    setInterval(function(){
+		    	 pollRemind();		    	                 
+            }, 1000*60*3); //5分钟	
+		    
 	 });
 </script>	
    <script type="text/javascript">
@@ -162,6 +229,8 @@
         }
      }//del end
    </script>	
+
+   
    @yield('scripts')	
    
 

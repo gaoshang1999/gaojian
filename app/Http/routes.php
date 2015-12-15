@@ -89,6 +89,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->get('talent/testApi', 'TalentController@testApi');
     $app->post('talent/testApi', 'TalentController@testApi');
     $app->get('talent/test', 'TalentController@test');
+    $app->get('talent/sphinx', 'TalentController@sphinx');
         
     $app->get('demand',  'DemandController@lists');
     $app->get('demand/add',  'DemandController@add');
@@ -148,7 +149,6 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('recommend/edit/{id}',  'RecommendController@edit');
     $app->post('recommend/delete/{id}',  'RecommendController@delete');
     $app->get('recommend/search', 'RecommendController@search');
-    $app->post('recommend/comment',  'RecommendController@comment');
     $app->get('recommend/recommend',  'RecommendController@recommend');
     $app->post('recommend/recommend',  'RecommendController@recommend');
     $app->post('recommend/recommendHR',  'RecommendController@recommendHR');
@@ -179,5 +179,10 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
 //         });
    $app->get('profile/edit/{id}',  'ProfileController@edit');
    $app->post('profile/edit/{id}',  'ProfileController@edit');
+   
+   $app->get('comment/lists',  'CommentController@lists');
+   $app->post('comment/add',  'CommentController@add');
+   $app->get('comment/view/{id}',  'CommentController@view');
+   $app->post('comment/edit',  'CommentController@edit');   
 });
 

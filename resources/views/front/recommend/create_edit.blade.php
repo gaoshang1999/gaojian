@@ -337,7 +337,7 @@
                         </form>
                         
                         <hr/>
-                       <form id="action-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
+                       <form id="action-form" role="form"  method="post"  action="{{ url('/front/comment/add/') }}">
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                        <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
@@ -376,11 +376,12 @@
                                 </div>
                             </form>
                             
-                              <form id="feedback-form" role="form"  method="post"  action="{{ url('/front/recommend/comment/') }}">
+                              <form id="feedback-form" role="form"  method="post"  action="{{ url('/front/comment/add/') }}">
                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                <input type="hidden" name="recommend_id" value="{{ $recommend->id}}">
                                <input type="hidden" name="comment_type" value="feedback">
+                               <input type="hidden" name="remind_type" value="-1">
                                    <div class="row">   
 
                                      <div class="col-lg-6">
@@ -650,14 +651,15 @@
 				           dataType: "json",
 				           success: function (data) {
     				        	$('#action-form-hint').html("行动设置成功");
-      				            $('#action-form-hint').show();  	
+      				            $('#action-form-hint').fadeIn();
+      				            $('#action-form-hint').delay(1000).fadeOut();
       				            $action.prop('disabled', false);
-// 					            location.reload();	
+
 				           },
 				           error: function(){
 					        	$('#action-form-hint').html("行动设置失败，请重试");
-	  				            $('#action-form-hint').show();
-				        	    $action.prop('disabled', false);	
+      				            $('#action-form-hint').fadeIn();
+      				            $('#action-form-hint').delay(1000).fadeOut();
 				           }
 				       });
 					   ev.preventDefault();					 
@@ -687,14 +689,14 @@
 				           dataType: "json",
 				           success: function (data) {
     				        	$('#feedback-form-hint').html("发送反馈成功");
-      				            $('#feedback-form-hint').show();
+      				            $('#feedback-form-hint').fadeIn();
+      				            $('#feedback-form-hint').delay(1000).fadeOut();
   				                $feedback.prop('disabled', false);	
-//   				                location.reload();
 				           },
 				           error: function(){
 				        	    $('#feedback-form-hint').html("发送反馈失败，请重试");
-	  				            $('#feedback-form-hint').show();
-				        	    $feedback.prop('disabled', false);	
+      				            $('#feedback-form-hint').fadeIn();
+      				            $('#feedback-form-hint').delay(1000).fadeOut();
 				           }
 				       });
 					   ev.preventDefault();					 

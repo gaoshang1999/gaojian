@@ -52,4 +52,8 @@ return [
 
     'debug' => env('APP_DEBUG', true),
 
+    'providers' => array(
+        /*** Some others providers ***/
+        'sngrl\SphinxSearch\SphinxSearchServiceProvider',
+    ),
 ];
