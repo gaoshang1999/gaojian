@@ -204,7 +204,17 @@
     </div>
 
     <!-- advanced table-->
+  <div class="row">
+        <div class="col-sm-12">
 
+         <div>
+                  <ul class="pagination pagination-sm pull-right">
+                     {!! $talent->render() !!} 
+                  </ul>
+         </div>
+
+       </div>
+    </div>
 			<!-- project team & activity end -->
 
 		</section>

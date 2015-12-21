@@ -184,8 +184,19 @@
     </div>
 
     <!-- advanced table-->
+ @if(isset($talent))
+  <div class="row">
+        <div class="col-sm-12">
 
+         <div>
+                  <ul class="pagination pagination-sm pull-right">
+                     {!! $talent->render() !!} 
+                  </ul>
+         </div>
 
+       </div>
+    </div>
+@endif 
 
 
 
@@ -285,7 +296,7 @@
           success: function (data) { 
 	           	var ret = eval(data); 
 	            alert(ret.message);	
-	            location.reload();
+// 	            location.reload();
           },
           error: function(){       	    
        	     alert("预推荐失败，请重试");

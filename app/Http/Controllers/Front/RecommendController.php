@@ -286,9 +286,9 @@ class RecommendController extends Controller
             $demand = Demand::where('id', $demand_id)->first();
             $talent_id = $request['talent_id'];
             if($talent_id){
-                $talent = Talent::where('id', $talent_id)->get();
+                $talent = Talent::where('id', $talent_id)->paginate(10);
             }else{
-                $talent = Talent::myTalent()->get();
+                $talent = Talent::myTalent()->paginate(10);
             }
 
             return view('front.recommend.recommend' , ['demand' => $demand , 'talent' => $talent ]);

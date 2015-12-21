@@ -15,7 +15,91 @@
     	<form class="form-horizontal" role="form" method="get" id="search-form" action="{{ url('/admin/talent/search') }}">
     	<?php   $table = App\Models\Table::where('cn', '人才')->first(); ?>
     	  
-    	@include('admin.common.search_form_element')	  
+    <?php  $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['string', 'text'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
+<?php  for($i=1; $i<=10; $i++) { $text_field = 'text_field'.$i;  $text_op= 'text_op'.$i; $text_q = 'text_q'.$i; ?>
+<div id="text-filter-{{$i}}" class="row" >
+	  <label class="col-sm-1" for="text_field{{$i}}"> 文本项目 </label>      
+
+      <select class="col-sm-2" id="text_field{{$i}}" name="text_field{{$i}}"  tabindex="1"> 
+
+               @foreach($column as $c)
+                  <option value="{{ $c->en }}" {{ Request::input($text_field)== $c->en ?	'selected' : '' }}>{{ $c->cn }}</option>
+                @endforeach
+	   </select> 
+
+	   <select class="col-sm-1" id="text_op{{$i}}" name="text_op{{$i}}"  tabindex="2">  
+		   <option value="like" {{ Request::input($text_op)== "like" ? 'selected' : '' }}> 包含 </option>		
+		   <option value="=" {{  Request::input($text_op)== "=" ? 'selected' : '' }}> 等于 </option>   
+		</select> 
+
+	  <input class="col-sm-5"  type="text" placeholder="" id="text_q{{$i}}" name="text_q{{$i}}" value="{{ Request::input($text_q) }}" tabindex="3" /> 
+</div> 
+<?php  }?>
+
+<?php $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['integer', 'float'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>       
+
+<?php  for($i=1; $i<=10; $i++) { $number_field = 'number_field'.$i;  $number_start_q= 'number_start_q'.$i; $number_end_q = 'number_end_q'.$i; ?>
+<div id="number-filter-{{$i}}" class="row" >
+	  <label class="col-sm-1" for="number_field{{$i}}"> 量化项目 </label>  
+      
+
+      <select class="col-sm-2" id="number_field{{$i}}" name="number_field{{$i}}"  tabindex="1">
+               @foreach($column as $c)
+                  <option value="{{ $c->en }}" {{ Request::input($number_field)== $c->en ?'selected' : '' }}>{{ $c->cn }}</option> 
+               @endforeach
+		</select> 
+
+		<input class="col-sm-3"  type="number" placeholder="" name="number_start_q{{$i}}" 	step="1" value="{{ Request::input($number_start_q) }}" tabindex="2" /> 
+		<input class="col-sm-3"  type="number" placeholder="" name="number_end_q{{$i}}" 	step="1" value="{{ Request::input($number_end_q) }}" tabindex="2" />
+</div>
+<?php  }?>
+<?php $column = App\Models\Column::where('table_id',$table->id)->whereIn('type', ['date'])->orderBy(DB::raw('CONVERT( cn USING gbk )'))->get();?>  
+<?php  for($i=1; $i<=6; $i++) { $date_field = 'date_field'.$i;  $date_start_q= 'date_start_q'.$i; $date_end_q = 'date_end_q'.$i; ?>
+<div id="date-filter" class="row" >
+
+	  <label class="col-sm-1" for="date_field{{$i}}"> 日期项目 </label>      
+
+      <select class="col-sm-2" id="date_field{{$i}}" name="date_field{{$i}}"  tabindex="1"> 
+               @foreach($column as $c)
+                  <option value="{{ $c->en }}" {{ Request::input($date_field)== $c->en ?'selected' : '' }}>{{ $c->cn }}</option>
+               @endforeach
+	   </select>
+
+		<div class="col-sm-6 input-group" >
+			<input class="form-control date-picker " id="q3_start" name="date_start_q{{$i}}" type="text" data-date-format="yyyy-mm-dd" value="{{ Request::input($date_start_q) }}" /> 
+				<span	class="input-group-addon"> 
+				   <i class="icon-calendar bigger-100"></i>
+			    </span>
+			
+			 <input class="form-control date-picker "	id="q3_end" name="date_end_q{{$i}}" type="text" data-date-format="yyyy-mm-dd" value="{{ Request::input($date_end_q) }}" /> 
+				<span class="input-group-addon">
+				 <i class="icon-calendar bigger-100"></i>
+			    </span>
+
+		</div>
+</div>
+<?php  }?>		
+
+        <input type="hidden" name="ids" id="ids"/>
+        <input type="hidden" name="query_where" id="query_where" value="{{ isset($query_where) ? $query_where : '' }}"/>
+        <input type="hidden" name="query_bindings" id="query_bindings" value="{{ isset($query_bindings) ? $query_bindings : '' }}"/>
+ 
+	 <div id="search-form-options"  class="col-sm-6 "> <?php $search_scope = isset($search_scope) ? $search_scope : ""; ?>
+<!-- 		<label class="col-sm-2 radio-inline"><input type="radio" name="search_scope" value="0" {{ $search_scope== "0" || $search_scope== "" ? 'checked' : '' }}> 全库</label> -->
+<!--         <label class="col-sm-2 radio-inline"><input type="radio" name="search_scope" value="2" {{ $search_scope== "2" ? 'checked' : '' }}> 选中项</label> -->
+<!--       </div> -->
+
+<div id="submit-search-form" class="form-group col-sm-12">
+
+<!-- 	   <a href="#add-filter-modal-form" data-toggle="modal" class="btn btn-xs btn-success"  -->
+<!-- 				tabindex="4"> <i class="icon-filter bigger-160">增加过滤器&nbsp;</i> -->
+<!-- 			</a> -->
+	
+	<button class="btn btn-xs btn-success" type="submit"
+		tabindex="3">
+		<i class="icon-search icon-on-right bigger-160">搜索&nbsp;</i>
+	</button>
+</div>
     
     	</form>
     </div>
@@ -472,6 +556,45 @@
 	</div>
 	<!-- recommend-modal-form -->
 	
+	
+		<div id="add-filter-modal-form" class="modal" tabindex="-1">
+		
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="blue bigger">过滤器设置</h4>
+					</div>
+
+					<div class="modal-body overflow-visible">						 
+								 					 
+					 <div class="row">
+					 <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="filter_type" value="1" checked> 文本项目过滤器</label>
+                        <label class="radio-inline"><input type="radio" name="filter_type" value="2" > 量化项目过滤器</label>
+                		<label class="radio-inline"><input type="radio" name="filter_type" value="3" > 日期项目过滤器</label>                                                
+                      </div>		 
+					</div>
+					 
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-sm" data-dismiss="modal">
+							<i class="icon-remove"></i> 取消
+						</button>
+
+						<button class="btn btn-sm btn-primary" type="button"
+							id="submit-add-filter-form">
+							<i class="icon-ok"></i> 确定
+							<span id="recommend-progress-bar"  hidden="true">							 
+							     <i class="icon-spinner icon-spin red bigger-125" ></i>													 
+							</span>
+						</button>
+					</div>
+				</div>
+			</div>
+	</div>
+	<!-- add-filter-modal-form -->
 </div>
 <!-- /.page-content -->
 @endsection
@@ -498,7 +621,7 @@
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
-			jQuery(function($) {
+jQuery(function($) {
 
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
@@ -731,7 +854,24 @@
 
 					   ev.preventDefault();
 				   });
+
+				$('#submit-add-filter-form').click(function (ev) { 		
+					$('#add-filter-modal-form').modal('hide');
+		               
+					var type =$("input[name='filter_type']:checked").val();
+					
+					if(type == 1){
+						 $("#text-filter").clone().insertBefore($("#search-form-options"));   
+					}else if(type == 2){
+						$("#number-filter").clone().insertBefore($("#search-form-options"));   
+					}else if(type == 3){
+						$("#date-filter").clone().insertBefore($("#search-form-options"));   
+					}
+					
+					ev.preventDefault();
+
+			   });
 				
-			});
+});
 </script>
 @endsection
