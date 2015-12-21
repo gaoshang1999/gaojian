@@ -214,7 +214,7 @@
 
 		    setInterval(function(){
 		    	 pollRemind();		    	                 
-            }, 1000*60*3); //5分钟	
+            }, 1000*60*3); //3分钟	
 		    
 	 });
 </script>	

@@ -145,7 +145,7 @@ class TalentController extends Controller
         }
         
         $sphinx =  $sphinx ->setRankingMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
-        $talent = $sphinx->limit(10000, 0, 10000, 15000)->query();
+        $talent = $sphinx->limit(10000, 0, 10000, 0)->query();
         $total = $talent['total_found'];
         //         $talent = $sphinx->limit($perPage, ($request->input('page',1)-1)*$perPage)->query();
         //         dump($talent);
