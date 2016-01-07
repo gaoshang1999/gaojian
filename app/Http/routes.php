@@ -21,7 +21,7 @@ $app->get('auth/logout', 'Auth\AuthController@getLogout');
 $app->get('auth/register', 'Auth\AuthController@getRegister');
 $app->post('auth/register', 'Auth\AuthController@postRegister');
 
-
+$app->get('search', 'Admin\SphinxController@test');
 // $app->get('/', function () use ($app) {
 //     return view('admin.dashboard.home');
 // });
@@ -30,7 +30,7 @@ $app->post('auth/register', 'Auth\AuthController@postRegister');
 // 管理员后台
 $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth.login', 'auth.admin']], function($app){
     $app->get('/',  function () use ($app) {
-        return view('admin.dashboard.home');
+        return redirect('/admin/talent');
     });
 
     $app->get('dict',  'DictController@lists');
@@ -127,8 +127,6 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
 
 $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', 'middleware' => ['auth.login']], function($app){
    
-    $app->get('/index',  'DemandController@lists');
-    
     $app->get('demand',  'DemandController@lists');
     $app->get('demand/add',  'DemandController@add');
     $app->post('demand/add',  'DemandController@add');
@@ -184,5 +182,23 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
    $app->post('comment/add',  'CommentController@add');
    $app->get('comment/view/{id}',  'CommentController@view');
    $app->post('comment/edit',  'CommentController@edit');   
+   
+   
+    $app->get('match',  'MatchController@lists');
+    $app->get('match/add',  'MatchController@add');
+    $app->post('match/add',  'MatchController@add');
+    $app->get('match/edit/{id}',  'MatchController@edit');
+    $app->post('match/edit/{id}',  'MatchController@edit');
+    $app->post('match/delete/{id}',  'MatchController@delete');
+    $app->get('match/search', 'MatchController@search');
+    $app->get('match/view/{id}', 'MatchController@view');
+    $app->get('match/match1/{id}',  'MatchController@match1');
+    $app->post('match/match1/{id}',  'MatchController@match1');
+    $app->get('match/match2/{id}',  'MatchController@match2');
+    $app->post('match/match2/{id}',  'MatchController@match2');
+    $app->get('match/match3/{id}',  'MatchController@match3');
+    
+    $app->get('industry/queryChildren/{id}',  'IndustryController@queryChildren');
+    $app->get('industry/queryDuty/{id}',  'IndustryController@queryDuty');
 });
 

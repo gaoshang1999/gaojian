@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-sm-4 col-sm-4 follow-info">
                                 <p>性别：{{ array_get($constant, 'sex.'.$talent-> sex, '') }}    工作经验：{{ $talent->work_year }}年   学历：{{ array_get($constant, 'highest_education.'.$talent-> highest_education, '') }}</p>
-                                <p>推荐人：高荐 tracy </p>
+                                
 								<p><i class="fa fa-twitter">联系方式：{{ $talent->mobile }} </i></p>
                                 <h6>
                                 

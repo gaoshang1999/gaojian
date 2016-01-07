@@ -34,12 +34,12 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
-						<li class="">
-							<a href="{{ url('/admin') }}">
-								<i class="icon-dashboard"></i>
-								<span class="menu-text"> 控制台 </span>
-							</a>
-						</li>
+<!-- 						<li class=""> -->
+<!-- 							<a href="{{ url('/admin') }}"> -->
+<!-- 								<i class="icon-dashboard"></i> -->
+<!-- 								<span class="menu-text"> 控制台 </span> -->
+<!-- 							</a> -->
+<!-- 						</li> -->
 						
 					   <li>
 							<a href="{{ url('/admin/talent') }}">

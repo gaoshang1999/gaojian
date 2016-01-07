@@ -16,7 +16,7 @@
                              职位{{ $demand ? '编辑' : '新增' }}
                           </header>
                         <div class="panel-body">
-                              <form class="form-horizontal " method="post" action="{{ url('/front/demand/' . ($demand ? 'edit/'.$demand->id : 'add')) }}">
+                              <form class="form-horizontal " method="post" action="{{ url("{$url}" . ($demand ? '/edit/'.$demand->id : '/add')) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <div class="form-group">
@@ -266,7 +266,7 @@
                                               <div class="form-group">
                                           <div class="col-lg-offset-4 col-lg-8">
                                               <button class="btn btn-primary" type="submit">保存</button>
-                                             <a class="btn btn-warning" href="{{ url('/front/demand/' )}}">返回</a>
+                                             <a class="btn btn-warning" href="{{ url("{$url}" )}}">返回</a>
                                              <br>
 
                                           </div>

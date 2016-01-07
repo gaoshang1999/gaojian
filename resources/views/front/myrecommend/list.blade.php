@@ -180,7 +180,7 @@
 
                      <th><i class="icon_mobile"></i> 最新状态</th>
                     <th><i class="icon_mobile"></i> 提醒时间</th>
-                    <th><i class="icon_mobile"></i> 行动备忘</th>
+                    <th><i class="icon_mobile"></i> 最新反馈</th>
 
 <?php $constant = App\Models\Constant::getInstance(); ?>    
                      <th><i class="icon_cogs"></i> 操作</th>

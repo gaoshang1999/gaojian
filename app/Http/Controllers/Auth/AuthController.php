@@ -67,11 +67,12 @@ class AuthController extends Controller
     }
     protected function authenticated($request, $user)
     {
-        if ($user->role === 0 || $user->role === 1) { //管理员、顾问
+        if ($user->isAdminstrator()) {
             return redirect('/admin');
-        }
-        else {
-            return redirect('/front/index');
+        } elseif ($user->isOperator()) {
+            return redirect('/front/match');
+        } else {
+            return redirect('/front/demand');
         }
     }
     public function postRegister(Request $request)

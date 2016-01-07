@@ -225,7 +225,7 @@
 
 
                                                       <label class="label_radio" for="radio-05">
-                                                          <input name="recommend_flow_parameter_1" id="radio-05" value="6" type="radio" {{ $recommend->recommend_flow_parameter_1 =="6"?"checked":"" }} /> 联系上，等待简历；
+                                                          <input name="recommend_flow_parameter_1" id="radio-05" value="6" type="radio" {{ $recommend->recommend_flow_parameter_1 =="6"?"checked":"" }} />  符合条件，可以推荐；
                                                       </label>
 
                                                       <label class="label_radio" for="radio-06">

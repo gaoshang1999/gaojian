@@ -220,11 +220,11 @@
                                         <div class="col-sm-offset-4 col-sm-8">
                                           <a class="btn btn-warning" href="addzhiwei.html" role="button">关联hr职位</a>
 
-                                             <a class="btn btn-warning" href="{{ url("/front/demand/edit/{$demand->id}") }}" role="button">编辑职位</a>
+                                             <a class="btn btn-warning" href="{{ url("{$url}/edit/{$demand->id}") }}" role="button">编辑职位</a>
 
                                              <a class="btn btn-warning" href="{{ url("/front/recommend/recommend?demand_id={$demand->id}") }}" role="button">快速推荐</a>
 
-                                             <a class="btn btn-warning" href="{{ url("/front/demand") }}" role="button">返回</a><br>
+                                             <a class="btn btn-warning" href="{{ url("{$url}") }}" role="button">返回</a><br>
 
                                           </div>
                                           </div>

@@ -47,11 +47,11 @@ class CreateUserTable extends Migration
               
             $table->string('group_2', 30)  ->nullable(); 
               
-            $table->float('group_parameter')  ->nullable();
+            $table->integer('group_parameter')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_1')  ->nullable();
+            $table->integer('read_write_privilege_parameter_1')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_2')  ->nullable();
+            $table->integer('read_write_privilege_parameter_2')  ->nullable();
               
             $table->string('read_write_privilege_parameter_3')  ->nullable();
               
@@ -59,17 +59,17 @@ class CreateUserTable extends Migration
               
             $table->string('read_write_privilege_parameter_5')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_6')  ->nullable();
+            $table->integer('read_write_privilege_parameter_6')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_7')  ->nullable();
+            $table->integer('read_write_privilege_parameter_7')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_8')  ->nullable();
+            $table->integer('read_write_privilege_parameter_8')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_9')  ->nullable();
+            $table->integer('read_write_privilege_parameter_9')  ->nullable();
               
-            $table->float('read_write_privilege_parameter_10')  ->nullable();
+            $table->integer('read_write_privilege_parameter_10')  ->nullable();
               
-            $table->float('search_privilege_parameter_1')  ->nullable();
+            $table->integer('search_privilege_parameter_1')  ->nullable();
               
             $table->string('search_privilege_parameter_2')  ->nullable();
               
@@ -79,17 +79,17 @@ class CreateUserTable extends Migration
               
             $table->string('search_privilege_parameter_5')  ->nullable();
               
-            $table->float('additional_parameter_1')  ->nullable();
+            $table->integer('additional_parameter_1')  ->nullable();
               
-            $table->float('additional_parameter_2')  ->nullable();
+            $table->integer('additional_parameter_2')  ->nullable();
               
-            $table->float('additional_parameter_3')  ->nullable();
+            $table->integer('additional_parameter_3')  ->nullable();
               
-            $table->float('additional_parameter_4')  ->nullable();
+            $table->integer('additional_parameter_4')  ->nullable();
               
-            $table->float('additional_parameter_5')  ->nullable();
+            $table->integer('additional_parameter_5')  ->nullable();
               
-            $table->float('filter_privilege_parameter_1')  ->nullable();
+            $table->integer('filter_privilege_parameter_1')  ->nullable();
               
             $table->string('filter_privilege_parameter_2')  ->nullable();
               
@@ -99,15 +99,15 @@ class CreateUserTable extends Migration
               
             $table->string('filter_privilege_parameter_5')  ->nullable();
               
-            $table->float('filter_privilege_parameter_6')  ->nullable();
+            $table->integer('filter_privilege_parameter_6')  ->nullable();
               
-            $table->float('filter_privilege_parameter_7')  ->nullable();
+            $table->integer('filter_privilege_parameter_7')  ->nullable();
               
-            $table->float('filter_privilege_parameter_8')  ->nullable();
+            $table->integer('filter_privilege_parameter_8')  ->nullable();
               
-            $table->float('filter_privilege_parameter_9')  ->nullable();
+            $table->integer('filter_privilege_parameter_9')  ->nullable();
               
-            $table->float('filter_privilege_parameter_10')  ->nullable();
+            $table->integer('filter_privilege_parameter_10')  ->nullable();
               
             $table->string('register_bank_1', 50)  ->nullable(); 
               
@@ -133,75 +133,75 @@ class CreateUserTable extends Migration
               
             $table->string('display_privilege_parameter_5')  ->nullable();
               
-            $table->float('display_privilege_parameter_6')  ->nullable();
+            $table->integer('display_privilege_parameter_6')  ->nullable();
               
-            $table->float('display_privilege_parameter_7')  ->nullable();
+            $table->integer('display_privilege_parameter_7')  ->nullable();
               
-            $table->float('display_privilege_parameter_8')  ->nullable();
+            $table->integer('display_privilege_parameter_8')  ->nullable();
               
-            $table->float('display_privilege_parameter_9')  ->nullable();
+            $table->integer('display_privilege_parameter_9')  ->nullable();
               
-            $table->float('display_privilege_parameter_10')  ->nullable();
+            $table->integer('display_privilege_parameter_10')  ->nullable();
               
-            $table->float('publish_demand_count')  ->nullable();
+            $table->integer('publish_demand_count')  ->nullable();
               
-            $table->float('publish_demand_parameter_1')  ->nullable();
+            $table->integer('publish_demand_parameter_1')  ->nullable();
               
-            $table->float('publish_demand_parameter_2')  ->nullable();
+            $table->integer('publish_demand_parameter_2')  ->nullable();
               
-            $table->float('publish_demand_parameter_3')  ->nullable();
+            $table->integer('publish_demand_parameter_3')  ->nullable();
               
-            $table->float('publish_demand_parameter_4')  ->nullable();
+            $table->integer('publish_demand_parameter_4')  ->nullable();
               
-            $table->float('talent_upload_count')  ->nullable();
+            $table->integer('talent_upload_count')  ->nullable();
               
-            $table->float('talent_upload_parameter_1')  ->nullable();
+            $table->integer('talent_upload_parameter_1')  ->nullable();
               
-            $table->float('talent_upload_parameter_2')  ->nullable();
+            $table->integer('talent_upload_parameter_2')  ->nullable();
               
-            $table->float('talent_upload_parameter_3')  ->nullable();
+            $table->integer('talent_upload_parameter_3')  ->nullable();
               
-            $table->float('talent_upload_parameter_4')  ->nullable();
+            $table->integer('talent_upload_parameter_4')  ->nullable();
               
-            $table->float('operation_log_record_parameter_1')  ->nullable();
+            $table->integer('operation_log_record_parameter_1')  ->nullable();
               
-            $table->float('operation_log_record_parameter_2')  ->nullable();
+            $table->integer('operation_log_record_parameter_2')  ->nullable();
               
-            $table->float('operation_log_record_parameter_3')  ->nullable();
+            $table->integer('operation_log_record_parameter_3')  ->nullable();
               
-            $table->float('operation_log_record_parameter_4')  ->nullable();
+            $table->integer('operation_log_record_parameter_4')  ->nullable();
               
-            $table->float('operation_log_record_parameter_5')  ->nullable();
+            $table->integer('operation_log_record_parameter_5')  ->nullable();
               
-            $table->float('operation_log_record_parameter_6')  ->nullable();
+            $table->integer('operation_log_record_parameter_6')  ->nullable();
               
-            $table->float('operation_log_record_parameter_7')  ->nullable();
+            $table->integer('operation_log_record_parameter_7')  ->nullable();
               
-            $table->float('operation_log_record_parameter_8')  ->nullable();
+            $table->integer('operation_log_record_parameter_8')  ->nullable();
               
-            $table->float('operation_log_record_parameter_9')  ->nullable();
+            $table->integer('operation_log_record_parameter_9')  ->nullable();
               
-            $table->float('operation_log_record_parameter_10')  ->nullable();
+            $table->integer('operation_log_record_parameter_10')  ->nullable();
               
-            $table->float('score_parameter_1')  ->nullable();
+            $table->integer('score_parameter_1')  ->nullable();
               
-            $table->float('score_parameter_2')  ->nullable();
+            $table->integer('score_parameter_2')  ->nullable();
               
-            $table->float('score_parameter_3')  ->nullable();
+            $table->integer('score_parameter_3')  ->nullable();
               
-            $table->float('score_parameter_4')  ->nullable();
+            $table->integer('score_parameter_4')  ->nullable();
               
-            $table->float('score_parameter_5')  ->nullable();
+            $table->integer('score_parameter_5')  ->nullable();
               
-            $table->float('credit_parameter_1')  ->nullable();
+            $table->integer('credit_parameter_1')  ->nullable();
               
-            $table->float('credit_parameter_2')  ->nullable();
+            $table->integer('credit_parameter_2')  ->nullable();
               
-            $table->float('credit_parameter_3')  ->nullable();
+            $table->integer('credit_parameter_3')  ->nullable();
               
-            $table->float('credit_parameter_4')  ->nullable();
+            $table->integer('credit_parameter_4')  ->nullable();
               
-            $table->float('credit_parameter_5')  ->nullable();
+            $table->integer('credit_parameter_5')  ->nullable();
               
             $table->text('friends_set')  ->nullable();
               

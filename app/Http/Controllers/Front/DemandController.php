@@ -10,6 +10,11 @@ use App\Models\Talent;
 use App\Models\Recom;
 class DemandController extends Controller
 {   
+    public function getViewPath()
+    {
+        return  'front.demand.';
+    }
+    
     public function lists(Request $request)
     {
         if($request->has('open'))  {
@@ -20,7 +25,7 @@ class DemandController extends Controller
             $data = ['demand' => Demand::myDemand() ->orderBy('id', 'desc')->paginate(10) ];
         }
 
-        return view('front.demand.list', $data);
+        return view($this->getViewPath().'list', $data);
     }
     
     public function queryBulider(Request $request)
@@ -97,7 +102,7 @@ class DemandController extends Controller
         
                 
         $data = ['demand' => $demand];
-        return view('front.demand.list',  $data);
+        return view($this->getViewPath().'list',  $data);
     }
     
     public function rules()
@@ -144,6 +149,11 @@ class DemandController extends Controller
         ];
     }
     
+    public function getHttpPath()
+    {
+        return  '/front/demand';
+    }
+    
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -155,10 +165,10 @@ class DemandController extends Controller
                         
             $demand->save(); 
        
-            return redirect('/front/demand');
+            return redirect($this->getHttpPath());
         }
         else {            
-            return view('front.demand.create_edit', ['demand' => null] );
+            return view($this->getViewPath().'create_edit', ['demand' => null, 'url'=>$this->getHttpPath()] );
         }
     }
     
@@ -174,10 +184,10 @@ class DemandController extends Controller
             $demand->update();
             
             $referer = $input['referer'];
-            return redirect(empty($referer)?'/front/demand':$referer);
+            return redirect(empty($referer)? $this->getHttpPath() : $referer);
         }
         else {
-            return view('front.demand.create_edit', ['demand' => $demand] );
+            return view($this->getViewPath().'create_edit', ['demand' => $demand, 'url'=>$this->getHttpPath()] );
         }
     }
     
@@ -186,22 +196,7 @@ class DemandController extends Controller
         Demand::myDemand()-> where('id', $id)->update(['demand_parameter_1'=> 2]);
         return redirect($request->header('referer'));
     }
-    
-    public function queryPostName(Request $request)
-    {
-        $recruit_corporation = $request['recruit_corporation'];
-
-        $query = Demand::myDemand()
-        ->select('post_name')->whereNotNull('post_name');
-        
-        if($recruit_corporation){
-             $query = $query->where('recruit_corporation', $recruit_corporation);
-        }
-        $lists = $query->distinct() ->orderBy('post_name')->get();
-        
-        return new JsonResponse($lists);
-    }
-       
+         
     public function view(Request $request, $id)
     {
         $demand = Demand::myDemand()->where('id', $id)->first();
@@ -211,10 +206,25 @@ class DemandController extends Controller
         }
         
         if($demand){
-            return view('front.demand.view', ['demand' => $demand] );
+            return view($this->getViewPath().'view', ['demand' => $demand, 'url'=>$this->getHttpPath()] );
         }else{
             abort(404);
         }
+    }
+    
+    public function queryPostName(Request $request)
+    {
+        $recruit_corporation = $request['recruit_corporation'];
+    
+        $query = Demand::myDemand()
+        ->select('post_name')->whereNotNull('post_name');
+    
+        if($recruit_corporation){
+            $query = $query->where('recruit_corporation', $recruit_corporation);
+        }
+        $lists = $query->distinct() ->orderBy('post_name')->get();
+    
+        return new JsonResponse($lists);
     }
     
     public function queryMyDemand(Request $request)

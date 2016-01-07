@@ -18,4 +18,6 @@ echo 1<<31;
 echo '<p>';
 
 echo intval(PHP_INT_MAX);
+
+echo $_SERVER['HTTP_USER_AGENT'];
 ?>

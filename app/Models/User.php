@@ -48,5 +48,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->group_parameter == 2;
     }
+    
+    public function isAdminstrator()
+    {
+       if ($this->role === 0 || $this->role === 1) { //管理员、顾问
+           return true;
+       }
+       return false;
+    }
+    
+    public function isOperator()
+    {
+        if ($this->role ===  5) { //量化操作员
+            return true;
+        }
+        return false;
+    }
+    
 }
 

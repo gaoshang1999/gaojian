@@ -107,12 +107,17 @@ class TalentController extends Controller
             if($request->has($text_q)){
                 if($request->input($text_op)=='like'){
                     $queryStr .= '@'.$request->input($text_field).' '.$request->input($text_q) .' ';
-                    $query = $query->where($request->input($text_field), 'like', '%'.$request->input($text_q).'%');
+                    $keywords = explode(" ",$request->input($text_q));
+                    foreach ($keywords as $k=>$v){
+                        if(!empty($v)){
+                            $query = $query->where($request->input($text_field), 'like', '%'.$v.'%');
+                        }
+                    }
                 }else{
                     $queryStr .= '@'.$request->input($text_field).' ^'.$request->input($text_q) .'$ ';
                     $query = $query->where($request->input($text_field), $request->input($text_q));
                 }
-//                 $queryStr .= $request->input($text_q) ;
+
                 $select []= $request->input($text_field);
                 $weight [$request->input($text_field)]= 10;
             }            
@@ -128,7 +133,12 @@ class TalentController extends Controller
                 $start = $request->has($number_start_q) ? $request->input($number_start_q) : 0;
                 $end= $request->has($number_end_q) ? $request->input($number_end_q) : intval(PHP_INT_MAX);
 //                 dump($request->input($number_field). '------'. $start. '------'. $end);
-                $sphinx = $sphinx->range($request->input($number_field), $start, $end) ;
+                $field = $request->input($number_field);
+                if($field == 'id'){
+                    $sphinx = $sphinx->setIdRange($start, $end) ;
+                }else{
+                    $sphinx = $sphinx->range($field, $start, $end) ;
+                }
                 $query = $query->whereBetween($request->input($number_field), [$start, $end]);
             }
         }
@@ -144,8 +154,9 @@ class TalentController extends Controller
             }
         }
         
-        $sphinx =  $sphinx ->setRankingMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
-        $talent = $sphinx->limit(10000, 0, 10000, 0)->query();
+        $sphinx =  $sphinx ->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
+//         $talent = $sphinx->limit(10000, 0, 10000, 0)->query();
+        $talent = $sphinx->limit(1000, 0, 1000, 0)->query();
         $total = $talent['total_found'];
         //         $talent = $sphinx->limit($perPage, ($request->input('page',1)-1)*$perPage)->query();
         //         dump($talent);
@@ -561,7 +572,10 @@ class TalentController extends Controller
     {
         //->setRankingMode(\Sphinx\SphinxClient::SPH_MATCH_ALL)
         $sphinx = new SphinxSearch();
-        $results = $sphinx->search('北京 通信 结构设计', 'talent_index')->filter('sex', 0)->query();
+        $results = $sphinx->search('北京 通信 结构设计', 'talent_index')
+        ->setSelect("id, IF(IN(name, '张'), 1, 0) as r")
+        ->filter('r', 1)
+        ->query();
         dump($results);
     }
  

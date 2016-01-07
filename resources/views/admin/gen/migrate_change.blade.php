@@ -16,7 +16,7 @@ class Create{{$Table}}Table extends Migration
     public function up()
     {
      Schema::table('{{$table->en}}', function ($table) {   @foreach($table->columns as $v)   
-     @if($v->updated_at >= '2015-10-19') 
+     @if($v->updated_at >= '2015-10-24') 
                    
 @if($v->type == 'string' &&  $v->length)            $table->{{ $v->type }}('{{ $v->en }}', {{ $v->length }})  ->nullable() ->change(); 
 @elseif($v->en == 'id' )            $table->increments('{{ $v->en }}')  ->nullable() ->change();  
