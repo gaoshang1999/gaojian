@@ -7,6 +7,7 @@
 
 <div class="page-content"> 	<div class="row">
 		<div class="col-xs-12">
+		@include('errors.list')
 		<h3 class="header smaller lighter blue"> {{ $user ? '编辑' : '新建' }}用户 </h3>
 			<form class="form-horizontal" role="form" method="post"  action="{{ url('/admin/user/' . ($user ? 'edit/'.$user->id : 'add')) }}">
 			    <input type="hidden" name="_token" value="{{ csrf_token() }}">

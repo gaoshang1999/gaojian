@@ -30,12 +30,13 @@ class ProfileController extends Controller
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [                                
+            $this->validate($request, [      
+                'email'=> 'email',
             ]);
 
             $input = $request->all();
             $user = User::create($input);
-                        
+     
             $user->save(); 
        
             return redirect('/front/user');
@@ -49,12 +50,13 @@ class ProfileController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         if ($request->isMethod('post')) {
-            $this->validate($request, [                
+            $this->validate($request, [
+                'email'=> 'email',
             ]);
-    
-            $input = $request->all();
+            
+            $input = $request->all(); 
             $user->fill($input);
-    
+
             $user->save();
                          
             return redirect('front/profile/edit/'.$user->id);

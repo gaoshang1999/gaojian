@@ -30,7 +30,9 @@ class UserController extends Controller
     public function add(Request $request)
     {
         if ($request->isMethod('post')) {
-            $this->validate($request, [                                
+            $this->validate($request, [    
+                'user_name' => 'required|unique:user,user_name|max:30',
+                'email'=> 'required|email',
             ]);
 
             $input = $request->all();
@@ -50,7 +52,9 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         if ($request->isMethod('post')) {
-            $this->validate($request, [                
+            $this->validate($request, [  
+                'user_name' => 'required|unique:user,user_name,'.$user->id,
+                'email'=> 'required|email',
             ]);
     
             $input = $request->all();

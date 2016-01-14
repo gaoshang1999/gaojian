@@ -55,5 +55,6 @@ return [
     'providers' => array(
         /*** Some others providers ***/
         'sngrl\SphinxSearch\SphinxSearchServiceProvider',
+       
     ),
 ];

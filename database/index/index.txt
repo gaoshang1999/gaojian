@@ -1,2 +1,18 @@
 --20151203
 CREATE INDEX index_user_id ON gj_talent (user_id);
+
+
+--20160107
+CREATE INDEX index_talent_product_parameter_9_10 ON gj_talent (product_parameter_9,
+product_parameter_10);
+
+
+CREATE INDEX index_talent_quantify_occupation_level ON gj_talent_quantify (
+match_strategy,
+occupation_level,
+occupation_parameter
+);
+
+CREATE INDEX index_talent_quantify_id ON gj_talent_quantify (
+talent_id
+);

@@ -76,11 +76,11 @@ class RecommendController extends Controller
         }
         //进度
         if($recommend_flow_status_label_3){
-            if($recommend_flow_status_label_3=="不含流程外候选人"){
-                $query =  $query  ->where('recommend_flow_status_label_3', '<>', '流程外候选人')  ;
-            }else{
-                $query =  $query  ->where('recommend_flow_status_label_3', $recommend_flow_status_label_3)             ;
-            }
+//             if($recommend_flow_status_label_3=="不含流程外候选人"){
+//                 $query =  $query  ->where('recommend_flow_status_label_3', '<>', '流程外候选人')  ;
+//             }else{
+//                 $query =  $query  ->where('recommend_flow_status_label_3', $recommend_flow_status_label_3)             ;
+//             }
         }
         //提醒时间
         if($recommend_flow_parameter_2){          

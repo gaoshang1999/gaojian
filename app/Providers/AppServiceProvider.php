@@ -7,6 +7,9 @@ use DB;
 use Log;
 use Cache;
 use App\Models\Constant;
+use App\Models\Recom;
+use Mail;
+use Queue;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,18 @@ class AppServiceProvider extends ServiceProvider
         Constant::deleted(function ($constant) {
             Cache::forget(Constant::$constantCache);
         });
+        
+         Recom::created(function ($recom) {
+             $user = $recom->host;             
+             if($user->email){
+                    Mail::send('email.recom', ['user' => $user, 'recom' => $recom], function ($m) use ($user) {
+                        $m->from(config('mail.username'), '高荐招聘');    
+                        $m->to($user->email, $user->name)->subject('您发布的职位收到一个新推荐!');                           
+                     });      
+             }  
+             
+      });
+         
 
     }
     /**

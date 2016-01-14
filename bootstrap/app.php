@@ -25,6 +25,7 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->configure('sphinxsearch');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -43,7 +44,8 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    App\Console\Kernel::class,
+    Illuminate\Contracts\Queue\Queue::class
 );
 
 /*
@@ -63,6 +65,7 @@ $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
     Illuminate\View\Middleware\ShareErrorsFromSession::class,
     Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    App\Http\Middleware\LogMiddleware::class,
 ]);
 
 $app->routeMiddleware([

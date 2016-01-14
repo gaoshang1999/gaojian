@@ -34,7 +34,7 @@ return [
     "different"            => " :attribute 和 :or 值不能相同.",
     "digits"               => " :attribute 必须是 :digits 位数字.",
     "digits_between"       => " :attribute 必须是 :min 到 :max 位数字.",
-    "email"                => " :attribute 必须是邮箱的邮箱地址.",
+    "email"                => " :attribute 必须是合法的邮箱地址.",
     "filled"               => " :attribute 是必输项.",
     "exists"               => " 选的 :attribute 无效.",
     "image"                => " :attribute 必须是图片.",

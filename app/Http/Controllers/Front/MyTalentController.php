@@ -29,7 +29,7 @@ class MyTalentController extends Controller
         $name = $request['name'];
         $mobile = $request['mobile'];
         //查询当前用户的，未删除数据
-        $query = Talent::query;
+        $query = Talent::myTalent();
         if(strlen($name)){
             $query = $query->where('name', 'like', '%'.$name.'%');
         }

@@ -197,6 +197,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->get('match/match2/{id}',  'MatchController@match2');
     $app->post('match/match2/{id}',  'MatchController@match2');
     $app->get('match/match3/{id}',  'MatchController@match3');
+    $app->get('match/match4/{id}',  'MatchController@match4');    
     
     $app->get('industry/queryChildren/{id}',  'IndustryController@queryChildren');
     $app->get('industry/queryDuty/{id}',  'IndustryController@queryDuty');

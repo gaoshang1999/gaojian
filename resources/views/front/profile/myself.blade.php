@@ -21,10 +21,10 @@
                             </div>
                             <div class="col-lg-4 col-sm-4 follow-info">
                                 <p>公司：{{ Auth::user()->corporation }} </p>
-                                <p>欢迎！ </p>
+                                <p>欢迎 {{ Auth::user()->user_name }} ！</p>
 								<p><i class="fa fa-twitter">用户组：企业用户</i></p>
                                 <h6>
-                                    <span><i class="icon_calendar"></i>上次登陆日期：15.10.13</span>
+                                    <span><i class="icon_calendar"></i>{{date("Y-m-d H:i:s")}}</span>
                                     <span><i class="icon_pin_alt"></i>地点：{{Auth::user()->location}} </span>
                                 </h6>
                             </div>
@@ -35,9 +35,7 @@
                                               <i class="fa fa-comments fa-2x"> </i><br>
 											  
 											  最新消息：
-											  Nancy 2015-11-13 14：30：候选人通过2面；
-											  高荐-Tacy 2015-11-11 14：30:安排2面周三下午；
-											  Nancy 2015-11-13 10：30：候选人通过一面，安排下周二面；
+											  
 
                                           </li>
 										   
@@ -91,12 +89,12 @@
                                           高级认证和安全
                                       </a>
                                   </li>
-                                  <li class="">
-                                      <a data-toggle="tab" href="#edit-profile">
-                                          <i class="icon-envelope"></i>
-                                          我的消息
-                                      </a>
-                                  </li>
+<!--                                   <li class=""> -->
+<!--                                       <a data-toggle="tab" href="#edit-profile"> -->
+<!--                                           <i class="icon-envelope"></i> -->
+<!--                                           我的消息 -->
+<!--                                       </a> -->
+<!--                                   </li> -->
                               </ul>
                           </header>
                           <div class="panel-body">
@@ -176,7 +174,7 @@
                                     <section class="panel panel-info">
                                     
                                  <br><br><br>
-
+@include('errors.list')
 
                                 </section>
 
@@ -224,7 +222,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">邮箱</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control"  name="email "  value="{{ old('email ', $user ? $user-> email  : '') }}"> 
+                                          <input type="text" class="form-control"  name="email"  value="{{ old('email ', $user ? $user-> email  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -233,14 +231,14 @@
 
 
 
-                                                       <div class="row">
-                                                       <br>   
+                               <div class="row">
+                                    <br>   
 
                                      <div class="col-lg-8">
                                          <div class="form-group  has-success">
                                          <label class="col-sm-2 control-label">公司</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" name="corporation "  value="{{ old('corporation ', $user ? $user-> corporation  : '') }}"> 
+                                          <input type="text" class="form-control" name="corporation"  value="{{ old('corporation ', $user ? $user-> corporation  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -249,7 +247,7 @@
 
 
 
-                                                       <div class="row"> 
+                           <div class="row"> 
                                                        <br>  
 
                                      <div class="col-lg-8">
@@ -286,7 +284,7 @@
                                          <div class="form-group has-success">
                                          <label class="col-sm-2 control-label">登陆名</label>
                                       <div class="col-sm-6">
-                                          <input type="text" class="form-control" name="user_name "  value="{{ old('user_name ', $user ? $user-> user_name  : '') }}"> 
+                                          <input type="text" class="form-control" name="user_name"  value="{{ old('user_name ', $user ? $user-> user_name  : '') }}"> 
                                       </div>
                                       </div>
 
@@ -333,160 +331,160 @@
 
 
                                   <!-- edit-profile -->
-                                  <div id="edit-profile" class="tab-pane">
-                                    <section class="panel">         
+<!--                                   <div id="edit-profile" class="tab-pane"> -->
+<!--                                     <section class="panel">          -->
 
 
 
-                                    <div class="row">
+<!--                                     <div class="row"> -->
 
-                                     <div class="alert alert-success">
-   <a href="#" class="alert-link">消息处理</a>
-            </div>
-            <div class="col-sm-8 portlets">
+<!--                                      <div class="alert alert-success"> -->
+<!--    <a href="#" class="alert-link">消息处理</a> -->
+<!--             </div> -->
+<!--             <div class="col-sm-8 portlets"> -->
               <!-- Widget -->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div class="pull-left">消息历史记录</div>
-                  <div class="widget-icons pull-right">
-                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                  </div>  
-                  <div class="clearfix"></div>
-                </div>
+<!--               <div class="panel panel-default"> -->
+<!--                 <div class="panel-heading"> -->
+<!--                   <div class="pull-left">消息历史记录</div> -->
+<!--                   <div class="widget-icons pull-right"> -->
+<!--                     <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>  -->
+<!--                     <a href="#" class="wclose"><i class="fa fa-times"></i></a> -->
+<!--                   </div>   -->
+<!--                   <div class="clearfix"></div> -->
+<!--                 </div> -->
 
-                <div class="panel-body">
+<!--                 <div class="panel-body"> -->
                   <!-- Widget content -->
-                  <div class="padd sscroll">
+<!--                   <div class="padd sscroll"> -->
                     
-                    <ul class="chats">
+<!--                     <ul class="chats"> -->
 
                       <!-- Chat by us. Use the class "by-me". -->
-                      <li class="by-me">
+<!--                       <li class="by-me"> -->
                         <!-- Use the class "pull-left" in avatar -->
-                        <div class="avatar pull-left">
-                          <img src="img/user.jpg" alt=""/>
-                        </div>
+<!--                         <div class="avatar pull-left"> -->
+<!--                           <img src="img/user.jpg" alt=""/> -->
+<!--                         </div> -->
 
-                        <div class="chat-content">
+<!--                         <div class="chat-content"> -->
                           <!-- In meta area, first include "name" and then "time" -->
-                          <div class="chat-meta">John Smith <span class="pull-right">3 hours ago</span></div>
-                          Vivamus diam elit diam, consectetur dapibus adipiscing elit.
-                          <div class="clearfix"></div>
-                        </div>
-                      </li> 
+<!--                           <div class="chat-meta">John Smith <span class="pull-right">3 hours ago</span></div> -->
+<!--                           Vivamus diam elit diam, consectetur dapibus adipiscing elit. -->
+<!--                           <div class="clearfix"></div> -->
+<!--                         </div> -->
+<!--                       </li>  -->
 
                       <!-- Chat by other. Use the class "by-other". -->
-                      <li class="by-other">
+<!--                       <li class="by-other"> -->
                         <!-- Use the class "pull-right" in avatar -->
-                        <div class="avatar pull-right">
-                          <img src="img/user22.png" alt=""/>
-                        </div>
+<!--                         <div class="avatar pull-right"> -->
+<!--                           <img src="img/user22.png" alt=""/> -->
+<!--                         </div> -->
 
-                        <div class="chat-content">
+<!--                         <div class="chat-content"> -->
                           <!-- In the chat meta, first include "time" then "name" -->
-                          <div class="chat-meta">3 hours ago <span class="pull-right">Jenifer Smith</span></div>
-                          Vivamus diam elit diam, consectetur fconsectetur dapibus adipiscing elit.
-                          <div class="clearfix"></div>
-                        </div>
-                      </li>   
+<!--                           <div class="chat-meta">3 hours ago <span class="pull-right">Jenifer Smith</span></div> -->
+<!--                           Vivamus diam elit diam, consectetur fconsectetur dapibus adipiscing elit. -->
+<!--                           <div class="clearfix"></div> -->
+<!--                         </div> -->
+<!--                       </li>    -->
 
-                      <li class="by-me">
-                        <div class="avatar pull-left">
-                          <img src="img/user.jpg" alt=""/>
-                        </div>
+<!--                       <li class="by-me"> -->
+<!--                         <div class="avatar pull-left"> -->
+<!--                           <img src="img/user.jpg" alt=""/> -->
+<!--                         </div> -->
 
-                        <div class="chat-content">
-                          <div class="chat-meta">John Smith <span class="pull-right">4 hours ago</span></div>
-                          Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit.
-                          <div class="clearfix"></div>
-                        </div>
-                      </li>  
+<!--                         <div class="chat-content"> -->
+<!--                           <div class="chat-meta">John Smith <span class="pull-right">4 hours ago</span></div> -->
+<!--                           Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit. -->
+<!--                           <div class="clearfix"></div> -->
+<!--                         </div> -->
+<!--                       </li>   -->
 
-                      <li class="by-other">
+<!--                       <li class="by-other"> -->
                         <!-- Use the class "pull-right" in avatar -->
-                        <div class="avatar pull-right">
-                          <img src="img/user22.png" alt=""/>
-                        </div>
+<!--                         <div class="avatar pull-right"> -->
+<!--                           <img src="img/user22.png" alt=""/> -->
+<!--                         </div> -->
 
-                        <div class="chat-content">
+<!--                         <div class="chat-content"> -->
                           <!-- In the chat meta, first include "time" then "name" -->
-                          <div class="chat-meta">3 hours ago <span class="pull-right">Jenifer Smith</span></div>
-                          Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit.
-                          <div class="clearfix"></div>
-                        </div>
-                      </li>                                                                                  
+<!--                           <div class="chat-meta">3 hours ago <span class="pull-right">Jenifer Smith</span></div> -->
+<!--                           Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit. -->
+<!--                           <div class="clearfix"></div> -->
+<!--                         </div> -->
+<!--                       </li>                                                                                   -->
 
-                    </ul>
+<!--                     </ul> -->
 
-                  </div>
+<!--                   </div> -->
                   <!-- Widget footer -->
-                  <div class="widget-foot">
+<!--                   <div class="widget-foot"> -->
                       
-                      <form class="form-inline">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Type your message here...">
-                        </div>
-                        <button type="submit" class="btn btn-info">Send</button>
-                      </form>
+<!--                       <form class="form-inline"> -->
+<!--                         <div class="form-group"> -->
+<!--                             <input type="text" class="form-control" placeholder="Type your message here..."> -->
+<!--                         </div> -->
+<!--                         <button type="submit" class="btn btn-info">Send</button> -->
+<!--                       </form> -->
 
 
-                  </div>
-                </div>
+<!--                   </div> -->
+<!--                 </div> -->
 
 
-              </div> 
-            </div>
-             </div>
+<!--               </div>  -->
+<!--             </div> -->
+<!--              </div> -->
                                  
 
                                 
 
-                                   <div class="row">   
+<!--                                    <div class="row">    -->
 
-                                      <div class="col-sm-8">
-                                                      <textarea class="form-control ckeditor" name="editor1" rows="5"></textarea>
-                                                  </div>
+<!--                                       <div class="col-sm-8"> -->
+<!--                                                       <textarea class="form-control ckeditor" name="editor1" rows="5"></textarea> -->
+<!--                                                   </div> -->
 
 
 
                          
-                           </div>
+<!--                            </div> -->
 
 
 
-                                                                 <div class="row">   
-                                     <br><br>
+<!--                                                                  <div class="row">    -->
+<!--                                      <br><br> -->
 
-                                                                          <label class="col-sm-2 control-label col-sm-offset-1"></label>
+<!--                                                                           <label class="col-sm-2 control-label col-sm-offset-1"></label> -->
 
          
 
 
-                                      <div class="col-md-2" col-sm-offset-3>
+<!--                                       <div class="col-md-2" col-sm-offset-3> -->
                                        
-                                              <select class="form-control m-bot15">
+<!--                                               <select class="form-control m-bot15"> -->
 
-                                                  <option>Allice</option>
-                                                  <option>Allice2</option>
-                                                  <option>tom</option>
-                                                  <option>Allice3</option>
-                                                  <option>平台客服</option>
-                                                  <option>好友群发</option>
-                                                  <option>管理员</option>
-                                              </select>
+<!--                                                   <option>Allice</option> -->
+<!--                                                   <option>Allice2</option> -->
+<!--                                                   <option>tom</option> -->
+<!--                                                   <option>Allice3</option> -->
+<!--                                                   <option>平台客服</option> -->
+<!--                                                   <option>好友群发</option> -->
+<!--                                                   <option>管理员</option> -->
+<!--                                               </select> -->
                                            
-                                          </div>
+<!--                                           </div> -->
 
 
-                                      <div class="col-md-2">
+<!--                                       <div class="col-md-2"> -->
                         
                                   
-                                      <button type="submit" class="btn btn-primary">发送消息</button>
+<!--                                       <button type="submit" class="btn btn-primary">发送消息</button> -->
 
 
-                      </div>
-                                            </div>
+<!--                       </div> -->
+<!--                                             </div> -->
 
 
 
@@ -497,31 +495,31 @@
 
 
 
-                                      <div class="row">   
-                                      <br><br><br>
-      <div class="alert alert-success">
-   <a href="#" class="alert-link">分组编辑</a>
-            </div>
+<!--                                       <div class="row">    -->
+<!--                                       <br><br><br> -->
+<!--       <div class="alert alert-success"> -->
+<!--    <a href="#" class="alert-link">分组编辑</a> -->
+<!--             </div> -->
 
-                                     <label class="col-sm-2 control-label col-sm-offset-1"></label>
+<!--                                      <label class="col-sm-2 control-label col-sm-offset-1"></label> -->
 
-                                      <div class="col-md-2" col-sm-offset-3>                                       
-                                              <select class="form-control m-bot15">
-                                                  <option>alice</option>
-                                                  <option>tom</option>
-                                                  <option>lily</option>
-                                              </select>
+<!--                                       <div class="col-md-2" col-sm-offset-3>                                        -->
+<!--                                               <select class="form-control m-bot15"> -->
+<!--                                                   <option>alice</option> -->
+<!--                                                   <option>tom</option> -->
+<!--                                                   <option>lily</option> -->
+<!--                                               </select> -->
                                            
-                                          </div>
+<!--                                           </div> -->
 
-                                               <div class="col-md-2">
+<!--                                                <div class="col-md-2"> -->
                         
                                   
-                                      <button type="submit" class="btn btn-primary">删除好友</button>
+<!--                                       <button type="submit" class="btn btn-primary">删除好友</button> -->
 
 
-                      </div>
-                                           </div>
+<!--                       </div> -->
+<!--                                            </div> -->
 
 
 
@@ -532,31 +530,31 @@
                                          
 
 
-                         <div class="row">   
-                                                                                 <label class="col-sm-2 control-label col-sm-offset-1"></label>
+<!--                          <div class="row">    -->
+<!--                                                                                  <label class="col-sm-2 control-label col-sm-offset-1"></label> -->
 
 
-                                      <div class="col-md-2" col-sm-offset-3>                                       
+<!--                                       <div class="col-md-2" col-sm-offset-3>                                        -->
                         
                                       
-                                      <div class="form-group">
+<!--                                       <div class="form-group"> -->
                                           <label class="sr-only" for="exampleInputPassword2">好友编号</label>  <!-- 修改-->
-                                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="88392">
-                                      </div>
+<!--                                           <input type="password" class="form-control" id="exampleInputPassword2" placeholder="88392"> -->
+<!--                                       </div> -->
                                       
 
 
-                      </div>
+<!--                       </div> -->
 
-                                                                       <div class="col-md-2">
+<!--                                                                        <div class="col-md-2"> -->
 
                                   
-                                      <button type="submit" class="btn btn-primary">添加好友</button>
+<!--                                       <button type="submit" class="btn btn-primary">添加好友</button> -->
 
 
-                      </div>
+<!--                       </div> -->
 
-                      </div>
+<!--                       </div> -->
 
 
 
@@ -569,25 +567,25 @@
 
 
 
-                                        <div class="row">   
+<!--                                         <div class="row">    -->
 
                                        
 
-                                        <div class="col-sm-offset-4 col-sm-8">
-                                        <br><br>
-                                             <a class="btn btn-warning" href="index-mytuijian.html" role="button">返回主页</a><br>
+<!--                                         <div class="col-sm-offset-4 col-sm-8"> -->
+<!--                                         <br><br> -->
+<!--                                              <a class="btn btn-warning" href="index-mytuijian.html" role="button">返回主页</a><br> -->
 
-                                          </div>
-                                          </div>
-
-
+<!--                                           </div> -->
+<!--                                           </div> -->
 
 
 
 
 
-                                      </section>
-                                  </div>
+
+
+<!--                                       </section> -->
+<!--                                   </div> -->
                               </div>
                           </div>
                       </section>
