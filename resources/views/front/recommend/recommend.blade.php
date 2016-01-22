@@ -61,7 +61,7 @@
  	if(isset($demand)){
  	    $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', $demand->recruit_user) ->where('recruit_corporation', $demand->recruit_corporation) ->distinct()  ->orderBy('post_name')->get();
  	}else{
- 	      $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', Auth::user()->id) ->where('recruit_corporation', $demands->first()->recruit_corporation) ->distinct()  ->orderBy('post_name')->get();
+ 	      $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', Auth::user()->id) ->where('recruit_corporation', $demands->count()?$demands->first()->recruit_corporation:'') ->distinct()  ->orderBy('post_name')->get();
  	}
  	?>   
                                 
