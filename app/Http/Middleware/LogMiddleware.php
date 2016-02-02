@@ -36,7 +36,7 @@ class LogMiddleware
         
 //         dump($response);
 //         var_dump($response);
-        Log::create($log);
+//         Log::create($log);
         
         return $response;
     }

@@ -101,7 +101,8 @@ class TalentController extends Controller
         
         $queryStr = '';
         $weight = ['resume'=>0, 'corporation_label_8'=>0];
-        $select = [];
+
+        //文本搜索
         for($i=1; $i<=10; $i++) {
             $text_field = 'text_field'.$i;  $text_op= 'text_op'.$i; $text_q = 'text_q'.$i;
             if($request->has($text_q)){
@@ -118,31 +119,15 @@ class TalentController extends Controller
                     $query = $query->where($request->input($text_field), $request->input($text_q));
                 }
 
-                $select []= $request->input($text_field);
                 $weight [$request->input($text_field)]= 10;
+                $filter_field []= $text_field;
             }            
         }        
-//         $queryStr .=';maxmatches=10000;';
-//         var_dump(join(',', $select)); var_dump($queryStr);var_dump($weight);
+
         $sphinx =$sphinx->search($queryStr, 'talent_index') ->setSelect('*');
         $sphinx =$sphinx->setFieldWeights($weight) ;
         
-        for($i=1; $i<=10; $i++) {
-            $number_field = 'number_field'.$i;  $number_start_q= 'number_start_q'.$i; $number_end_q = 'number_end_q'.$i;
-            if($request->has($number_start_q) || $request->has($number_end_q)){                
-                $start = $request->has($number_start_q) ? $request->input($number_start_q) : 0;
-                $end= $request->has($number_end_q) ? $request->input($number_end_q) : intval(PHP_INT_MAX);
-//                 dump($request->input($number_field). '------'. $start. '------'. $end);
-                $field = $request->input($number_field);
-                if($field == 'id'){
-                    $sphinx = $sphinx->setIdRange($start, $end) ;
-                }else{
-                    $sphinx = $sphinx->range($field, $start, $end) ;
-                }
-                $query = $query->whereBetween($request->input($number_field), [$start, $end]);
-            }
-        }
-
+        //日期筛选
         for($i=1; $i<=6; $i++) {
             $date_field = 'date_field'.$i;  $date_start_q= 'date_start_q'.$i; $date_end_q = 'date_end_q'.$i;
             if($request->has($date_start_q) || $request->has($date_end_q)){
@@ -151,26 +136,39 @@ class TalentController extends Controller
 //                 dump($request->input($number_field). '------'. $start. '------'. $end);
                 $sphinx = $sphinx->range($request->input($date_field), $start, $end) ;
                 $query = $query->whereBetween($request->input($date_field), [date('Y-m-d', $start),  date('Y-m-d', $end) ]);
+                $filter_field []= $date_field;
             }
         }
         
-        $sphinx =  $sphinx ->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
-//         $talent = $sphinx->limit(10000, 0, 10000, 0)->query();
-        $talent = $sphinx->limit(1000, 0, 1000, 0)->query();
-        $total = $talent['total_found'];
-        //         $talent = $sphinx->limit($perPage, ($request->input('page',1)-1)*$perPage)->query();
-        //         dump($talent);
-        $ids = array_keys(array_has($talent, 'matches')&&$talent['matches']?$talent['matches']:[0]);
+        //数字筛选
+        for($i=1; $i<=10; $i++) {
+            $number_field = 'number_field'.$i;  $number_start_q= 'number_start_q'.$i; $number_end_q = 'number_end_q'.$i;
+            if($request->has($number_start_q) || $request->has($number_end_q)){
+                $start = $request->has($number_start_q) ? $request->input($number_start_q) : 0;
+                $end= $request->has($number_end_q) ? $request->input($number_end_q) : intval(PHP_INT_MAX);
+                //                 dump($request->input($number_field). '------'. $start. '------'. $end);
+                $field = $request->input($number_field);
+                if($field == 'id'){
+                    $sphinx = $sphinx->setIdRange($start, $end) ;
+                }else{
+                    $sphinx = $sphinx->range($field, $start, $end) ;
+                }
+                $query = $query->whereBetween($field, [$start, $end]);
+                $filter_field []= $number_field;
+            }
+        }
         
-        //         $results = $searcher[1]->whereIn('id',$ids) ->orderBy(DB::raw('FIELD(id, '.join(',',$ids).')'))->get();
-        
-        //         $talent = new LengthAwarePaginator($results, $total, $perPage, null, [
-        //             'path' => Paginator::resolveCurrentPath(),
-        //         ]);
-        
-        $query = $query->whereIn('id',$ids)->orderBy(DB::raw('FIELD(id, '.join(',',$ids).')'));
-        
-        
+        if(strlen($queryStr)) {
+            $sphinx =  $sphinx ->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
+            $talent = $sphinx->limit(1000, 0, 1000, 0)->query();
+            $total = $talent['total_found'];
+            
+            $ids = array_keys(array_has($talent, 'matches')&&$talent['matches']?$talent['matches']:[0]);
+            
+            $query = $query->whereIn('id',$ids)->orderBy(DB::raw('FIELD(id, '.join(',',$ids).')'));
+        }else{
+            $query = $query->orderBy('id');
+        }
         return $query;
     }
     

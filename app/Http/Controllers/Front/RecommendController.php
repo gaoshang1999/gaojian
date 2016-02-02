@@ -282,16 +282,20 @@ class RecommendController extends Controller
              return new JsonResponse(['success'=>true, 'message' => '推荐成功']);
         }
         else {
-            $demand_id = $request['demand_id'];
-            $demand = Demand::where('id', $demand_id)->first();
             $talent_id = $request['talent_id'];
             if($talent_id){
-                $talent = Talent::where('id', $talent_id)->paginate(10);
+                $talent = Talent::where('id', $talent_id)-> orderBy('id', 'desc')->paginate(10);
             }else{
-                $talent = Talent::myTalent()->paginate(10);
+                $talent = Talent::myTalent()-> orderBy('id', 'desc')->paginate(10);
             }
+            $talent ->appends(['recruit_user' => $request['recruit_user']]);
+            $talent ->appends(['recruit_corporation' => $request['recruit_corporation']]);
+            $talent ->appends(['post_name' => $request['post_name']]);
+            $talent ->appends(['name' => $request['name']]);
+            $talent ->appends(['mobile' => $request['mobile']]);
+            $talent ->appends(['last_corporation' => $request['last_corporation']]);
 
-            return view('front.recommend.recommend' , ['demand' => $demand , 'talent' => $talent ]);
+            return view('front.recommend.recommend' , ['talent' => $talent ]);
         }
     }
     
@@ -375,8 +379,6 @@ class RecommendController extends Controller
     
     public function queryTalent(Request $request)
     {
-        $demand_id = $request['demand_id'];
-        $demand = Demand::where('id', $demand_id)->first();
         //搜索
         $name = $request['name'];
         $mobile = $request['mobile'];
@@ -396,10 +398,13 @@ class RecommendController extends Controller
         }
         
         $talent = $query -> orderBy('id', 'desc')-> paginate(10) ;
+        $talent ->appends(['recruit_user' => $request['recruit_user']]);
+        $talent ->appends(['recruit_corporation' => $request['recruit_corporation']]);
+        $talent ->appends(['post_name' => $request['post_name']]);
         $talent ->appends(['name' => $request['name']]);
         $talent ->appends(['mobile' => $request['mobile']]);
         $talent ->appends(['last_corporation' => $request['last_corporation']]);
 
-        return view('front.recommend.recommend',  [ 'talent' => $talent,'demand'=>$demand  ] );
+        return view('front.recommend.recommend',  [ 'talent' => $talent] );
     }
 }

@@ -70,6 +70,13 @@
 						</li>
 						
 						<li>
+							<a href="{{ url('/admin/industry') }}">
+								<i class="icon-eye-open"></i>
+								<span class="menu-text"> 行业参数 </span>
+							</a>
+						</li>
+						
+						<li>
 							<a href="{{ url('/admin/job') }}">
 								<i class="icon-eye-open"></i>
 								<span class="menu-text"> 作业监控 </span>

@@ -26,10 +26,37 @@ class TalentView extends Talent
     
     public function scopeQuantifyTalent($query, $demand)
     {
-        $query = TalentView::quantifyTalentByOccupation1($demand)
-                    ->union(TalentView::quantifyTalentByOccupation2($demand))
-                    ->union(TalentView::quantifyTalentByOccupation3($demand))
-                    ->union(TalentView::quantifyTalentByOccupation4($demand));
+//         $query = TalentView::query();
+        $isset = false;
+        if($demand->background_parameter_4){
+            $query= TalentView::quantifyTalentByOccupation4($demand);
+            $isset = true;
+        }
+        if($demand->background_parameter_3){
+            if($isset){
+                $query= $query->union(TalentView::quantifyTalentByOccupation3($demand));
+            }else{
+                $query=  TalentView::quantifyTalentByOccupation3($demand) ;
+            }
+            $isset = true;
+        }
+        if($demand->background_parameter_2){
+            if($isset){
+                $query= $query->union(TalentView::quantifyTalentByOccupation2($demand));
+            }else{
+                $query=  TalentView::quantifyTalentByOccupation2($demand) ;
+            }
+            $isset = true;
+        }
+        if($demand->background_parameter_1){
+            if($isset){
+                $query= $query->union(TalentView::quantifyTalentByOccupation1($demand));
+            }else{
+                $query=  TalentView::quantifyTalentByOccupation1($demand) ;
+            }
+            $isset = true;
+        }        
+        
         return $query;
     }
     

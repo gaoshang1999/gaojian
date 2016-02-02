@@ -165,8 +165,9 @@
                                        
 
                                         <div class="col-lg-offset-4 col-lg-8">
-                                             <a class="btn btn-warning" href="index.html" role="button">转发报告</a>
-                                             <a class="btn btn-warning" href="index.html" role="button">下载报告</a><br>
+                                             <a class="btn btn-warning" href="#l" role="button">转发报告</a>
+                                             <a class="btn btn-warning" href="#" role="button">下载报告</a>
+                                             <a class="btn btn-warning" href="{{ url('/front/recommend/search?name='.$talent->name)}}" role="button">推荐详细</a><br>
 
                                           </div>
                                           </div>

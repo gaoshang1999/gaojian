@@ -54,6 +54,7 @@
 
 <form class=" " method="post" action="{{ url("/front/match/match2/{$demand->id}") }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+ <input type="hidden" name="industry_1" value="{{ Request::input('industry_1') }}">                                
  <div class="row">
     
 

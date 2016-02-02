@@ -18,15 +18,16 @@
                         <div class="panel-body">
          <form id="" class="form-horizontal "  method="get"  action="{{ url('/front/recommend/queryTalent') }}">
          <input type="hidden" name="demand_id" value="{{Request::input('demand_id')}}" >
-	<?php  $users= App\Models\User::others() ->orderBy('user_name')->get();?>                    
+	<?php  $users= App\Models\User::others()->whereNotNull('user_name')->orderBy('user_name')->get();?>                    
                                  <div class="form-group">
                                       <label class="col-sm-2 control-label">发布人</label>
                                         <div class="col-md-4" col-sm-offset-3>
                                        
-                                              <select class="form-control m-bot15" id="recruit_user" name="recruit_user">
-                                                <option value="{{ Auth::user()->id}}" {{ Request::input('recruit_user')== Auth::user()->id || $demand && $demand->recruit_user== Auth::user()->id ?	'selected' : '' }}>本人（默认）</option>
-                                                    @foreach ($users->all() as $v)
-                                                  <option value="{{ $v->id}}" {{ Request::input('recruit_user')== $v->id || $demand && $demand->recruit_user== $v->id?	'selected' : '' }}>{{ $v->user_name }}</option>
+                                              <select class="form-control m-bot15" id="recruit_user" name="recruit_user"> <?php $user_id= Auth::user()->id;?>
+                                                <option value="{{ Auth::user()->id}}" {{ Request::input('recruit_user')== Auth::user()->id  ?	'selected' : '' }}>本人（默认）</option>
+                                                   @foreach ($users->all() as $v)
+                                                  <option value="{{ $v->id}}" {{ Request::input('recruit_user')== $v->id ?	'selected' : '' }}>{{ $v->user_name }}</option>
+                                                  <?php if(Request::input('recruit_user')== $v->id){ $user_id= $v->id;} ?>
                                                     @endforeach
                                                  
                                               </select>
@@ -34,35 +35,26 @@
                                           </div>
                              </div>
 
- 	<?php  
- 	
- 	if(isset($demand)){
- 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $demand->recruit_user) ->distinct()  ->orderBy('recruit_corporation')->get();
- 	}else{
- 	      $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', Auth::user()->id) ->distinct()  ->orderBy('recruit_corporation')->get();
- 	}
+ 	<?php   	
+ 	    $demands= App\Models\Demand::demand()->select('recruit_corporation')->where('recruit_user', $user_id) ->distinct()  ->orderBy('recruit_corporation')->get();
  	?>                                                
 
                                       <div class="form-group">
                                       <label class="col-sm-2 control-label">推荐目标公司</label>
                                         <div class="col-md-4" col-sm-offset-3>
-                                       
+                                       <?php $demand_recruit_corporation= $demands->first()->recruit_corporation;?>
                                               <select class="form-control m-bot15" id="recruit_corporation" name="recruit_corporation">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation || $demand && $demand->recruit_corporation== $v->recruit_corporation ?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <option value="{{ $v->recruit_corporation }}" {{ Request::input('recruit_corporation')== $v->recruit_corporation  ?	'selected' : '' }}>{{ $v->recruit_corporation }}</option>
+                                                  <?php if(Request::input('recruit_corporation')== $v->recruit_corporation){ $demand_recruit_corporation= $v->recruit_corporation;} ?>
                                                     @endforeach
                                               </select>
                                            
                                           </div>
 
                                 </div>
- 	<?php  
- 	
- 	if(isset($demand)){
- 	    $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', $demand->recruit_user) ->where('recruit_corporation', $demand->recruit_corporation) ->distinct()  ->orderBy('post_name')->get();
- 	}else{
- 	      $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', Auth::user()->id) ->where('recruit_corporation', $demands->count()?$demands->first()->recruit_corporation:'') ->distinct()  ->orderBy('post_name')->get();
- 	}
+ 	<?php   	
+ 	    $demands= App\Models\Demand::demand()->select('id','post_name')->where('recruit_user', $user_id) ->where('recruit_corporation', $demand_recruit_corporation) ->distinct()  ->orderBy('post_name')->get();
  	?>   
                                 
 
@@ -72,7 +64,7 @@
                                        
                                               <select class="form-control m-bot15" id="post_name" name="post_name">
                                                     @foreach ($demands->all() as $v)
-                                                  <option value="{{ $v->id}}" {{ Request::input('post_name')== $v->id || $demand && $demand->id== $v->id?	'selected' : '' }}>{{ $v->post_name }}</option>
+                                                  <option value="{{ $v->id}}" {{ Request::input('post_name')== $v->id ?	'selected' : '' }}>{{ $v->post_name }}</option>
                                                     @endforeach    
                                               </select>
                                            

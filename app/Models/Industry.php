@@ -14,8 +14,16 @@ class Industry extends Model
     protected $table = 'industry';
 
     protected $fillable = [
-        'id','name', 'nubmer', 'level', 'parent_id'
+        'id','name', 'nubmer', 'level', 'parent_id','remark'
     ];
-    
 
+    public function hasChildren()
+    {
+        return $this->children->count() > 0;
+    }
+    
+    public function children()
+    {
+        return $this->hasMany('App\Models\Industry', 'parent_id', 'id');
+    }
 }

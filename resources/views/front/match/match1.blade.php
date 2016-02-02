@@ -382,7 +382,7 @@
                                       
                                        <div class="checkbox">
                                               <label>
-                                                  <input type="checkbox">1级行业
+                                                  <input type="checkbox" value="1" {{ old('background_parameter_1', $demand  ? $demand-> background_parameter_1 : '')==1?'checked':'' }} name="background_parameter_1" >1级行业
                                               </label>
                                           </div>
 
@@ -394,7 +394,7 @@
                                       
                                       <div class="checkbox">
                                               <label>
-                                                  <input type="checkbox">2级行业
+                                                  <input type="checkbox" value="1" {{ old('background_parameter_2', $demand  ? $demand-> background_parameter_2 : '')==1?'checked':'' }} name="background_parameter_2">2级行业
                                               </label>
                                           </div>
 
@@ -405,7 +405,7 @@
                                       
                                       <div class="checkbox">
                                               <label>
-                                                  <input type="checkbox">3级行业
+                                                  <input type="checkbox" value="1" {{ old('background_parameter_3', $demand  ? $demand-> background_parameter_3 : '')==1?'checked':'' }} name="background_parameter_3">3级行业
                                               </label>
                                           </div>
 
@@ -417,7 +417,7 @@
                                       
                                      <div class="checkbox">
                                               <label>
-                                                  <input type="checkbox">4级行业
+                                                  <input type="checkbox" value="1" {{ old('background_parameter_4', $demand  ? $demand-> background_parameter_4 : '')==1?'checked':'' }} name="background_parameter_4">4级行业
                                               </label>
                                           </div>
 
@@ -525,7 +525,7 @@
                                       
                                        <div class="checkbox">
                                               <label>
-                                                  <input type="checkbox">1级行业
+                                                  <input type="checkbox" >1级行业
                                               </label>
                                           </div>
 

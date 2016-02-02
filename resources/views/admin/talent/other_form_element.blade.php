@@ -554,17 +554,17 @@
 </div>
 
 
-<div class="form-group">
-	<label class="col-sm-3 control-label no-padding-right" for="resume">
-		简历全文 </label>
+<!-- <div class="form-group"> -->
+<!-- 	<label class="col-sm-3 control-label no-padding-right" for="resume"> -->
+<!-- 		简历全文 </label> -->
 
-	<div class="col-sm-9">
-		<textarea type="text/plain" id="resume" name="resume" rows="5"
-			class="col-xs-10 col-sm-5 autosize-transition">{{ old('resume', $talent  ? $talent-> resume : '') }}</textarea>
-	</div>
+<!-- 	<div class="col-sm-9"> -->
+<!-- 		<textarea type="text/plain" id="resume" name="resume" rows="5" -->
+<!-- 			class="col-xs-10 col-sm-5 autosize-transition">{{ old('resume', $talent  ? $talent-> resume : '') }}</textarea> -->
+<!-- 	</div> -->
 
 
-</div>
+<!-- </div> -->
 
 
 <div class="form-group">

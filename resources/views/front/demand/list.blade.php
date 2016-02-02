@@ -242,7 +242,7 @@
                       候选人
                       </a>
                       @endif
-                      <a href="{{ url("/front/recommend/recommend?demand_id={$v->id}") }}" class="btn btn-warning btn-sm" role="button">
+                      <a href="{{ url("/front/recommend/recommend?demand_id={$v->id}&recruit_user={$v->recruit_user}&recruit_corporation={$v->recruit_corporation}&post_name={$v->id}") }}" class="btn btn-warning btn-sm" role="button">
                       快速推荐
                       </a>
                       					

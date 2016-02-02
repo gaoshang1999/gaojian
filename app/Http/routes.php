@@ -22,6 +22,7 @@ $app->get('auth/register', 'Auth\AuthController@getRegister');
 $app->post('auth/register', 'Auth\AuthController@postRegister');
 
 $app->get('search', 'Admin\SphinxController@test');
+$app->get('rar', 'Admin\RarController@test');
 // $app->get('/', function () use ($app) {
 //     return view('admin.dashboard.home');
 // });
@@ -123,6 +124,15 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->post('job/edit/{id}',  'JobController@edit');
     $app->post('job/delete/{id}',  'JobController@delete');
     $app->get('job/search', 'JobController@search');    
+    
+    $app->get('industry',  'IndustryController@lists');
+    $app->post('industry/add',  'IndustryController@add');
+    $app->post('industry/edit',  'IndustryController@edit');
+    $app->post('industry/delete',  'IndustryController@delete');
+    $app->post('industry/move', 'IndustryController@move');
+    $app->get('industry/children', 'IndustryController@children');
+    $app->get('industry/query', 'IndustryController@query');
+    $app->post('industry/save',  'IndustryController@save');
 });
 
 $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', 'middleware' => ['auth.login']], function($app){

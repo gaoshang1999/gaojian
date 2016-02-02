@@ -28,7 +28,6 @@ class MatchController extends DemandController
         
             $input = $request->all();
             $demand->fill($input);
-        
             $demand->update();
         
             return redirect('/front/match/match1/'.$id);
@@ -47,7 +46,7 @@ class MatchController extends DemandController
     
             $input = $request->all();
             $demand->fill($input);
-    
+           
             $demand->update();
     
             return redirect('/front/match/match2/'.$id);

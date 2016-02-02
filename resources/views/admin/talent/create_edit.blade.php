@@ -19,8 +19,11 @@
 
 			<div class="tabbable ">
 				<ul class="nav nav-tabs" id="myTab3">
-					<li class="active"><a data-toggle="tab" href="#basic"> <i
-							class="pink icon-dashboard bigger-110"></i> 基本信息
+				    <li class="active"><a data-toggle="tab" href="#resume"> <i
+							class="pink icon-bookmark bigger-110"></i> 简历正文
+					</a></li>
+					<li ><a data-toggle="tab" href="#basic"> <i
+							class="pink icon-cog bigger-110"></i> 基本信息
 					</a></li>
 
 					<li><a data-toggle="tab" href="#education"> <i
@@ -32,13 +35,42 @@
 					</a></li>
 					
 					<li><a data-toggle="tab" href="#other"> <i
-							class="red icon-user bigger-110"></i> 其他信息
+							class="red icon-info bigger-110"></i> 其他信息
 					</a></li>
 
 				</ul>
 
 				<div class="tab-content">
-					<div id="basic" class="tab-pane in active">
+				    <div id="resume" class="tab-pane in active">
+
+
+						<form class="form-horizontal" role="form" method="post"
+							action="{{ url('/admin/talent/' . ($talent ? 'edit/'.$talent->id : 'add')) }}">
+							<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+							@include('admin.talent.resume_form_element')
+
+
+
+							<div class=" form-group">
+								<div class="col-md-offset-3 col-md-9">
+									<button class="btn btn-info" type="submit">
+										<i class="icon-ok bigger-110"></i> 保存
+									</button>
+
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn" type="button"
+										onclick="javascript:history.back(-1)">
+										<i class="icon-undo bigger-110"></i> 返回
+									</button>
+								</div>
+							</div>
+							<input type="hidden" name="referer"
+								value="{{ Request::header('referer') }}" />
+						</form>
+					</div>
+					
+					<div id="basic" class="tab-pane in">
 
 
 						<form class="form-horizontal" role="form" method="post"
