@@ -139,8 +139,7 @@
 				'core' : {
 					'data' : {
 						'url' : '{{url("/admin/industry/children")}}',
-						'data' : function (node) {
-							
+						'data' : function (node) {							
 							return { 'id' : node.id ==='#'?-10:node.id};
 						}
 					},

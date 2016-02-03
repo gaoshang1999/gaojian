@@ -76,12 +76,16 @@ class IndustryController extends Controller
         $parents = $industry->parents;
         //两个特殊的根节点不能删除，分别代表两颗树的根
         if($parents->id == -10 ||$parents->id == -20){
-            return ;
+            return;
         }        
         $ret = $this->deleteTree($industry);
         return new JsonResponse($ret);
     }
     
+    /**
+     * 递归删除子节点
+     * @param Org $org
+     */
     private function deleteTree($industry){
         $children = $industry->children;
         foreach($children as $k=>$v){
@@ -100,6 +104,10 @@ class IndustryController extends Controller
         return new JsonResponse($ret);
     }
     
+    /**
+     * 递归计算子节点的level
+     * @param Org $org
+     */
     private function moveTree($industry){
         $parents = $industry->parents;
         $industry->update(['level'=> ($parents->level)+1]);
