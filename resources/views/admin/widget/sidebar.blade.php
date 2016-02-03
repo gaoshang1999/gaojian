@@ -75,6 +75,12 @@
 								<span class="menu-text"> 行业参数 </span>
 							</a>
 						</li>
+						<li>
+							<a href="{{ url('/admin/duty') }}">
+								<i class="icon-eye-open"></i>
+								<span class="menu-text"> 职能参数 </span>
+							</a>
+						</li>						
 						
 						<li>
 							<a href="{{ url('/admin/job') }}">

@@ -18,7 +18,9 @@ class IndustryController extends Controller
     
     public function queryDuty(Request $request, $id)
     {
-        $lists = Constant::where('en', 'duty_post')->where('k', 'like', $id.'%')->whereRaw('length(k)>? ', [2])->orderBy('k')->get();
+//         $lists = Constant::where('en', 'duty_post')->where('k', 'like', $id.'%')->whereRaw('length(k)>? ', [2])->orderBy('k')->get();
+        
+        $lists = Industry::where('parent_id', $id)->orderBy('number')->get();        
     
         return new JsonResponse($lists);
     }

@@ -53,7 +53,7 @@
 
 
               <div class="col-md-2" >
-              <?php  $industrys1= App\Models\Industry::where('level', 1)->get();  $parent_id = $industrys1->count()?$industrys1->first()->id:-1;            ?>
+              <?php  $industrys1= App\Models\Industry::where('parent_id', 0)->get();  $parent_id = $industrys1->count()?$industrys1->first()->id:-1;            ?>
                                            <select class="form-control m-bot15" name="quantify_occupation_1"  id="quantify_occupation_1" >
                                                   @foreach ($industrys1->all() as $v)
                                                   <option data-id="{{$v->id}}" value="{{$v->number}}"  @if(old('quantify_occupation_1', $demand  ? $demand-> quantify_occupation_1 : '')== $v->number ) selected <?php $parent_id=$v->id; ?> @endif >{{$v->name}}</option>
@@ -183,20 +183,22 @@
 
 
            <div class="col-md-2" >
-               <?php  $constant = App\Models\Constant::where('en', 'duty_post')->whereRaw('length(k)<=? ', [2])->orderBy('k')->get();  $parent = $constant->count()?$constant->first()->k:-1;?>                        
+               <?php  $industrys1= App\Models\Industry::where('parent_id', 35)->get();  $parent = $industrys1->count()?$industrys1->first()->id:-1;  ?>                   
                                               <select class="form-control m-bot15" name="quantify_duty"  id="quantify_duty">
-                                                   @foreach($constant as $c)                                                  
-                                                  <option value="{{ $c->k }}" @if(old('quantify_duty', $demand  ? $demand-> quantify_duty : '')== $c->k ) selected <?php $parent=$v->k; ?> @endif >{{ $c->v }}</option>
+                                                   @foreach($industrys1 as $v)                                                  
+                                                  <option data-id="{{ $v->id }}" value="{{ $v-> number }}" @if(old('quantify_duty', $demand  ? $demand-> quantify_duty : '')== $v->number ) selected <?php $parent=$v->id; ?> @endif >{{ $v->name }}</option>
                                                   @endforeach
                                               </select>
                                            
                                           </div>
 
            <div class="col-md-2" >
-               <?php  $constant = App\Models\Constant::where('en', 'duty_post')->where('k', 'like', $parent.'%')->whereRaw('length(k)>? ', [2])->orderBy('k')->get();?>                            
+               <?php  
+                      $industrys2= App\Models\Industry::where('parent_id', $parent)->get();
+               ?>                            
                                               <select class="form-control m-bot15"  name="quantify_position" id="quantify_position">
-                                                  @foreach($constant as $c)                                                  
-                                                  <option value="{{ $c->k }}" @if(old('quantify_position', $demand  ? $demand-> quantify_position : '')== $c->k ) selected @endif >{{ $c->v }}</option>
+                                                  @foreach($industrys2 as $v)                                                  
+                                                  <option data-id="{{ $v->id }}" value="{{ $v->number }}" @if(old('quantify_position', $demand  ? $demand-> quantify_position : '')== $v->number ) selected @endif >{{ $v->name }}</option>
                                                   @endforeach
                                               </select>
                                            
@@ -242,7 +244,7 @@
 
 
               <div class="col-md-2" >
-                           <?php  $industrys1= App\Models\Industry::where('level', 1)->get();  $parent_id = $industrys1->count()?$industrys1->first()->id:-1;            ?>
+                           <?php  $industrys1= App\Models\Industry::where('parent_id', 0)->get();  $parent_id = $industrys1->count()?$industrys1->first()->id:-1;            ?>
                                            <select class="form-control m-bot15" name="additional_quantify_occupation_1"  id="additional_quantify_occupation_1" >
                                                   @foreach ($industrys1->all() as $v)
                                                   <option data-id="{{$v->id}}" value="{{$v->number}}"  @if(old('additional_quantify_occupation_1', $demand  ? $demand-> additional_quantify_occupation_1 : '')== $v->number ) selected <?php $parent_id=$v->id; ?> @endif >{{$v->name}}</option>
@@ -795,23 +797,24 @@ var  changeFunction = function(next){
 });
 
  $('#quantify_duty').change(function(){
-	  var selected = $(this).val();
-	  if(!selected) {return;}
+	  var selected = $(this).find('option:selected');
+	  var id = selected.data('id');
+	  if(!id) {return;}
 	  $.ajax({
      type: 'get',
-     url: "{{ url('/front/industry/queryDuty/') }}/" + selected,
+     url: "{{ url('/front/industry/queryDuty/') }}/" + id,
      dataType: "json",
      success: function (data) {
   	    var lists = eval(data);
   	    var html = '';
       	 $(lists).each(function() {
-      	   html += '<option   value="'+this.k+'">'+this.v+'</option>';           	 
+      	   html += '<option  data-id="'+this.id+'"  value="'+this.number+'">'+this.name+'</option>';           	 
       	});
       	$('#quantify_position').html(html);
       	$('#quantify_position').change();
      },
      error: function(){
-  	    alert('查询行业参数失败!');
+  	    alert('查询职能岗位参数失败!');
      }
  });
 });

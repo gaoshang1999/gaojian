@@ -64,7 +64,7 @@
              
 				<div class="col-sm-10 "> 
 						<input type="text" id="name" name="name" placeholder="名称" 
-							class=" col-sm-5" value=" "/>  
+							class=" col-sm-5" value=" " readonly="true"/>  
 				</div> 
 				
 				&nbsp;&nbsp; <br/>
@@ -140,8 +140,8 @@
 					'data' : {
 						'url' : '{{url("/admin/industry/children")}}',
 						'data' : function (node) {
-							alert(node.name);
-							return { 'id' : node.id };
+							
+							return { 'id' : node.id ==='#'?-10:node.id};
 						}
 					},
 					'check_callback' : function(o, n, p, i, m) {
@@ -158,7 +158,7 @@
 					}
 				},
 				'sort' : function(a, b) {
-					return this.get_type(a) === this.get_type(b) ? (this.get_text(a) > this.get_text(b) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+					//return this.get_text(a) > this.get_text(b) ? 1 : -1;
 				},
 				'contextmenu' : {
 					'items' : function(node) {

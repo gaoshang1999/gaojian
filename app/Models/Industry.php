@@ -26,4 +26,9 @@ class Industry extends Model
     {
         return $this->hasMany('App\Models\Industry', 'parent_id', 'id');
     }
+    
+    public function parents()
+    {
+        return $this->hasOne('App\Models\Industry', 'id', 'parent_id');
+    }
 }

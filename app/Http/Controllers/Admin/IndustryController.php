@@ -11,9 +11,7 @@ class IndustryController extends Controller
     
     public function lists(Request $request)
     {
-        $data = ['industry' => Industry::orderBy('id', 'desc')->paginate(20) ];
-
-        return view('admin.industry.list', $data);
+        return view('admin.industry.industry_tree');
     }
     
     public function search(Request $request)
@@ -41,7 +39,7 @@ class IndustryController extends Controller
         $parent_id = $request->get('id');
         $text = $request->get('text');
         $parent =Industry::where('id', $parent_id)->first();
-        $industry = Industry::create(['name'=> $text, 'parent_id'=>$parent_id, 'level'=>($parent->level + 1)]);
+        $industry = Industry::create(['name'=> $text, 'parent_id'=>$parent_id, 'level'=>($parent->level) + 1]);
         return new JsonResponse($industry);
     }
     
@@ -74,28 +72,52 @@ class IndustryController extends Controller
     public function delete(Request $request)
     {
         $id = $request->get('id');
-        $ret = Industry::where('id', $id)->delete();
+        $industry = Industry::where('id', $id)->first();
+        $parents = $industry->parents;
+        //两个特殊的根节点不能删除，分别代表两颗树的根
+        if($parents->id == -10 ||$parents->id == -20){
+            return ;
+        }        
+        $ret = $this->deleteTree($industry);
         return new JsonResponse($ret);
+    }
+    
+    private function deleteTree($industry){
+        $children = $industry->children;
+        foreach($children as $k=>$v){
+            $this->deleteTree($v);
+        }
+        return $industry->delete();
     }
     
     public function move(Request $request)
     {
         $id = $request->get('id');
         $parent_id = $request->get('parent');
-        $ret = Industry::where('id', $id)->update(['parent_id'=> $parent_id]);
+        $industry = Industry::where('id', $id)->first();
+        $ret = $industry->update(['parent_id'=> $parent_id]);
+        $this->moveTree($industry);
         return new JsonResponse($ret);
+    }
+    
+    private function moveTree($industry){
+        $parents = $industry->parents;
+        $industry->update(['level'=> ($parents->level)+1]);
+        $children = $industry->children;
+        foreach($children as $k=>$v){
+            $this->moveTree($v);
+        }
     }
     
     public function children(Request $request)
     {
-        $id = $request->get('id', 0);
+        $id = $request->get('id', -1);
         $lists = Industry::where('parent_id', $id)->orderBy(DB::raw('CONVERT( name USING gbk )'))->get();
         $outputs = [];
         foreach ($lists as $k=>$v){
             $industry = ['id'=>$v->id, 'text'=>$v->name, 'icon'=>'folder', 'children'=>$v->hasChildren()];
             $outputs []= $industry;
         }
-        dump($outputs);
         return new JsonResponse($outputs);
     }
 }

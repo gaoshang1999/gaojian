@@ -133,6 +133,10 @@ $app->group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', '
     $app->get('industry/children', 'IndustryController@children');
     $app->get('industry/query', 'IndustryController@query');
     $app->post('industry/save',  'IndustryController@save');
+    
+    $app->get('duty',  function () use ($app) {
+        return view('admin.industry.duty_tree');
+    });
 });
 
 $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', 'middleware' => ['auth.login']], function($app){
