@@ -178,7 +178,7 @@
                    
                      <td>
                       <div class="btn-group">                          
-                           <a class="btn btn-warning" href="{{ url("/front/mytalent/view/{$v->id}") }}" role="button">查看详细</a>
+                           <a class="btn btn-warning" href="{{ url("/front/mytalent/view/{$v->id}") }}" target="_blank" role="button">查看详细</a>
                            <a class="btn btn-warning" href="{{ url("/front/recommend/recommend?talent_id={$v->id}") }}" role="button">快速推荐</a>
                         
 <!--                           <a class="btn btn-warning" href="{{ url("/front/mytalent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a> -->

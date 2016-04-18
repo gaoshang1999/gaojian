@@ -32,11 +32,11 @@ class LogMiddleware
         $log['end_time'] = date("Y-m-d H:i:s") ;
         $log['response_code'] = $response->getStatusCode() ;
         $log['response_header'] =  json_encode($response->headers->allPreserveCase());
-        $log['response_content'] = $response->getContent() ;
+//         $log['response_content'] = $response->getContent() ;
         
 //         dump($response);
 //         var_dump($response);
-//         Log::create($log);
+        Log::create($log);
         
         return $response;
     }

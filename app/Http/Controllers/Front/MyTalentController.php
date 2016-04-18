@@ -110,6 +110,14 @@ class MyTalentController extends Controller
         if ($request->isMethod('post')) {
             $this->validate($request,  $this->rules(), [],  $this->customAttributes());
 
+            //校验，同一个用户上传的人才，手机号不允许重复
+            $talents = Talent::where('user_id', $user->id)->where('mobile', $request->input('mobile'))->count();
+            if($talents){
+                return redirect('/front/mytalent/add')
+                ->withErrors(['mobile' => '同一个用户上传的人才，手机号不允许重复'])
+                ->withInput();
+            }
+            
             $input = $request->all();
             $talent = Talent::create($input);
             

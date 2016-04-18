@@ -1464,7 +1464,7 @@
         },
         {
             "name": "illuminate/mail",
-            "version": "v5.1.28",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/mail.git",

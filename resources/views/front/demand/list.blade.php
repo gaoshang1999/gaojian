@@ -234,7 +234,7 @@
                      <td>
                       <div class="btn-group">
 <!--                            <a class="btn btn-warning" href="#"><i class="icon_plus_alt2"></i></a> -->
-                      <a href="{{ url("/front/demand/view/{$v->id}") }}" class="btn btn-warning btn-sm" role="button">
+                      <a href="{{ url("/front/demand/view/{$v->id}") }}" target="_blank" class="btn btn-warning btn-sm" role="button">
                       职位详细
                       </a>
                       @if(!Request::has('open')) 

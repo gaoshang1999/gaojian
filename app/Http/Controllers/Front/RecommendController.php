@@ -268,10 +268,27 @@ class RecommendController extends Controller
             $talent_id= $request['talent_id'];
             $demand_id = $request['demand_id'];
             $demand = Demand::where('id', $demand_id)->first();
-            
+            //通过id 判断是否重复推荐
             $recommend = Recommend::where('talent_id', $talent_id)->where('demand_id', $demand_id)->first();
             if($recommend){
                 return new JsonResponse(['success'=>false, 'message' => '对不起，人才已经被推荐给这个职位，加油！']);
+            }
+            
+            //通过手机号 判断是否重复推荐
+            $talent = Talent::where('id', $talent_id)->first();
+            if(strlen($talent->mobile)){                
+                $recommend = Recom::where('demand_id', $demand_id)
+                ->whereExists(function ($query) use($talent) {
+                    $query->select(DB::raw(1))
+                          ->from('talent')
+                          ->whereRaw('gj_talent.id = gj_recom.talent_id')
+                          ->where('mobile', $talent->mobile)
+                          ->where('id', '<>', $talent->id);
+                })
+                ->get();
+                if($recommend->count()>0){
+                    return new JsonResponse(['success'=>false, 'message' => '对不起, 手机号重复，人才已经被推荐给这个职位，加油！']);
+                }
             }
     
             $flow = Flow::create(['recommend_time'=> date("Y-m-d H:i:s")]);

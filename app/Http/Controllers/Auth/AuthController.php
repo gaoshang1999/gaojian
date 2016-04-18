@@ -89,23 +89,5 @@ class AuthController extends Controller
         return redirect($this->loginPath());
     }
     
-    public function sendCode(Request $request)
-    {
-        $code = rand(100001, 999999);
-        //短信接口机构代码 $jgid
-        $jgid = '300';
-        //短信接口用户名 $loginname
-        $loginname = 'yude';
-        //短信接口密码 $passwd
-        $passwd = '123';
-        //发送到的目标手机号码 $telphone，多个号码用半角分号分隔
-        $telphone = $request->input('mobile');
-        //短信内容 $message
-        $message = urlencode("您的手机验证码为：" . $code);
-        $gateway = "http://223.4.21.214:8180/service.asmx/SendMessageStr?Id={$jgid}&Name={$loginname}&Psw={$passwd}&Message={$message}&Phone={$telphone}&Timestamp=0";
-        $result = file_get_contents($gateway);
-        $request->session()->put('p'.$telphone, ['verifycode' => $code, 'deadline' => 60]);
-        echo json_encode(['deadline'=>60]);
-        // echo json_encode($request->session()->all());
-    }
+ 
 }

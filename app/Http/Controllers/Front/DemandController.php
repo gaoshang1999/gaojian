@@ -19,7 +19,9 @@ class DemandController extends Controller
     {
         if($request->has('open'))  {
             //查询开放的需求
-            $data = ['demand' => Demand::openDemand() ->orderBy('id', 'desc')->paginate(10), 'open'=>1 ];
+            $demand = Demand::openDemand() ->orderBy('id', 'desc')->paginate(10);
+            $demand ->appends(['open' => 1]);
+            $data = ['demand' => $demand, 'open'=>1 ];
         }else{
             //查询当前用户的，未删除数据
             $data = ['demand' => Demand::myDemand() ->orderBy('id', 'desc')->paginate(10) ];

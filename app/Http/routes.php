@@ -21,7 +21,8 @@ $app->get('auth/logout', 'Auth\AuthController@getLogout');
 $app->get('auth/register', 'Auth\AuthController@getRegister');
 $app->post('auth/register', 'Auth\AuthController@postRegister');
 
-$app->get('search', 'Admin\SphinxController@test');
+$app->get('search', 'Admin\SphinxController@search');
+$app->get('detail', 'Admin\SphinxController@detail');
 $app->get('rar', 'Admin\RarController@test');
 // $app->get('/', function () use ($app) {
 //     return view('admin.dashboard.home');

@@ -18,21 +18,54 @@ use sngrl\SphinxSearch\SphinxSearch;
 
 class SphinxController extends Controller
 {    
-    public function test(Request $request)
+    public function search(Request $request)
     {
+        $q = $request->get('q', '');
 
         $sphinx = new SphinxSearch();
         $sphinx =  $sphinx ->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
-        $results = $sphinx->search('@resume  证券 算法', 'talent_index')       
+        $talent = $sphinx->search('@resume '.$q, 'talent_index')       
 //         ->setSelect('id, title, content ') 
 //         ->range('grade', 1, 10)
 //         ->range('publish_date', strtotime('2015-12-23'),  strtotime('2015-12-25'))
-        ->setGroupBy('last_corporation', \Sphinx\SphinxClient::SPH_GROUPBY_ATTR, '@count desc')
+//         ->setGroupBy('last_corporation', \Sphinx\SphinxClient::SPH_GROUPBY_ATTR, '@count desc')
 //         ->setGroupDistinct('type')
         ->limit(1000,0,1000,0)
         ->query();
-        dump($results);
-        print_r($results);
+        
+        
+        $total = $talent['total_found'];
+        
+//         dump($talent);
+        
+        $ids = array_keys(array_has($talent, 'matches')&&$talent['matches']?$talent['matches']:[0]);
+        
+        $query = Talent::query();
+        $query = $query->whereIn('id',$ids)->orderBy(DB::raw('FIELD(id, '.join(',',$ids).')'));
+        
+        $talent = $query ->paginate(20);
+        
+//         dump($talent);
+        $data = [];
+        foreach($talent->all() as $v){
+            $p['id']=$v->id;
+            $p['resume']= mb_substr($v->resume, 0, 50);
+            
+            $data[]= $p;             
+        }
+//         dump($data);
+        echo json_encode(['data'=>$data, 'count'=>$total]);
     }
  
+    
+    public function detail(Request $request)
+    {
+        $id = $request->get('id', '');
+        
+        $talent = Talent::where('id', $id)->first();
+        
+//         echo $talent->resume;
+
+        return view('admin.talent.resume', ["talent"=>$talent]);
+    }
 }

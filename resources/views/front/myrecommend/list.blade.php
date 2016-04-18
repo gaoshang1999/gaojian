@@ -205,7 +205,7 @@
                      <td>
                       <div class="btn-group">
                       
-                            <a class="btn btn-warning" href="{{ url("/front/myrecommend/edit/{$v->id}")  }}" role="button">详细</a>
+                            <a class="btn btn-warning" href="{{ url("/front/myrecommend/edit/{$v->id}")  }}" target="_blank" role="button">详细</a>
                             <a class="btn btn-warning" href='{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}'  role="button">转推荐</a>
                             
                       <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
