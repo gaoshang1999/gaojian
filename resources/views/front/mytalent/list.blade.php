@@ -166,7 +166,7 @@
                      <th><i class="icon_cogs"></i> 操作</th>
                  </tr> <?php $constant = App\Models\Constant::getInstance(); ?>    
                  @foreach ($talent->all() as $v)
-                   <?php  $recommend = $v->recommends()->where('recommend_parameter_1', '<>', 2)->orderBy('updated_at', 'desc')->first(); ?>
+                   <?php  $recommend = $v->myrecommends()->orderBy('updated_at', 'desc')->first(); ?>
                  <tr>
                      <td>{{  $v-> name }}</td>
                      <td>{{  $v ->user?$v ->user ->user_name:'' }}</td>
@@ -179,6 +179,7 @@
                      <td>
                       <div class="btn-group">                          
                            <a class="btn btn-warning" href="{{ url("/front/mytalent/view/{$v->id}") }}" target="_blank" role="button">查看详细</a>
+                           @if($recommend)<a class="btn btn-warning" href="{{ url("/front/myrecommend/history/{$recommend->id}?talent_id={$v->id}") }}" target="_blank" role="button">推荐历史</a>@endif
                            <a class="btn btn-warning" href="{{ url("/front/recommend/recommend?talent_id={$v->id}") }}" role="button">快速推荐</a>
                         
 <!--                           <a class="btn btn-warning" href="{{ url("/front/mytalent/edit/{$v->id}") }}"><i class="icon_check_alt2"></i></a> -->

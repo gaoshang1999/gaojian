@@ -424,4 +424,15 @@ class RecommendController extends Controller
 
         return view('front.recommend.recommend',  [ 'talent' => $talent] );
     }
+    
+    public function history(Request $request, $id)
+    {
+        $talent_id = $request['talent_id'];
+        //查询当前用户发布的职位,  收到的推荐     
+        $data = ['recommend' => Recommend::myHostRecommend()->where('talent_id', $talent_id)->orderBy('id', 'desc')->paginate(10),
+                 'talent'=>Talent::where('id', $talent_id)->first()
+         ];
+        
+        return view('front.recommend.history', $data);
+    }
 }

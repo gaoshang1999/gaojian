@@ -166,6 +166,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('recommend/recommend',  'RecommendController@recommend');
     $app->post('recommend/recommendHR',  'RecommendController@recommendHR');
     $app->get('recommend/queryTalent', 'RecommendController@queryTalent');
+    $app->get('recommend/history/{id}',  'RecommendController@history');
     
     $app->get('mytalent',  'MyTalentController@lists');
     $app->get('mytalent/add',  'MyTalentController@add');
@@ -186,6 +187,7 @@ $app->group(['namespace' => 'App\Http\Controllers\Front', 'prefix' => 'front', '
     $app->post('myrecommend/edit/{id}',  'MyRecommendController@edit');
     $app->post('myrecommend/delete/{id}',  'MyRecommendController@delete');
     $app->get('myrecommend/search', 'MyRecommendController@search');
+    $app->get('myrecommend/history/{id}',  'MyRecommendController@history');
     
 //         $app->get('profile', function () use ($app) {
 //             return view('front.profile.myself');

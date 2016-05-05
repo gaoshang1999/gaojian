@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Recommend;
+use App\Models\Talent;
 use App\Models\RecommendComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -223,5 +224,16 @@ class MyRecommendController extends Controller
             $recommendComment->save(); 
        
            return new JsonResponse(['success'=>true, 'message' => '成功']);
+    }
+    
+    public function history(Request $request, $id)
+    {
+        $talent_id = $request['talent_id'];
+        //查询我的推荐
+        $data = ['recommend' => Recommend::myRecommend()->where('talent_id', $talent_id)->orderBy('id', 'desc')->paginate(10),
+            'talent'=>Talent::where('id', $talent_id)->first()
+        ];
+    
+        return view('front.recommend.history', $data);
     }
 }

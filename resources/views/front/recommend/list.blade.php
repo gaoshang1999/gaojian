@@ -222,7 +222,9 @@
                       <div class="btn-group">
                       
                           <a class="btn btn-warning" href="{{ url("/front/recommend/edit/{$v->id}") }}" target="_blank" role="button">详细</a>
+                          <a class="btn btn-warning" href="{{ url("/front/recommend/history/{$v->id}?talent_id={$v->talent_id}") }}" target="_blank" role="button">推荐历史</a>
                           <a class="btn btn-warning" href="{{ url("/front/recommend/recommend?talent_id={$v->talent_id}") }}" role="button">转推荐</a>
+ 
                           <form action='{{ url("/front/recommend/delete/{$v->id}") }}' method="post" class="pull-right">
 							 <input type="hidden" name="_token" value="{{ csrf_token() }}" >							 
 									<button class="btn btn-warning" onclick="return deleleConfirm();">																	

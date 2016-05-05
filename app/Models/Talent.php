@@ -32,6 +32,11 @@ class Talent extends Model
         return $this->hasMany('App\Models\Recommend');
     }
     
+    public function myrecommends()
+    {
+        return $this->hasMany('App\Models\Recommend')->where('user_id', Auth::user()->id)->where('type', '<>', 2) ->where('recommend_parameter_1', '<>', 2) ;
+    }
+    
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id',  'user_id');
